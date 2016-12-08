@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DatabaseLayer.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="myServer" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">localhost</Value>
+    </Setting>
+    <Setting Name="myDatabase" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">novafis</Value>
+    </Setting>
+    <Setting Name="myUser" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">novafis</Value>
+    </Setting>
+    <Setting Name="myPwd" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">novafis</Value>
+    </Setting>
+    <Setting Name="myCharset" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">utf8</Value>
+    </Setting>
+    <Setting Name="myIntSecurity" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

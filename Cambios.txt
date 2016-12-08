@@ -1,0 +1,150 @@
+TABLAS
+	Fisioterapeutas
+		Añadir columnas FIS_FechaBaja [Date - Null] y FIS_Color [char(7) - Not Null]
+		Añadir índice único IX_Color a FIS_Color
+		Cambiar columna FIS_FechaAlta de [DateTime] a [Date]
+		
+PROCEDIMIENTOS ALMACENADOS
+
+CREATE DEFINER=`novafis`@`%` PROCEDURE `spFisios_LLenar`(iIDFisio int)
+BEGIN
+
+  IF iIDFisio IS NULL THEN
+--    SELECT FIS_ID, concat(FIS_Nombre, ' ', FIS_Apellido1, ' ', IFNULL(FIS_Apellido2,'')) as 'FIS_NombreApellido', FIS_Alias, FIS_FechaAlta
+    SELECT FIS_ID, FIS_Nombre, FIS_Apellido1, FIS_Apellido2, FIS_Alias, FIS_FechaAlta, 
+			FIS_Sexo, FIS_NumColegiado, FIS_Identificacion, FIS_FechaBaja, FIS_Color
+    FROM Fisioterapeutas
+    ORDER BY FIS_Alias asc;
+  ELSE
+    SELECT FIS_ID, FIS_Nombre, FIS_Apellido1, FIS_Apellido2, FIS_Alias
+    FROM Fisioterapeutas
+    WHERE FIS_ID = iIDFisio;
+  END IF;
+
+END
+
+
+CREATE DEFINER=`novafis`@`%` PROCEDURE `spFisios_Guardar`(iIDFisio int, sNombre varchar(50), sApellido1 varchar(50),
+sApellido2 varchar(50), sAlias varchar(50), sIdentificacion varchar(20), fFechaAlta datetime,
+sNumColegiado varchar(50), sSexo char(1), fFechaBaja datetime, sColor char(7))
+BEGIN
+
+  IF iIDFisio = 0 THEN
+    INSERT INTO Fisioterapeutas (FIS_Nombre, FIS_Apellido1, FIS_Apellido2, FIS_Alias, FIS_Identificacion,
+                FIS_FechaAlta, FIS_NumColegiado, FIS_Sexo, FIS_FechaBaja, FIS_Color)
+    VALUES (sNombre, sApellido1, sApellido2, sAlias, sIdentificacion, fFechaAlta, sNumColegiado,
+            sSexo, fFechaBaja, sColor);
+
+--    SET iIDFisio = last_insert_id();
+  ELSE
+    UPDATE Fisioterapeutas
+    SET FIS_Nombre = sNombre,
+        FIS_Apellido1 = sApellido1,
+        FIS_Apellido2 = sApellido2,
+        FIS_Alias = sAlias,
+        FIS_Identificacion = sIdentificacion,
+        FIS_FechaAlta = fFechaAlta,
+        FIS_NumColegiado = sNumColegiado,
+        FIS_Sexo = sSexo,
+        FIS_FechaBaja = fFechaBaja,
+        FIS_Color = sColor
+--        FIS_Principal = bPrincipal
+    WHERE FIS_ID = iIDFisio;
+  END IF;
+
+/*
+  IF bPrincipal = 1 THEN
+    UPDATE Fisioterapeutas
+    SET FIS_Principal = 0
+    WHERE FIS_ID != iIDFisio;
+  END IF;
+
+
+  SELECT iNumPricipales = COUNT(*)
+  FROM Fisioterapeutas;
+*/
+END
+
+
+
+CREATE DEFINER=`novafis`@`%` PROCEDURE `spLocalizaciones_LLenar`()
+BEGIN
+
+  SELECT LOC_ID, LOC_Descripcion
+  FROM Localizaciones
+--  WHERE LOC_ID = iIDLocalizacion OR iIDLocalizacion IS NULL
+  ORDER BY LOC_Descripcion;
+  
+END
+
+CREATE DEFINER=`novafis`@`%` PROCEDURE `spLocalizaciones_Anadir`(sLocalizacion varchar(100))
+BEGIN
+
+  INSERT INTO Localizaciones (LOC_Descripcion)
+  VALUES (sLocalizacion);
+
+--  SET iIDLocalizacion = last_insert_id();
+
+END
+
+
+
+CREATE DEFINER=`novafis`@`%` PROCEDURE `spLesiones_LLenar`()
+BEGIN
+
+  SELECT LES_ID, LES_Descripcion
+  FROM Lesiones
+--  WHERE LES_ID = iIDLesion OR iIDLesion IS NULL
+  ORDER BY LES_Descripcion;
+
+END
+
+
+CREATE DEFINER=`novafis`@`%` PROCEDURE `spLesiones_Anadir`(sLesion varchar(100))
+BEGIN
+
+  INSERT INTO Lesiones (LES_Descripcion)
+  VALUES (sLesion);
+
+--  SET iIDLesion = last_insert_id();
+  
+END
+
+
+
+CREATE DEFINER=`novafis`@`%` PROCEDURE `spFuentes_LLenar`()
+BEGIN
+
+--  IF iIDFuente IS NULL THEN
+    SELECT FNT_ID, FNT_Descripcion
+    FROM Fuentes
+    ORDER BY FNT_Descripcion;
+/*  
+  ELSE
+    SELECT FNT_ID, FNT_Descripcion
+    FROM Fuentes
+    WHERE FNT_ID = iIDFuente;
+  END IF;
+*/
+END
+
+
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spPatients_FindAll`()
+BEGIN
+	SELECT PAC_ID, PAC_Nombre, PAC_Apellido1, PAC_Apellido2, PAC_Identificacion, PAC_FechaRegistro, PAC_Conocer, 
+			PAC_Sexo, PAC_FechaNacimiento, PAC_ListaNegra, FNT_ID
+    FROM pacientes
+    ORDER BY PAC_Nombre, PAC_Apellido1, PAC_Apellido2;
+END
+
+
+
+CREATE DEFINER=`novafis`@`%` PROCEDURE `spProvincias_LLenar`(idProvincia varchar(2))
+BEGIN
+    SELECT PRV_ID, PRV_Provincia
+      FROM Provincias
+	 WHERE PRV_ID = idProvincia or idProvincia is null
+  ORDER BY PRV_Provincia;
+END
+
