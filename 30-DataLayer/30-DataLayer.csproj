@@ -46,6 +46,8 @@
   <ItemGroup>
     <Compile Include="AddressDL.cs" />
     <Compile Include="CancellationDL.cs" />
+    <Compile Include="NoteDL.cs" />
+    <Compile Include="TimetableDL.cs" />
     <Compile Include="TreatmentDL.cs" />
     <Compile Include="TreatmentStatusDL.cs" />
     <Compile Include="ObservationDL.cs" />

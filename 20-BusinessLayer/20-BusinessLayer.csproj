@@ -43,6 +43,8 @@
     <Compile Include="AddressBL.cs" />
     <Compile Include="CancellationBL.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="NoteBL.cs" />
+    <Compile Include="TimetableBL.cs" />
     <Compile Include="TreatmentBL.cs" />
     <Compile Include="TreatmentStatusBL.cs" />
     <Compile Include="ObservationBL.cs" />

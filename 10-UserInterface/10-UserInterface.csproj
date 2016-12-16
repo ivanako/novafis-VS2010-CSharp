@@ -94,6 +94,12 @@
     <Compile Include="frmSourcesNotes.Designer.cs">
       <DependentUpon>frmSourcesNotes.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmTimetable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTimetable.Designer.cs">
+      <DependentUpon>frmTimetable.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmTreatment.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSourcesNotes.resx">
       <DependentUpon>frmSourcesNotes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTimetable.resx">
+      <DependentUpon>frmTimetable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTreatment.resx">
       <DependentUpon>frmTreatment.cs</DependentUpon>

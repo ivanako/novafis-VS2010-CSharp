@@ -18,7 +18,7 @@ namespace DataLayer
                 new MySqlParameter() {ParameterName = "idLesion", MySqlDbType = MySqlDbType.Int32, Value = DBNull.Value, Direction = ParameterDirection.Input}
             };
 
-            return MyStoredProcs.callStoredProc("spLesiones_LLenar", lstParams); ;
+            return MyStoredProcs.callStoredProc("spLesiones_LLenar", lstParams);
         }
 
         public static DataTable findOneLesion(int idLesion)

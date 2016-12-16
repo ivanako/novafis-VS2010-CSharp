@@ -23,6 +23,9 @@ namespace UserInterface
 
         private Physiotherapist selPhysio;
         private Maintenance physioOperation;
+        
+
+        private List<Timetable> TimetablePhysio;
 
         private void frmPhysiotherapists_Load(object sender, EventArgs e)
         {
@@ -31,6 +34,8 @@ namespace UserInterface
 
         private void dgvPhysios_SelectionChanged(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+
             foreach (DataGridViewRow phy in dgvPhysios.SelectedRows)
             {
                 selPhysio.Identifier = Convert.ToInt32(phy.Cells["Identifier"].Value);
@@ -55,7 +60,20 @@ namespace UserInterface
 
                 pcbColour.BackColor = ColorTranslator.FromHtml(selPhysio.Colour);
                 pcbColour.Tag = selPhysio.Colour;
+
+                getTimetablePhysio(selPhysio.Identifier);
             }
+
+            dtpDateBegin.ValueChanged -= dtpDateBegin_ValueChanged;
+            dtpDateEnd.ValueChanged -= dtpDateEnd_ValueChanged;
+
+            dtpDateBegin.Checked = false;
+            dtpDateEnd.Checked = false;
+
+            dtpDateBegin.ValueChanged += dtpDateBegin_ValueChanged;
+            dtpDateEnd.ValueChanged += dtpDateEnd_ValueChanged;
+
+            Cursor.Current = Cursors.Default;
         }
 
         private void dgvPhysios_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -124,6 +142,7 @@ namespace UserInterface
                     btnCancel.Visible = false;
                     dgvPhysios.CurrentRow.Selected = false;
                     dgvPhysios.CurrentRow.Selected = true;
+                    lblIdValue.Visible = true;
                     break;
                 case Maintenance.Edit:
                     break;
@@ -280,5 +299,138 @@ namespace UserInterface
             }
         }
 
+
+        
+
+
+
+        #region TIMETABLE
+            private Timetable selTimetable;
+            private Maintenance timetableOperation;
+
+            private void getTimetablePhysio(int idPhysio)
+            {
+                this.TimetablePhysio = TimetableBL.findAllTimetablesByPhysio(idPhysio);
+
+                populateTimetableGrid(this.TimetablePhysio);
+            }
+
+            private void populateTimetableGrid(List<Timetable> lstTimetable)
+            {
+                SortableBindingList<Timetable> sblTimetables = new SortableBindingList<Timetable>(lstTimetable);
+
+                dgvTimetable.DataSource = sblTimetables;
+
+                dgvTimetable.Columns["Identifier"].Visible = false;
+                dgvTimetable.Columns["Physiotherapist"].Visible = false;
+            }
+
+            private void dtpDateBegin_ValueChanged(object sender, EventArgs e)
+            {
+                filterTimetable();
+            }
+            private void dtpDateEnd_ValueChanged(object sender, EventArgs e)
+            {
+                filterTimetable();
+            }
+
+            private void dgvTimetable_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+            {
+                this.timetableOperation = Maintenance.Edit;
+                launchTimetableDetails();
+            }
+
+            private void btnAddTimetable_Click(object sender, EventArgs e)
+            {
+                this.timetableOperation = Maintenance.Create;
+                launchTimetableDetails();
+            }
+
+            private void filterTimetable()
+            {
+                if (dtpDateBegin.Checked || dtpDateEnd.Checked)
+                {
+                    IEnumerable<Timetable> lstTimetable = this.TimetablePhysio;
+
+                    if (dtpDateBegin.Checked)
+                    {
+                        lstTimetable = lstTimetable.Where(t => t.Date >= Convert.ToDateTime(dtpDateBegin.Value.ToShortDateString()));
+                    }
+
+                    if (dtpDateEnd.Checked)
+                    {
+                        lstTimetable = lstTimetable.Where(t => t.Date <= Convert.ToDateTime(dtpDateEnd.Value.ToShortDateString()));
+                    }
+
+                    populateTimetableGrid(lstTimetable.ToList<Timetable>());
+                }
+                else
+                {
+                    populateTimetableGrid(this.TimetablePhysio);
+                }
+            }
+
+            private void launchTimetableDetails()
+            {
+                switch (this.timetableOperation)
+                {
+                    case Maintenance.Create:
+                        selTimetable = new Timetable()
+                        {
+                            Identifier = 0,
+                            Date = DateTime.Today,
+                            MorningTimeStart = DateTime.Today.AddHours(1).TimeOfDay.ToString(),
+                            MorningTimeFinish = DateTime.Today.TimeOfDay.ToString(),
+                            MorningDuration = 0,
+                            AfternoonTimeStart = DateTime.Today.TimeOfDay.ToString(),
+                            AfternoonTimeFinish = DateTime.Today.TimeOfDay.ToString(),
+                            AfternoonDuration = 0,
+                            Physiotherapist = this.selPhysio
+                        };
+
+                        break;
+                    case Maintenance.Edit:
+                        foreach (DataGridViewRow tmtTable in dgvTimetable.SelectedRows)
+                        {
+                            //Lesion treatLes = (Lesion)tmtTable.Cells["Lesion"].Value;
+                            //Location treatLoc = (Location)tmtTable.Cells["Location"].Value;
+                            //Physiotherapist treatPhysio = (Physiotherapist)tmtTable.Cells["Physiotherapist"].Value;
+                            //TreatmentStatus treatStat = (TreatmentStatus)tmtTable.Cells["Status"].Value;
+
+                            selTimetable = new Timetable()
+                            {
+                                Identifier = Convert.ToInt32(tmtTable.Cells["Identifier"].Value),
+                                Date = Convert.ToDateTime(tmtTable.Cells["Date"].Value),
+                                MorningTimeStart = tmtTable.Cells["MorningTimeStart"].Value.ToString(),
+                                MorningTimeFinish = tmtTable.Cells["MorningTimeFinish"].Value.ToString(),
+                                MorningDuration = Convert.ToByte(tmtTable.Cells["MorningDuration"].Value),
+                                AfternoonTimeStart = tmtTable.Cells["AfternoonTimeStart"].Value.ToString(),
+                                AfternoonTimeFinish = tmtTable.Cells["AfternoonTimeFinish"].Value.ToString(),
+                                AfternoonDuration = Convert.ToByte(tmtTable.Cells["AfternoonDuration"].Value),
+                                Physiotherapist = selPhysio
+                            };
+                        }
+
+                        break;
+                }
+
+                frmTimetable frmTimetable = new frmTimetable();
+                frmTimetable.physioTimetable = selTimetable;
+                frmTimetable.timetableOperation = this.timetableOperation;
+                //frmTimetable.idPatient = patientDetails.Identifier;
+
+
+                if (frmTimetable.ShowDialog() == DialogResult.OK)
+                {
+                    getTimetablePhysio(this.selPhysio.Identifier);
+                    //this.patientDetails.Treatments = TreatmentBL.findTreatmentsByPatient(patientDetails.Identifier);
+                    //initTreatments();
+                }
+            }
+        #endregion
+
+            
+
+            
     }
 }

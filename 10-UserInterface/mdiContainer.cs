@@ -21,7 +21,9 @@ namespace UserInterface
 
         private void mdiContainer_Load(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             GlobalVars.Patients = PatientBL.findAllPatients();
+            Cursor.Current = Cursors.Default;
         }
 
 

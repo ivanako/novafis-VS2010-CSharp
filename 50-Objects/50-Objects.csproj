@@ -44,6 +44,7 @@
     <Compile Include="Cancellation.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GlobalVars.cs" />
+    <Compile Include="Note.cs" />
     <Compile Include="Observation.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="Lesion.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Province.cs" />
     <Compile Include="SortableBindingList.cs" />
     <Compile Include="Source.cs" />
+    <Compile Include="Timetable.cs" />
     <Compile Include="Treatment.cs" />
     <Compile Include="TreatmentStatus.cs" />
   </ItemGroup>
