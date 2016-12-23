@@ -13,7 +13,22 @@ namespace DataLayer
     {
         public static DataTable findAllPatients()
         {
-            return MyStoredProcs.callStoredProc("spPatients_FindAll", null);
+            List<MySqlParameter> lstParams = new List<MySqlParameter>()
+            {
+                new MySqlParameter() {ParameterName = "idPatient", MySqlDbType = MySqlDbType.Int32, Value = DBNull.Value, Direction = ParameterDirection.Input},
+            };
+
+            return MyStoredProcs.callStoredProc("spPatients_FindAll", lstParams);
+        }
+
+        public static DataTable findOnePatient(int idPatient)
+        {
+            List<MySqlParameter> lstParams = new List<MySqlParameter>()
+            {
+                new MySqlParameter() {ParameterName = "idPatient", MySqlDbType = MySqlDbType.Int32, Value = idPatient, Direction = ParameterDirection.Input},
+            };
+
+            return MyStoredProcs.callStoredProc("spPatients_FindAll", lstParams);
         }
 
         public static int addPatient(Patient pat)

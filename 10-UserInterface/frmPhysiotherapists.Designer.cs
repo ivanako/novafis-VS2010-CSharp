@@ -32,17 +32,19 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tipPhysios = new System.Windows.Forms.ToolTip(this.components);
-            this.errPhysios = new System.Windows.Forms.ErrorProvider(this.components);
-            this.splPhysios = new System.Windows.Forms.SplitContainer();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
+            this.btnColour = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnAddTimetable = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.errPhysios = new System.Windows.Forms.ErrorProvider(this.components);
+            this.splPhysios = new System.Windows.Forms.SplitContainer();
             this.dgvPhysios = new UserInterface.Controls.NovaGrid();
             this.tabDetails = new System.Windows.Forms.TabControl();
             this.tbpData = new System.Windows.Forms.TabPage();
-            this.btnColour = new System.Windows.Forms.Button();
             this.pcbColour = new System.Windows.Forms.PictureBox();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
             this.pnlGender = new System.Windows.Forms.Panel();
             this.lblGender = new System.Windows.Forms.Label();
             this.radFemale = new System.Windows.Forms.RadioButton();
@@ -67,7 +69,6 @@
             this.lblName = new System.Windows.Forms.Label();
             this.lblId = new System.Windows.Forms.Label();
             this.tbpTimetable = new System.Windows.Forms.TabPage();
-            this.btnAddTimetable = new System.Windows.Forms.Button();
             this.dtpDateEnd = new System.Windows.Forms.DateTimePicker();
             this.dtpDateBegin = new System.Windows.Forms.DateTimePicker();
             this.lblDateEnd = new System.Windows.Forms.Label();
@@ -87,12 +88,95 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvTimetable)).BeginInit();
             this.SuspendLayout();
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRefresh.Location = new System.Drawing.Point(815, 56);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(86, 33);
+            this.btnRefresh.TabIndex = 1;
+            this.btnRefresh.Text = "Refrescar";
+            this.tipPhysios.SetToolTip(this.btnRefresh, "Recargar lista de Fisios");
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // btnNew
+            // 
+            this.btnNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNew.Location = new System.Drawing.Point(815, 17);
+            this.btnNew.Name = "btnNew";
+            this.btnNew.Size = new System.Drawing.Size(86, 33);
+            this.btnNew.TabIndex = 0;
+            this.btnNew.Text = "Nuevo";
+            this.tipPhysios.SetToolTip(this.btnNew, "Alta de un Fisio");
+            this.btnNew.UseVisualStyleBackColor = true;
+            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+            // 
+            // btnColour
+            // 
+            this.btnColour.Location = new System.Drawing.Point(541, 162);
+            this.btnColour.Name = "btnColour";
+            this.btnColour.Size = new System.Drawing.Size(32, 25);
+            this.btnColour.TabIndex = 28;
+            this.btnColour.Text = "...";
+            this.tipPhysios.SetToolTip(this.btnColour, "Seleccionar color");
+            this.btnColour.UseVisualStyleBackColor = true;
+            this.btnColour.Click += new System.EventHandler(this.btnColour_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(719, 158);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(86, 33);
+            this.btnCancel.TabIndex = 31;
+            this.btnCancel.Text = "Cancelar";
+            this.tipPhysios.SetToolTip(this.btnCancel, "Cancelar alta Fisio");
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Visible = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(811, 158);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(86, 33);
+            this.btnSave.TabIndex = 30;
+            this.btnSave.Text = "Guardar";
+            this.tipPhysios.SetToolTip(this.btnSave, "Cuardar cambios de un Fisio");
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnAddTimetable
+            // 
+            this.btnAddTimetable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddTimetable.Location = new System.Drawing.Point(809, 39);
+            this.btnAddTimetable.Name = "btnAddTimetable";
+            this.btnAddTimetable.Size = new System.Drawing.Size(86, 33);
+            this.btnAddTimetable.TabIndex = 3;
+            this.btnAddTimetable.Text = "Nuevo...";
+            this.tipPhysios.SetToolTip(this.btnAddTimetable, "Nuevo Horario");
+            this.btnAddTimetable.UseVisualStyleBackColor = true;
+            this.btnAddTimetable.Click += new System.EventHandler(this.btnAddTimetable_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.Location = new System.Drawing.Point(815, 296);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(86, 33);
+            this.btnClose.TabIndex = 1;
+            this.btnClose.Text = "Cerrar";
+            this.tipPhysios.SetToolTip(this.btnClose, "Cerrar ventana");
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
             // errPhysios
             // 
             this.errPhysios.ContainerControl = this;
             // 
             // splPhysios
             // 
+            this.splPhysios.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.splPhysios.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splPhysios.Location = new System.Drawing.Point(0, 0);
             this.splPhysios.Name = "splPhysios";
@@ -100,6 +184,7 @@
             // 
             // splPhysios.Panel1
             // 
+            this.splPhysios.Panel1.Controls.Add(this.btnClose);
             this.splPhysios.Panel1.Controls.Add(this.btnRefresh);
             this.splPhysios.Panel1.Controls.Add(this.btnNew);
             this.splPhysios.Panel1.Controls.Add(this.dgvPhysios);
@@ -112,30 +197,6 @@
             this.splPhysios.Size = new System.Drawing.Size(930, 687);
             this.splPhysios.SplitterDistance = 333;
             this.splPhysios.TabIndex = 1;
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefresh.Location = new System.Drawing.Point(813, 56);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(86, 33);
-            this.btnRefresh.TabIndex = 1;
-            this.btnRefresh.Text = "Refrescar";
-            this.tipPhysios.SetToolTip(this.btnRefresh, "Recargar lista de Fisios");
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
-            // btnNew
-            // 
-            this.btnNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNew.Location = new System.Drawing.Point(813, 17);
-            this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(86, 33);
-            this.btnNew.TabIndex = 0;
-            this.btnNew.Text = "Nuevo";
-            this.tipPhysios.SetToolTip(this.btnNew, "Alta de un Fisio");
-            this.btnNew.UseVisualStyleBackColor = true;
-            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
             // dgvPhysios
             // 
@@ -162,7 +223,7 @@
             this.dgvPhysios.RowHeadersVisible = false;
             this.dgvPhysios.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dgvPhysios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPhysios.Size = new System.Drawing.Size(779, 333);
+            this.dgvPhysios.Size = new System.Drawing.Size(775, 329);
             this.dgvPhysios.TabIndex = 0;
             this.dgvPhysios.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvPhysios_CellFormatting);
             this.dgvPhysios.SelectionChanged += new System.EventHandler(this.dgvPhysios_SelectionChanged);
@@ -175,7 +236,7 @@
             this.tabDetails.Location = new System.Drawing.Point(0, 0);
             this.tabDetails.Name = "tabDetails";
             this.tabDetails.SelectedIndex = 0;
-            this.tabDetails.Size = new System.Drawing.Size(930, 350);
+            this.tabDetails.Size = new System.Drawing.Size(926, 346);
             this.tabDetails.TabIndex = 11;
             // 
             // tbpData
@@ -207,20 +268,10 @@
             this.tbpData.Location = new System.Drawing.Point(4, 22);
             this.tbpData.Name = "tbpData";
             this.tbpData.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpData.Size = new System.Drawing.Size(922, 324);
+            this.tbpData.Size = new System.Drawing.Size(918, 320);
             this.tbpData.TabIndex = 0;
             this.tbpData.Text = "Datos profesionales";
             this.tbpData.UseVisualStyleBackColor = true;
-            // 
-            // btnColour
-            // 
-            this.btnColour.Location = new System.Drawing.Point(541, 162);
-            this.btnColour.Name = "btnColour";
-            this.btnColour.Size = new System.Drawing.Size(32, 25);
-            this.btnColour.TabIndex = 28;
-            this.btnColour.Text = "...";
-            this.tipPhysios.SetToolTip(this.btnColour, "Seleccionar color");
-            this.btnColour.UseVisualStyleBackColor = true;
             // 
             // pcbColour
             // 
@@ -229,29 +280,6 @@
             this.pcbColour.Size = new System.Drawing.Size(140, 25);
             this.pcbColour.TabIndex = 29;
             this.pcbColour.TabStop = false;
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.Location = new System.Drawing.Point(719, 158);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(86, 33);
-            this.btnCancel.TabIndex = 31;
-            this.btnCancel.Text = "Cancelar";
-            this.tipPhysios.SetToolTip(this.btnCancel, "Cancelar alta Fisio");
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Visible = false;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // btnSave
-            // 
-            this.btnSave.Location = new System.Drawing.Point(811, 158);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(86, 33);
-            this.btnSave.TabIndex = 30;
-            this.btnSave.Text = "Guardar";
-            this.tipPhysios.SetToolTip(this.btnSave, "Cuardar cambios de un Fisio");
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // pnlGender
             // 
@@ -474,22 +502,10 @@
             this.tbpTimetable.Location = new System.Drawing.Point(4, 22);
             this.tbpTimetable.Name = "tbpTimetable";
             this.tbpTimetable.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpTimetable.Size = new System.Drawing.Size(922, 324);
+            this.tbpTimetable.Size = new System.Drawing.Size(918, 320);
             this.tbpTimetable.TabIndex = 1;
             this.tbpTimetable.Text = "Horario";
             this.tbpTimetable.UseVisualStyleBackColor = true;
-            // 
-            // btnAddTimetable
-            // 
-            this.btnAddTimetable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddTimetable.Location = new System.Drawing.Point(809, 39);
-            this.btnAddTimetable.Name = "btnAddTimetable";
-            this.btnAddTimetable.Size = new System.Drawing.Size(86, 33);
-            this.btnAddTimetable.TabIndex = 3;
-            this.btnAddTimetable.Text = "Nuevo...";
-            this.tipPhysios.SetToolTip(this.btnAddTimetable, "Nuevo Horario");
-            this.btnAddTimetable.UseVisualStyleBackColor = true;
-            this.btnAddTimetable.Click += new System.EventHandler(this.btnAddTimetable_Click);
             // 
             // dtpDateEnd
             // 
@@ -639,6 +655,7 @@
         private System.Windows.Forms.Label lblDateEnd;
         private System.Windows.Forms.Label lblDateBegin;
         private System.Windows.Forms.Button btnAddTimetable;
+        private System.Windows.Forms.Button btnClose;
 
     }
 }

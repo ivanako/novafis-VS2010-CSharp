@@ -53,6 +53,47 @@ namespace BusinessLayer
             return lstTimetables;
         }
 
+        public static Timetable findTimetableByPhysioAndDate(int idPhysio, DateTime date)
+        {
+            Timetable timetable = null;
+
+            DataTable dtTimetables = TimetableDL.findTimetableByPhysioAndDate(idPhysio, date);
+
+            if (dtTimetables.Rows.Count == 1)
+            {
+                DataRow drTimetable = dtTimetables.Rows[0];
+
+                timetable = new Timetable()
+                {
+                    Identifier = Convert.ToInt32(drTimetable["JOR_ID"]),
+                    Date = Convert.ToDateTime(drTimetable["JOR_Fecha"]),
+                    MorningTimeStart = drTimetable["JOR_HoraIniM"].ToString(),
+                    MorningTimeFinish = drTimetable["JOR_HoraFinM"].ToString(),
+                    AfternoonTimeStart = drTimetable["JOR_HoraIniT"].ToString(),
+                    AfternoonTimeFinish = drTimetable["JOR_HoraFinT"].ToString()
+                };
+
+                if (drTimetable["JOR_IntervaloM"] == DBNull.Value)
+                {
+                    timetable.MorningDuration = null;
+                }
+                else
+                {
+                    timetable.MorningDuration = Convert.ToByte(drTimetable["JOR_IntervaloM"]);
+                }
+                if (drTimetable["JOR_IntervaloT"] == DBNull.Value)
+                {
+                    timetable.AfternoonDuration = null;
+                }
+                else
+                {
+                    timetable.AfternoonDuration = Convert.ToByte(drTimetable["JOR_IntervaloT"]);
+                }
+            }
+
+            return timetable;
+        }
+
         public static bool saveTimetable(Timetable timeTable)
         {
             return TimetableDL.saveTimetable(timeTable);

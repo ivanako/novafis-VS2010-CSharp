@@ -29,8 +29,6 @@ namespace UserInterface
                 case Maintenance.Create:
                     chkMorning.Checked = false;
                     chkAfternoon.Checked = false;
-
-                    
                     break;
                 case Maintenance.Edit:
                     chkMorning.Checked = !string.IsNullOrWhiteSpace(this.physioTimetable.MorningTimeStart);
@@ -201,9 +199,6 @@ namespace UserInterface
                 this.DialogResult = DialogResult.None;
             }
         }
-        
-
-        
 
     }
 }

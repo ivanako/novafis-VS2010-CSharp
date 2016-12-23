@@ -23,7 +23,10 @@ namespace UserInterface
         {
             Cursor.Current = Cursors.WaitCursor;
             GlobalVars.Patients = PatientBL.findAllPatients();
+            GlobalVars.Physiotherapists = PhysioBL.findAllPhysios();
             Cursor.Current = Cursors.Default;
+
+            checkFormOpen(new frmAppointments());
         }
 
 
@@ -31,10 +34,13 @@ namespace UserInterface
         {
             checkFormOpen(new frmPhysiotherapists());
         }
-
         private void mnuMain_Patients_Click(object sender, EventArgs e)
         {
             checkFormOpen(new frmPatients());
+        }
+        private void mnuMain_Appointments_Click(object sender, EventArgs e)
+        {
+            checkFormOpen(new frmAppointments());
         }
 
         private void mnuAccesories_Locs_Les_Click(object sender, EventArgs e)
@@ -85,6 +91,8 @@ namespace UserInterface
             frm.Show();
             frm.Focus();
         }
+
+        
 
 
         

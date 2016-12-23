@@ -33,9 +33,9 @@
             this.mnuMain_Patients = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMain_Physios = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAccesories = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuAccesories_Config = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAccesories_Locs_Les = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAccesories_Sources_Notes = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMain_Appointments = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,7 +55,8 @@
             // 
             this.mnuMain.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuMain_Patients,
-            this.mnuMain_Physios});
+            this.mnuMain_Physios,
+            this.mnuMain_Appointments});
             this.mnuMain.Name = "mnuMain";
             this.mnuMain.Size = new System.Drawing.Size(65, 20);
             this.mnuMain.Text = "Principal";
@@ -77,18 +78,11 @@
             // mnuAccesories
             // 
             this.mnuAccesories.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuAccesories_Config,
             this.mnuAccesories_Locs_Les,
             this.mnuAccesories_Sources_Notes});
             this.mnuAccesories.Name = "mnuAccesories";
             this.mnuAccesories.Size = new System.Drawing.Size(76, 20);
             this.mnuAccesories.Text = "Accesorios";
-            // 
-            // mnuAccesories_Config
-            // 
-            this.mnuAccesories_Config.Name = "mnuAccesories_Config";
-            this.mnuAccesories_Config.Size = new System.Drawing.Size(216, 22);
-            this.mnuAccesories_Config.Text = "Configuración...";
             // 
             // mnuAccesories_Locs_Les
             // 
@@ -103,6 +97,13 @@
             this.mnuAccesories_Sources_Notes.Size = new System.Drawing.Size(216, 22);
             this.mnuAccesories_Sources_Notes.Text = "Fuentes y Notas...";
             this.mnuAccesories_Sources_Notes.Click += new System.EventHandler(this.mnuAccesories_Sources_Notes_Click);
+            // 
+            // mnuMain_Appointments
+            // 
+            this.mnuMain_Appointments.Name = "mnuMain_Appointments";
+            this.mnuMain_Appointments.Size = new System.Drawing.Size(162, 22);
+            this.mnuMain_Appointments.Text = "Citas...";
+            this.mnuMain_Appointments.Click += new System.EventHandler(this.mnuMain_Appointments_Click);
             // 
             // mdiContainer
             // 
@@ -130,9 +131,9 @@
         private System.Windows.Forms.ToolStripMenuItem mnuMain;
         private System.Windows.Forms.ToolStripMenuItem mnuMain_Physios;
         private System.Windows.Forms.ToolStripMenuItem mnuAccesories;
-        private System.Windows.Forms.ToolStripMenuItem mnuAccesories_Config;
         private System.Windows.Forms.ToolStripMenuItem mnuAccesories_Locs_Les;
         private System.Windows.Forms.ToolStripMenuItem mnuMain_Patients;
         private System.Windows.Forms.ToolStripMenuItem mnuAccesories_Sources_Notes;
+        private System.Windows.Forms.ToolStripMenuItem mnuMain_Appointments;
     }
 }

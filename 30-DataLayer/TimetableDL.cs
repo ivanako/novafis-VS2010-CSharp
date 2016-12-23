@@ -15,7 +15,18 @@ namespace DataLayer
         {
             List<MySqlParameter> lstParams = new List<MySqlParameter>()
             {
-                new MySqlParameter() {ParameterName = "iIDJornada", MySqlDbType = MySqlDbType.Int32, Value = DBNull.Value, Direction = ParameterDirection.Input},
+                new MySqlParameter() {ParameterName = "fFecha", MySqlDbType = MySqlDbType.Date, Value = DBNull.Value, Direction = ParameterDirection.Input},
+                new MySqlParameter() {ParameterName = "iIDFisio", MySqlDbType = MySqlDbType.Int32, Value = idPhysio, Direction = ParameterDirection.Input}
+            };
+
+            return MyStoredProcs.callStoredProc("spJornadas_LLenar", lstParams);
+        }
+
+        public static DataTable findTimetableByPhysioAndDate(int idPhysio, DateTime date)
+        {
+            List<MySqlParameter> lstParams = new List<MySqlParameter>()
+            {
+                new MySqlParameter() {ParameterName = "fFecha", MySqlDbType = MySqlDbType.Date, Value = date, Direction = ParameterDirection.Input},
                 new MySqlParameter() {ParameterName = "iIDFisio", MySqlDbType = MySqlDbType.Int32, Value = idPhysio, Direction = ParameterDirection.Input}
             };
 

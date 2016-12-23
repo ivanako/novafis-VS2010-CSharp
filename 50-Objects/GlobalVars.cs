@@ -8,5 +8,6 @@ namespace Objects
     public static class GlobalVars
     {
         public static List<Patient> Patients;
+        public static List<Physiotherapist> Physiotherapists;
     }
 }

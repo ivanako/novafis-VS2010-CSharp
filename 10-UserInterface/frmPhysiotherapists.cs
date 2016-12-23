@@ -98,9 +98,10 @@ namespace UserInterface
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            List<Physiotherapist> lstPhysios = PhysioBL.findAllPhysios();
+            //List<Physiotherapist> lstPhysios = PhysioBL.findAllPhysios();
+            GlobalVars.Physiotherapists = PhysioBL.findAllPhysios();
 
-            populatePhysioGrid(lstPhysios);
+            populatePhysioGrid(GlobalVars.Physiotherapists);
         }
 
         private void btnColour_Click(object sender, EventArgs e)
@@ -158,9 +159,9 @@ namespace UserInterface
 
             this.selPhysio = new Physiotherapist();
 
-            List<Physiotherapist> lstPhysios = PhysioBL.findAllPhysios();
+            //List<Physiotherapist> lstPhysios = PhysioBL.findAllPhysios();
 
-            populatePhysioGrid(lstPhysios);
+            populatePhysioGrid(GlobalVars.Physiotherapists);
 
             bindControls();
         }
@@ -281,6 +282,7 @@ namespace UserInterface
             }
 
             List<Physiotherapist> lstPhysios = PhysioBL.savePhysio(phys);
+            //GlobalVars.Physiotherapists = PhysioBL.savePhysio(phys);
 
             if (lstPhysios.Count == 0)
             {
@@ -288,6 +290,8 @@ namespace UserInterface
             }
             else
             {
+                GlobalVars.Physiotherapists = lstPhysios;
+
                 populatePhysioGrid(lstPhysios);
 
                 if (physioOperation.Equals(Maintenance.Create))
@@ -298,10 +302,6 @@ namespace UserInterface
                 }
             }
         }
-
-
-        
-
 
 
         #region TIMETABLE
@@ -392,11 +392,6 @@ namespace UserInterface
                     case Maintenance.Edit:
                         foreach (DataGridViewRow tmtTable in dgvTimetable.SelectedRows)
                         {
-                            //Lesion treatLes = (Lesion)tmtTable.Cells["Lesion"].Value;
-                            //Location treatLoc = (Location)tmtTable.Cells["Location"].Value;
-                            //Physiotherapist treatPhysio = (Physiotherapist)tmtTable.Cells["Physiotherapist"].Value;
-                            //TreatmentStatus treatStat = (TreatmentStatus)tmtTable.Cells["Status"].Value;
-
                             selTimetable = new Timetable()
                             {
                                 Identifier = Convert.ToInt32(tmtTable.Cells["Identifier"].Value),
@@ -417,20 +412,20 @@ namespace UserInterface
                 frmTimetable frmTimetable = new frmTimetable();
                 frmTimetable.physioTimetable = selTimetable;
                 frmTimetable.timetableOperation = this.timetableOperation;
-                //frmTimetable.idPatient = patientDetails.Identifier;
 
 
                 if (frmTimetable.ShowDialog() == DialogResult.OK)
                 {
                     getTimetablePhysio(this.selPhysio.Identifier);
-                    //this.patientDetails.Treatments = TreatmentBL.findTreatmentsByPatient(patientDetails.Identifier);
-                    //initTreatments();
                 }
             }
         #endregion
 
-            
 
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Dispose();
+        }
             
     }
 }

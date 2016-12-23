@@ -43,12 +43,53 @@ namespace BusinessLayer
                     Physiotherapist = physio
                 };
 
-                
-
                 lstPatients.Add(pat);
             }
 
             return lstPatients;
+        }
+
+        public static Patient findOnePatient(int idPatient)
+        {
+            Patient pat = null;
+
+            DataTable dtPatients = PatientDL.findOnePatient(idPatient);
+
+            if (dtPatients.Rows.Count == 1)
+            {
+                DataRow drPatient = dtPatients.Rows[0];
+
+                Source src = null;
+
+                if (drPatient["FNT_ID"] != DBNull.Value)
+                {
+                    src = SourceBL.findOneSource(Convert.ToInt32(drPatient["FNT_ID"]));
+                }
+
+                Physiotherapist physio = PhysioBL.findOnePhysio(Convert.ToInt32(drPatient["FIS_ID"]));
+
+                pat = new Patient()
+                {
+                    Identifier = Convert.ToInt32(drPatient["PAC_ID"]),
+                    Name = drPatient["PAC_Nombre"].ToString(),
+                    Surname1 = drPatient["PAC_Apellido1"].ToString(),
+                    Surname2 = drPatient["PAC_Apellido2"].ToString(),
+                    Identification = drPatient["PAC_Identificacion"].ToString(),
+                    EntryDate = DateTime.Parse(drPatient["PAC_FechaRegistro"].ToString()),
+                    HowHeardAboutUs = drPatient["PAC_Conocer"].ToString(),
+                    Gender = drPatient["PAC_Sexo"] == DBNull.Value ? Constants.NULL_CHAR : drPatient["PAC_Sexo"].ToString()[0],
+                    DateOfBirth = drPatient["PAC_FechaNacimiento"] == DBNull.Value ? Constants.NULL_DATE : DateTime.Parse(drPatient["PAC_FechaNacimiento"].ToString()),
+                    BlackList = Convert.ToBoolean(drPatient["PAC_ListaNegra"]),
+                    Source = src,
+                    Physiotherapist = physio
+                };
+            }
+            else
+            {
+                pat = new Patient();
+            }
+
+            return pat;
         }
 
         public static bool savePatient(Patient patient)
