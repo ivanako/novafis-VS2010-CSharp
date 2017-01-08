@@ -22,6 +22,10 @@ namespace UserInterface
             InitializeComponent();
         }
 
+
+        private Appointment selAppointment;
+        private Maintenance appOperation;
+
         private void frmAppointments_Load(object sender, EventArgs e)
         {
             loadPhysios();
@@ -57,6 +61,69 @@ namespace UserInterface
                 populateAppointmentsGrid();
             }
         }
+
+        private void dgvAppointments_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvAppointments.SelectedRows.Count == 1)
+            {
+                bool hasPatient = (dgvAppointments.SelectedRows[0].Cells["Patient"].Value != null);
+                btnDelete.Enabled = hasPatient;
+                btnPatient.Enabled = hasPatient;
+            }
+        }
+        private void dgvAppointments_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgvAppointments.SelectedRows.Count == 1)
+            {
+                buildApp();
+
+                launchAppDetails();
+            }
+        }
+
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("¿Eliminar cita seleccionada?", this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                buildApp();
+
+                bool delOK = AppointmentBL.deleteAppointment(this.selAppointment);
+
+                if (delOK)
+                {
+                    MessageBox.Show("Cita eliminada correctamente", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    populateAppointmentsGrid();
+                }
+            }
+        }
+        private void btnPatient_Click(object sender, EventArgs e)
+        {
+            buildApp();
+
+            int patId = this.selAppointment.Patient.Identifier;
+
+            Address patAddress = AddressBL.findOneAddress(patId);
+            List<Cancellation> patCancellations = CancellationBL.findAllCancellations(patId);
+            List<Observation> patObservations = ObservationBL.findObservationsByPatient(patId);
+            List<Treatment> patTreatments = TreatmentBL.findTreatmentsByPatient(patId);
+
+            this.selAppointment.Patient.Address = patAddress;
+            this.selAppointment.Patient.Cancellations = patCancellations;
+            this.selAppointment.Patient.Observations = patObservations;
+            this.selAppointment.Patient.Treatments = patTreatments;
+
+            frmPatientsDetail frmPatientDetail = new frmPatientsDetail();
+            frmPatientDetail.patientDetails = this.selAppointment.Patient;
+            frmPatientDetail.patientOperation = Maintenance.Edit;
+
+            if (frmPatientDetail.ShowDialog() == DialogResult.OK)
+            {
+                GlobalVars.Patients = PatientBL.findAllPatients();
+            }
+        }
+
 
         private void loadPhysios()
         {
@@ -208,11 +275,23 @@ namespace UserInterface
                 dgvAppointments.Columns["Debt"].Visible = false;
                 dgvAppointments.Columns["Patient"].Visible = false;
                 dgvAppointments.Columns["Physiotherapist"].Visible = false;
+                dgvAppointments.Columns["CancellationWhy"].Visible = false;
 
-                DataGridViewCellStyle style = new DataGridViewCellStyle();
-                style.Format = "N0";
-                style.Alignment = DataGridViewContentAlignment.MiddleRight;
-                dgvAppointments.Columns["PatientId"].DefaultCellStyle = style;
+
+                //Color colPhyTuned = Color.FromArgb(200, ColorTranslator.FromHtml(this.PhysioSel.Colour));
+                Color colPhy = ColorTranslator.FromHtml(this.PhysioSel.Colour);
+                int colR = colPhy.R;
+                int colG = colPhy.G;
+                int colB = colPhy.B;
+                int colNorm = ((colR * 299) + (colG * 587) + (colB * 114)) / 1000;
+
+                dgvAppointments.DefaultCellStyle.BackColor = colPhy;
+                dgvAppointments.DefaultCellStyle.ForeColor = colNorm >= 128 ? Color.Black : Color.White;
+
+                DataGridViewCellStyle patIdStyle = new DataGridViewCellStyle();
+                patIdStyle.Format = "N0";
+                patIdStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                dgvAppointments.Columns["PatientId"].DefaultCellStyle = patIdStyle;
             }
             else
             {
@@ -228,15 +307,67 @@ namespace UserInterface
             this.Cursor = Cursors.Default;
         }
 
-        private void dgvAppointments_SelectionChanged(object sender, EventArgs e)
+
+        private void launchAppDetails()
         {
-            if (dgvAppointments.SelectedRows.Count == 1)
+            frmAppointmentsDetail frmAppDetail = new frmAppointmentsDetail();
+
+
+            frmAppDetail.appDetails = this.selAppointment;
+            frmAppDetail.appOperation = this.appOperation;
+            //frmPatientDetail.Text = string.Format(frmPatientDetail.Text, selPatient.FullName);
+
+
+            if (frmAppDetail.ShowDialog() == DialogResult.OK)
             {
-                bool hasPatient = (dgvAppointments.SelectedRows[0].Cells["Patient"].Value != null);
-                btnDelete.Enabled = hasPatient;
-                btnPatient.Enabled = hasPatient;
+                populateAppointmentsGrid();
+
+                MessageBox.Show("Cita guardada correctamente", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                frmAppDetail.Dispose();
             }
         }
+
+        private void buildApp()
+        {
+            DataGridViewRow rowApp = dgvAppointments.SelectedRows[0];
+
+            DateTime appDate = Convert.ToDateTime(rowApp.Cells["Date"].Value);
+            string appTime = Convert.ToString(rowApp.Cells["Time"].Value);
+            string appObs = Convert.ToString(rowApp.Cells["Observation"].Value);
+            bool appIsCanc = Convert.ToBoolean(rowApp.Cells["IsCancelled"].Value);
+            string appCanc = Convert.ToString(rowApp.Cells["CancellationWhy"].Value);
+            double appPaid = Convert.ToDouble(rowApp.Cells["Paid"].Value);
+            double appDebt = Convert.ToDouble(rowApp.Cells["Debt"].Value);
+            Patient appPatient = (Patient)rowApp.Cells["Patient"].Value;
+            Physiotherapist appPhysio = (Physiotherapist)rowApp.Cells["Physiotherapist"].Value;
+
+            this.selAppointment = new Appointment()
+            {
+                Date = appDate,
+                Time = appTime,
+                Observation = appObs,
+                IsCancelled = appIsCanc,
+                CancellationWhy = appCanc,
+                Paid = appPaid,
+                Debt = appDebt,
+                Patient = appPatient,
+                Physiotherapist = appPhysio
+            };
+
+            if (appPatient == null)
+            {
+                this.appOperation = Maintenance.Create;
+            }
+            else
+            {
+                this.appOperation = Maintenance.Edit;
+                int appId = Convert.ToInt32(rowApp.Cells["Identifier"].Value);
+                this.selAppointment.Identifier = appId;
+            }
+        }
+
         
+
     }
 }

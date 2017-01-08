@@ -1,4 +1,6 @@
-﻿namespace UserInterface.Controls
+﻿using System.Windows.Forms;
+using System.Drawing;
+namespace UserInterface.Controls
 {
     partial class NovaGrid
     {
@@ -30,22 +32,32 @@
         {
             components = new System.ComponentModel.Container();
             //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
+            DataGridViewCellStyle dgvColumnHeaderStyle = new DataGridViewCellStyle();
+            dgvColumnHeaderStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvColumnHeaderStyle.BackColor = SystemColors.Control;
+            dgvColumnHeaderStyle.Font = new Font("Verdana", 8.25F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            dgvColumnHeaderStyle.ForeColor = SystemColors.WindowText;
+            dgvColumnHeaderStyle.SelectionBackColor = SystemColors.Highlight;
+            dgvColumnHeaderStyle.SelectionForeColor = SystemColors.HighlightText;
+            dgvColumnHeaderStyle.WrapMode = DataGridViewTriState.False;
 
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            DataGridViewCellStyle dgvDefCellStyle = new DataGridViewCellStyle();
+            dgvDefCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgvDefCellStyle.BackColor = SystemColors.Window;
+            dgvDefCellStyle.Font = new Font("Verdana", 8.25F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            dgvDefCellStyle.ForeColor = SystemColors.WindowText;
+            dgvDefCellStyle.SelectionBackColor = SystemColors.WindowText;
+            dgvDefCellStyle.SelectionForeColor = SystemColors.Window;
+            dgvDefCellStyle.WrapMode = DataGridViewTriState.False;
 
             this.AllowUserToAddRows = false;
             this.AllowUserToDeleteRows = false;
             this.AllowUserToResizeRows = false;
             this.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.ColumnHeadersDefaultCellStyle = dgvColumnHeaderStyle;
             this.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DefaultCellStyle = dgvDefCellStyle;
             this.Location = new System.Drawing.Point(0, 0);
             this.MultiSelect = false;
             this.ReadOnly = true;

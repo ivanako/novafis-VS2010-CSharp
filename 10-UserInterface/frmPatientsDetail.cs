@@ -81,7 +81,7 @@ namespace UserInterface
                     cboSources.SelectedValue = patientDetails.Source.Identifier;
                 }
 
-                if (patientDetails.Source == null)
+                if (patientDetails.Physiotherapist == null)
                 {
                     cboPhysios.SelectedItem = null;
                 }

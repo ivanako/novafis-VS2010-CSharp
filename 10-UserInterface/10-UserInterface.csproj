@@ -70,6 +70,12 @@
     <Compile Include="frmAppointments.Designer.cs">
       <DependentUpon>frmAppointments.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmAppointmentsDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAppointmentsDetail.Designer.cs">
+      <DependentUpon>frmAppointmentsDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLocsLes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmAppointments.resx">
       <DependentUpon>frmAppointments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAppointmentsDetail.resx">
+      <DependentUpon>frmAppointmentsDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLocsLes.resx">
       <DependentUpon>frmLocsLes.cs</DependentUpon>

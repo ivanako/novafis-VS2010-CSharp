@@ -30,14 +30,15 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.calAppointment = new System.Windows.Forms.MonthCalendar();
             this.lblDate = new System.Windows.Forms.Label();
             this.grbPhysiotherapists = new System.Windows.Forms.GroupBox();
             this.lblNoTimetable = new System.Windows.Forms.Label();
-            this.dgvAppointments = new UserInterface.Controls.NovaGrid();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnPatient = new System.Windows.Forms.Button();
             this.tipAppointments = new System.Windows.Forms.ToolTip(this.components);
+            this.dgvAppointments = new UserInterface.Controls.NovaGrid();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAppointments)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,6 +83,30 @@
             this.lblNoTimetable.Text = "El fisioterapeuta {0} no tiene asignado un horario para el día {1}";
             this.lblNoTimetable.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // btnDelete
+            // 
+            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDelete.Location = new System.Drawing.Point(670, 205);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(86, 33);
+            this.btnDelete.TabIndex = 6;
+            this.btnDelete.Text = "Eliminar";
+            this.tipAppointments.SetToolTip(this.btnDelete, "Eliminar Cita");
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnPatient
+            // 
+            this.btnPatient.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPatient.Location = new System.Drawing.Point(670, 244);
+            this.btnPatient.Name = "btnPatient";
+            this.btnPatient.Size = new System.Drawing.Size(86, 33);
+            this.btnPatient.TabIndex = 6;
+            this.btnPatient.Text = "Paciente...";
+            this.tipAppointments.SetToolTip(this.btnPatient, "Mostrar ficha del Paciente");
+            this.btnPatient.UseVisualStyleBackColor = true;
+            this.btnPatient.Click += new System.EventHandler(this.btnPatient_Click);
+            // 
             // dgvAppointments
             // 
             this.dgvAppointments.AllowUserToAddRows = false;
@@ -100,6 +125,14 @@
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvAppointments.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvAppointments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAppointments.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvAppointments.Location = new System.Drawing.Point(18, 205);
             this.dgvAppointments.MultiSelect = false;
             this.dgvAppointments.Name = "dgvAppointments";
@@ -107,31 +140,10 @@
             this.dgvAppointments.RowHeadersVisible = false;
             this.dgvAppointments.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dgvAppointments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAppointments.Size = new System.Drawing.Size(630, 280);
-            this.dgvAppointments.TabIndex = 2;
+            this.dgvAppointments.Size = new System.Drawing.Size(630, 336);
+            this.dgvAppointments.TabIndex = 7;
+            this.dgvAppointments.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAppointments_CellMouseDoubleClick);
             this.dgvAppointments.SelectionChanged += new System.EventHandler(this.dgvAppointments_SelectionChanged);
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDelete.Location = new System.Drawing.Point(670, 205);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(86, 33);
-            this.btnDelete.TabIndex = 6;
-            this.btnDelete.Text = "Eliminar";
-            this.tipAppointments.SetToolTip(this.btnDelete, "Eliminar Cita");
-            this.btnDelete.UseVisualStyleBackColor = true;
-            // 
-            // btnPatient
-            // 
-            this.btnPatient.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPatient.Location = new System.Drawing.Point(670, 244);
-            this.btnPatient.Name = "btnPatient";
-            this.btnPatient.Size = new System.Drawing.Size(86, 33);
-            this.btnPatient.TabIndex = 6;
-            this.btnPatient.Text = "Paciente...";
-            this.tipAppointments.SetToolTip(this.btnPatient, "Mostrar ficha del Paciente");
-            this.btnPatient.UseVisualStyleBackColor = true;
             // 
             // frmAppointments
             // 
@@ -142,9 +154,9 @@
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.lblNoTimetable);
             this.Controls.Add(this.grbPhysiotherapists);
-            this.Controls.Add(this.dgvAppointments);
             this.Controls.Add(this.lblDate);
             this.Controls.Add(this.calAppointment);
+            this.Controls.Add(this.dgvAppointments);
             this.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "frmAppointments";
@@ -163,11 +175,11 @@
 
         private System.Windows.Forms.MonthCalendar calAppointment;
         private System.Windows.Forms.Label lblDate;
-        private Controls.NovaGrid dgvAppointments;
         private System.Windows.Forms.GroupBox grbPhysiotherapists;
         private System.Windows.Forms.Label lblNoTimetable;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.ToolTip tipAppointments;
         private System.Windows.Forms.Button btnPatient;
+        private Controls.NovaGrid dgvAppointments;
     }
 }

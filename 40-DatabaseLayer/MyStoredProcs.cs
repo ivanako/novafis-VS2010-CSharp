@@ -89,5 +89,44 @@ namespace DatabaseLayer
 
             return isOK;
         }
+
+        public static bool callStoredProc2(string spName, List<MySqlParameter> lstParams)
+        {
+            bool callOK = true;
+
+            try
+            {
+                using (MySqlConnection myCnn = new MySqlConnection())
+                {
+                    myCnn.ConnectionString = MyConnection.buildConnectionString();
+
+                    using (MySqlCommand myCmd = new MySqlCommand())
+                    {
+                        myCnn.Open();
+
+                        myCmd.CommandText = spName;
+                        myCmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        myCmd.Connection = myCnn;
+
+                        if (lstParams != null)
+                        {
+                            myCmd.Parameters.AddRange(lstParams.ToArray());
+                        }
+
+                        int rowCount = myCmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (MySqlException myError)
+            {
+                callOK = false;
+            }
+            catch (Exception exError)
+            {
+                callOK = false;
+            }
+
+            return callOK;
+        }
     }
 }

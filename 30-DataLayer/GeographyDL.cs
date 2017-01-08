@@ -25,7 +25,7 @@ namespace DataLayer
         {
             List<MySqlParameter> lstParams = new List<MySqlParameter>()
             {
-                new MySqlParameter() {ParameterName = "idProvincia", MySqlDbType = MySqlDbType.Int32, Value = idProvince, Direction = ParameterDirection.Input},
+                new MySqlParameter() {ParameterName = "idProvincia", MySqlDbType = MySqlDbType.VarChar, Size = 2, Value = idProvince, Direction = ParameterDirection.Input},
             };
 
             return MyStoredProcs.callStoredProc("spProvincias_LLenar", lstParams);

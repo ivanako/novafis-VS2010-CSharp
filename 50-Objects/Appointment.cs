@@ -6,14 +6,42 @@ using System.ComponentModel;
 
 namespace Objects
 {
-    public class Appointment
+    public class Appointment : INotifyPropertyChanged
     {
+        private long _id;
+        private DateTime _appDate;
+        private string _appTime;
+
         [DisplayName("Identificador")]
-        public int Identifier { get; set; }
+        public long Identifier
+        {
+            get { return _id; }
+            set
+            {
+                _id = value;
+                InvokePropertyChanged(new PropertyChangedEventArgs("Identifier"));
+            }
+        }
         [DisplayName("Fecha")]
-        public DateTime Date { get; set; }
+        public DateTime Date
+        {
+            get { return _appDate; }
+            set
+            {
+                _appDate = value;
+                InvokePropertyChanged(new PropertyChangedEventArgs("Date"));
+            }
+        }
         [DisplayName("Hora")]
-        public string Time { get; set; }
+        public string Time
+        {
+            get { return _appTime; }
+            set
+            {
+                _appTime = value;
+                InvokePropertyChanged(new PropertyChangedEventArgs("Time"));
+            }
+        }
         
         [DisplayName("Fisio")]
         public string Physio
@@ -92,7 +120,7 @@ namespace Objects
             get { return Debt > 0; }
         }
         [DisplayName("A")]
-        public bool Cancelled { get; set; }
+        public bool IsCancelled { get; set; }
         [DisplayName("P")]
         public bool HasTreatment
         {
@@ -115,12 +143,25 @@ namespace Objects
         public double Paid { get; set; }
         [DisplayName("Deuda")]
         public double Debt { get; set; }
+        [DisplayName("Motivo Anulación")]
+        public string CancellationWhy { get; set; }
 
         [DisplayName("Paciente")]
         public Patient Patient { get; set; }
         [DisplayName("Fisioterapeuta")]
         public Physiotherapist Physiotherapist { get; set; }
 
-        
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void InvokePropertyChanged(PropertyChangedEventArgs e)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
     }
 }

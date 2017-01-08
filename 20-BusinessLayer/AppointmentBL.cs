@@ -30,7 +30,8 @@ namespace BusinessLayer
                     Observation = drAppointment["CIT_Observacion"].ToString(),
                     Paid = Convert.ToDouble(drAppointment["CIT_Cobrado"]),
                     Debt = Convert.ToDouble(drAppointment["CIT_Deuda"]),
-                    Cancelled = Convert.ToBoolean(drAppointment["CIT_Anulada"]),
+                    IsCancelled = Convert.ToBoolean(drAppointment["CIT_Anulada"]),
+                    CancellationWhy = drAppointment["CIT_MotivoAnulacion"].ToString(),
                     Physiotherapist = phy,
                     Patient = pat
                 };
@@ -39,6 +40,24 @@ namespace BusinessLayer
             }
 
             return lstAppointments;
+        }
+
+        public static bool saveAppointment(Appointment app)
+        {
+            bool saveOK = false;
+
+            saveOK = AppointmentDL.saveAppointment(app);
+
+            return saveOK;
+        }
+
+        public static bool deleteAppointment(Appointment app)
+        {
+            bool delOK = false;
+
+            delOK = AppointmentDL.deleteAppointment(app);
+
+            return delOK;
         }
     }
 }
