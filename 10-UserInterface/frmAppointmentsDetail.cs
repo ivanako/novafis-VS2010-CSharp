@@ -166,7 +166,11 @@ namespace UserInterface
             {
                 Patient pat = GlobalVars.Patients.Where(p => p.FullName.Equals(txtAppPatient.Text)).First<Patient>();
                 txtAppPatient.Tag = pat;
-                cboAppPhysiotherapists.SelectedValue = pat.Physiotherapist.Identifier;
+
+                if (cboAppPhysiotherapists.SelectedItem == null)
+                {
+                    cboAppPhysiotherapists.SelectedValue = pat.Physiotherapist.Identifier;
+                }
 
                 if (pat.BlackList)
                 {
@@ -211,17 +215,62 @@ namespace UserInterface
 
         private void saveAppointment()
         {
+            bool isAllowed = true;
+
             this.appDetails.Physiotherapist = (Physiotherapist)cboAppPhysiotherapists.SelectedItem;
 
-            bool saveOK = AppointmentBL.saveAppointment(this.appDetails);
+            //Timetable timetable = TimetableBL.findTimetableByPhysioAndDate(this.appDetails.Physiotherapist.Identifier, this.appDetails.Date);
 
-            if (saveOK)
+            List<Appointment> lstAppPhysioTable = TimetableBL.loadTimetablePhysio(this.appDetails.Physiotherapist.Identifier, this.appDetails.Date);
+
+            if (lstAppPhysioTable.Count == 0)
             {
-                this.DialogResult = DialogResult.OK;
+                MessageBox.Show(String.Format("El fisio {0} no tiene asignadado un horario para el día {1}", this.appDetails.Physiotherapist.Alias, this.appDetails.Date.ToShortDateString()),
+                                "Fisio sin horario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                isAllowed = false;
             }
-            else
+
+            if (isAllowed)
             {
-                this.DialogResult = DialogResult.None;
+                int tmtCount = lstAppPhysioTable.Where(a => a.Time.Equals(this.appDetails.Time)).Count<Appointment>();
+
+                if (tmtCount == 0)
+                {
+                    MessageBox.Show(String.Format("El fisio {0} no dispone de cita a las {1}", this.appDetails.Physiotherapist.Alias, this.appDetails.Time),
+                                    "Fisio sin cita", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    isAllowed = false;
+                }
+            }
+
+            if (isAllowed)
+            {
+                List<Appointment> lstAppDate = AppointmentBL.findAppointmentsByDate(this.appDetails.Date);
+                int appCount = lstAppDate
+                                    .Where(a => a.Physiotherapist.Identifier == this.appDetails.Physiotherapist.Identifier)
+                                    .Where(a => a.Time.Equals(this.appDetails.Time))
+                                    .Where(a => a.Patient != null)
+                                    .Count<Appointment>();
+
+                if (appCount > 0)
+                {
+                    MessageBox.Show(String.Format("La cita de las {0} del fisio {1} ya tiene paciente", this.appDetails.Time, this.appDetails.Physiotherapist.Alias),
+                                    "Cita con Paciente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    isAllowed = false;
+                }
+            }
+
+            if (isAllowed)
+            {
+                bool saveOK = AppointmentBL.saveAppointment(this.appDetails);
+
+                if (saveOK)
+                {
+                    this.DialogResult = DialogResult.OK;
+                }
+                else
+                {
+                    this.DialogResult = DialogResult.None;
+                }
             }
         }
 

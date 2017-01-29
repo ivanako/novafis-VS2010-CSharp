@@ -22,6 +22,17 @@ namespace DataLayer
             return MyStoredProcs.callStoredProc("spNotas_LLenar", lstParams);
         }
 
+        public static DataTable findNotesByDate(DateTime noteDate)
+        {
+            List<MySqlParameter> lstParams = new List<MySqlParameter>()
+            {
+                new MySqlParameter() {ParameterName = "iIDNota", MySqlDbType = MySqlDbType.Int32, Value = DBNull.Value, Direction = ParameterDirection.Input},
+                new MySqlParameter() {ParameterName = "fFecha", MySqlDbType = MySqlDbType.Date, Value = noteDate, Direction = ParameterDirection.Input}
+            };
+
+            return MyStoredProcs.callStoredProc("spNotas_LLenar", lstParams);
+        }
+
         public static bool addNote(Note note)
         {
             bool isOK = true;

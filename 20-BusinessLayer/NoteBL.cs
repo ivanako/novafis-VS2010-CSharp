@@ -31,6 +31,27 @@ namespace BusinessLayer
             return lstNotes;
         }
 
+        public static List<Note> findNotesByDate(DateTime noteDate)
+        {
+            List<Note> lstNotes = new List<Note>();
+
+            DataTable dtNotes = NoteDL.findNotesByDate(noteDate);
+
+            foreach (DataRow drNote in dtNotes.Rows)
+            {
+                Note note = new Note()
+                {
+                    Identifier = Convert.ToInt32(drNote["NOT_ID"]),
+                    Date = Convert.ToDateTime(drNote["NOT_Fecha"]),
+                    Description = drNote["NOT_Descripcion"].ToString()
+                };
+
+                lstNotes.Add(note);
+            }
+
+            return lstNotes;
+        }
+
         public static List<Note> saveNote(Note note)
         {
             List<Note> lstNotes = new List<Note>();

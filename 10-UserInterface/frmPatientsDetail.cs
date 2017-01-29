@@ -593,6 +593,10 @@ namespace UserInterface
                 if (frmPatientTreatment.ShowDialog() == DialogResult.OK)
                 {
                     this.patientDetails.Treatments = TreatmentBL.findTreatmentsByPatient(patientDetails.Identifier);
+
+                    Patient pat = GlobalVars.Patients.Single(p => p.Identifier == this.patientDetails.Identifier);
+                    pat.Treatments = this.patientDetails.Treatments;
+
                     initTreatments();
                 }
             }

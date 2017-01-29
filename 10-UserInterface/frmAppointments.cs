@@ -13,6 +13,9 @@ namespace UserInterface
 {
     public partial class frmAppointments : Form
     {
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern short GetKeyState(Keys key);
+
         Physiotherapist PhysioSel;
 
         private const string NO_TIMETABLE = "El fisioterapeuta {0} no tiene asignado un horario para el día {1}";
@@ -26,23 +29,49 @@ namespace UserInterface
         private Appointment selAppointment;
         private Maintenance appOperation;
 
+        private List<Appointment> dateAppointments;
+
         private void frmAppointments_Load(object sender, EventArgs e)
         {
             loadPhysios();
 
             lblNoTimetable.SendToBack();
-            calAppointment.SelectionStart = DateTime.Today;
+
+            manageDate();
+
+            preparePatientTextBox();
+
+            splAppointments.Panel2Collapsed = true;
         }
 
         private void calAppointment_DateChanged(object sender, DateRangeEventArgs e)
         {
+            manageDate();
+        }
+
+        private void manageDate()
+        {
             lblDate.Text = calAppointment.SelectionStart.ToLongDateString();
 
-            //loadAppointmentsDate();
-
-            if (this.PhysioSel != null)
+            if (calAppointment.SelectionStart.DayOfWeek == DayOfWeek.Saturday || calAppointment.SelectionStart.DayOfWeek == DayOfWeek.Sunday)
             {
-                populateAppointmentsGrid();
+                lblDate.ForeColor = Color.Red;
+
+                dgvAppointments.DataSource = null;
+                btnAppPanel.Enabled = false;
+            }
+            else
+            {
+                lblDate.ForeColor = SystemColors.ControlText;
+
+                populateDateNotes();
+
+                this.dateAppointments = AppointmentBL.findAppointmentsByDate(calAppointment.SelectionStart);
+
+                if (this.PhysioSel != null)
+                {
+                    populateAppointmentsGrid();
+                }
             }
         }
 
@@ -57,8 +86,13 @@ namespace UserInterface
                 radPhysio.Font = new Font(radPhysio.Font, FontStyle.Bold);
 
                 this.PhysioSel = (Physiotherapist)radPhysio.Tag;
-                //loadTimetablePhysio();
-                populateAppointmentsGrid();
+
+                manageDate();
+
+                //if (this.dateAppointments != null)
+                //{
+                //    populateAppointmentsGrid();
+                //}
             }
         }
 
@@ -94,7 +128,8 @@ namespace UserInterface
                 {
                     MessageBox.Show("Cita eliminada correctamente", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    populateAppointmentsGrid();
+                    manageDate();
+                    //populateAppointmentsGrid();
                 }
             }
         }
@@ -120,8 +155,22 @@ namespace UserInterface
 
             if (frmPatientDetail.ShowDialog() == DialogResult.OK)
             {
-                GlobalVars.Patients = PatientBL.findAllPatients();
+                this.Cursor = Cursors.WaitCursor;
+
+                //GlobalVars.Patients = PatientBL.findAllPatients();
+                manageDate();
+
+                this.Cursor = Cursors.Default;
             }
+        }
+        private void btnAppPanel_Click(object sender, EventArgs e)
+        {
+            toggleAppPanel();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Dispose();
         }
 
 
@@ -243,19 +292,23 @@ namespace UserInterface
 
             List<Appointment> lstAppointments = new List<Appointment>();
 
-            List<Appointment> lstAppPhysio = loadTimetablePhysio();
+            //List<Appointment> lstAppPhysioTable = loadTimetablePhysio();
+            List<Appointment> lstAppPhysioTable = TimetableBL.loadTimetablePhysio(this.PhysioSel.Identifier, calAppointment.SelectionStart);
 
-            if (lstAppPhysio.Count > 0)
+            if (lstAppPhysioTable.Count > 0)
             {
-                List<Appointment> lstAppDate = AppointmentBL.findAppointmentsByDate(calAppointment.SelectionStart, this.PhysioSel.Identifier);
+                //List<Appointment> lstAppDate = AppointmentBL.findAppointmentsByDate(calAppointment.SelectionStart, this.PhysioSel.Identifier);
+                List<Appointment> lstAppPhysio = this.dateAppointments
+                                                    .Where(a => a.Physiotherapist.Identifier == this.PhysioSel.Identifier)
+                                                    .ToList<Appointment>();
 
-                foreach (Appointment app in lstAppPhysio)
+                foreach (Appointment app in lstAppPhysioTable)
                 {
-                    int appCount = lstAppDate.Where(a => a.Time.Equals(app.Time)).Count<Appointment>();
+                    int appCount = lstAppPhysio.Where(a => a.Time.Equals(app.Time)).Count<Appointment>();
 
                     if (appCount == 1)
                     {
-                        Appointment appTime = lstAppDate.Where(a => a.Time.Equals(app.Time)).First<Appointment>();
+                        Appointment appTime = lstAppPhysio.Where(a => a.Time.Equals(app.Time)).First<Appointment>();
                         lstAppointments.Add(appTime);
                     }
                     else
@@ -263,7 +316,6 @@ namespace UserInterface
                         lstAppointments.Add(app);
                     }
                 }
-
 
                 SortableBindingList<Appointment> sblAppointments = new SortableBindingList<Appointment>(lstAppointments);
 
@@ -292,6 +344,10 @@ namespace UserInterface
                 patIdStyle.Format = "N0";
                 patIdStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 dgvAppointments.Columns["PatientId"].DefaultCellStyle = patIdStyle;
+
+                loadTimesByPhysio(lstAppointments);
+
+                btnAppPanel.Enabled = true;
             }
             else
             {
@@ -302,6 +358,7 @@ namespace UserInterface
 
                 btnDelete.Enabled = false;
                 btnPatient.Enabled = false;
+                btnAppPanel.Enabled = false;
             }
 
             this.Cursor = Cursors.Default;
@@ -320,6 +377,8 @@ namespace UserInterface
 
             if (frmAppDetail.ShowDialog() == DialogResult.OK)
             {
+                this.dateAppointments = AppointmentBL.findAppointmentsByDate(calAppointment.SelectionStart);
+
                 populateAppointmentsGrid();
 
                 MessageBox.Show("Cita guardada correctamente", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -368,6 +427,180 @@ namespace UserInterface
         }
 
         
+
+
+        #region NOTES
+            private System.Timers.Timer tmrNotes = new System.Timers.Timer();
+            private byte blinkCount = 0;
+
+            private void tmrNotes_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+            {
+                this.blinkCount++;
+
+                lstNotes.BackColor = lstNotes.BackColor == SystemColors.Window ? Color.Red : SystemColors.Window;
+                lstNotes.ForeColor = lstNotes.ForeColor == SystemColors.WindowText ? Color.White : SystemColors.WindowText;
+
+                if (this.blinkCount == 10)
+                {
+                    this.blinkCount = 0;
+                    tmrNotes.Stop();
+                }
+            }
+
+            private void populateDateNotes()
+            {
+                List<Note> lstDateNotes = NoteBL.findNotesByDate(calAppointment.SelectionStart);
+
+                lstNotes.DataSource = lstDateNotes;
+                lstNotes.DisplayMember = "Description";
+
+                if (lstDateNotes.Count == 0)
+                {
+                    lstNotes.BackColor = lstNotes.BackColor = SystemColors.Window;
+
+                    tmrNotes.Elapsed -= new System.Timers.ElapsedEventHandler(tmrNotes_Elapsed);
+                }
+                else
+                {
+                    tmrNotes.Interval = 1000;
+                    tmrNotes.Start();
+
+                    tmrNotes.Elapsed += new System.Timers.ElapsedEventHandler(tmrNotes_Elapsed);
+                }
+            }
+        #endregion
+
+        #region APPOINTMENT PANEL
+
+        private void txtPatName_KeyDown(object sender, KeyEventArgs e)
+            {
+                if (e.KeyData == Keys.Enter && GetKeyState(Keys.Enter) < 0)
+                {
+                    managePatientField(true);
+                }
+            }
+            private void txtPatName_Leave(object sender, EventArgs e)
+            {
+                if (txtPatName.TabStop)
+                {
+                    Patient pat = GlobalVars.Patients.Where(p => p.FullName.Equals(txtPatName.Text)).FirstOrDefault<Patient>();
+
+                    bool hasPatient = (pat != null);
+
+                    managePatientField(hasPatient);
+                }
+            }
+            private void btnPatDelete_Click(object sender, EventArgs e)
+            {
+                resetPatient();
+            }
+
+            private void btnAppointment_Click(object sender, EventArgs e)
+            {
+                Appointment app = (Appointment)lstTimes.SelectedValue;
+                app.Patient = (Patient)txtPatName.Tag;
+                app.Physiotherapist = this.PhysioSel;
+
+                bool saveOK = AppointmentBL.saveAppointment(app);
+
+                if (saveOK)
+                {
+                    //this.dateAppointments = AppointmentBL.findAppointmentsByDate(calAppointment.SelectionStart);
+
+                    //populateAppointmentsGrid();
+
+                    manageDate();
+
+                    resetPatient();
+
+                    //splAppointments.Panel2Collapsed = true;
+                    toggleAppPanel();
+                }
+            }
+
+            private void loadTimesByPhysio(List<Appointment> lstAppointmentsByDateAndPhysio)
+            {
+                List<Appointment> lstEmptyApps = lstAppointmentsByDateAndPhysio.Where(a => a.Patient == null).ToList<Appointment>();
+
+                lstTimes.DataSource = lstEmptyApps;
+                lstTimes.DisplayMember = "Time";
+            }
+
+            private void preparePatientTextBox()
+            {
+                txtPatName.AutoCompleteMode = AutoCompleteMode.Suggest;
+                txtPatName.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+                string[] arrPatients = GlobalVars.Patients.Select(p => p.FullName).ToArray();
+                AutoCompleteStringCollection colPatients = new AutoCompleteStringCollection();
+                colPatients.AddRange(arrPatients);
+                txtPatName.AutoCompleteCustomSource = colPatients;
+            }
+
+            private void managePatientField(bool hasPatient)
+            {
+                if (hasPatient)
+                {
+                    Patient pat = GlobalVars.Patients.Where(p => p.FullName.Equals(txtPatName.Text)).First<Patient>();
+                    txtPatName.Tag = pat;
+                    txtPatPhysio.Text = pat.Physiotherapist.Alias;
+
+                    List<Observation> lstObs = ObservationBL.findObservationsByPatient(pat.Identifier);
+                    pat.Observations = lstObs;
+
+                    if (pat.Observations.Count == 0)
+                    {
+                        txtPatObservation.Text = string.Empty;
+                    }
+                    else
+                    {
+                        txtPatObservation.Text = pat.Observations[0].Description;
+                    }
+                    chkPatBlackList.Checked = pat.BlackList;
+                }
+                //else
+                //{
+                //    txtPatName.ForeColor = SystemColors.ControlText;
+                //}
+
+                txtPatName.ReadOnly = hasPatient;
+                txtPatName.TabStop = !hasPatient;
+
+                btnPatDelete.Enabled = hasPatient;
+                btnAppointment.Enabled = hasPatient;
+            }
+
+            private void resetPatient()
+            {
+                txtPatName.Text = string.Empty;
+                txtPatName.Tag = null;
+                txtPatName.ReadOnly = false;
+                txtPatName.TabStop = true;
+
+                txtPatPhysio.Text = string.Empty;
+                txtPatObservation.Text = string.Empty;
+                chkPatBlackList.Checked = false;
+
+                btnPatDelete.Enabled = false;
+                btnAppointment.Enabled = false;
+            }
+
+            private void toggleAppPanel()
+            {
+                splAppointments.Panel2Collapsed = !splAppointments.Panel2Collapsed;
+
+                if (splAppointments.Panel2Collapsed)
+                {
+                    btnAppPanel.Text = "Mostrar panel";
+                    tipAppointments.SetToolTip(btnAppPanel, "Mostrar panel de Citas");
+                }
+                else
+                {
+                    btnAppPanel.Text = "Ocultar panel";
+                    tipAppointments.SetToolTip(btnAppPanel, "Ocultar panel de Citas");
+                }
+            }
+        #endregion
 
     }
 }

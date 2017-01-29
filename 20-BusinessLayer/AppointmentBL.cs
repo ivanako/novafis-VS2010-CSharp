@@ -10,11 +10,11 @@ namespace BusinessLayer
 {
     public class AppointmentBL
     {
-        public static List<Appointment> findAppointmentsByDate(DateTime appDate, int idPhysio)
+        public static List<Appointment> findAppointmentsByDate(DateTime appDate)
         {
             List<Appointment> lstAppointments = new List<Appointment>();
 
-            DataTable dtAppointments = AppointmentDL.findAppointmentsByDate(appDate, idPhysio);
+            DataTable dtAppointments = AppointmentDL.findAppointmentsByDate(appDate);
 
             foreach (DataRow drAppointment in dtAppointments.Rows)
             {

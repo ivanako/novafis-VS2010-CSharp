@@ -98,5 +98,64 @@ namespace BusinessLayer
         {
             return TimetableDL.saveTimetable(timeTable);
         }
+
+        public static List<Appointment> loadTimetablePhysio(int idPhysio, DateTime tmtDate)
+        {
+            List<Appointment> lstAppointments = new List<Appointment>();
+
+            Timetable timetable = findTimetableByPhysioAndDate(idPhysio, tmtDate);
+
+            if (timetable != null)
+            {
+                if (!string.IsNullOrWhiteSpace(timetable.MorningTimeStart))
+                {
+                    string[] arrMornTimeStart = timetable.MorningTimeStart.Split(':');
+                    string[] arrMornTimeFinish = timetable.MorningTimeFinish.Split(':');
+
+                    DateTime mornTimeStart = new DateTime(timetable.Date.Year, timetable.Date.Month, timetable.Date.Day, int.Parse(arrMornTimeStart[0]), int.Parse(arrMornTimeStart[1]), 0);
+                    DateTime mornTimeFinish = new DateTime(timetable.Date.Year, timetable.Date.Month, timetable.Date.Day, int.Parse(arrMornTimeFinish[0]), int.Parse(arrMornTimeFinish[1]), 0);
+
+                    DateTime mornTimeAux = mornTimeStart;
+
+                    while (mornTimeAux <= mornTimeFinish)
+                    {
+                        Appointment app = new Appointment()
+                        {
+                            Date = timetable.Date,
+                            Time = mornTimeAux.ToString("HH:mm")
+                        };
+
+                        mornTimeAux = mornTimeAux.AddMinutes((int)timetable.MorningDuration);
+
+                        lstAppointments.Add(app);
+                    }
+                }
+                if (!string.IsNullOrWhiteSpace(timetable.AfternoonTimeStart))
+                {
+                    string[] arrAfterTimeStart = timetable.AfternoonTimeStart.Split(':');
+                    string[] arrAfterTimeFinish = timetable.AfternoonTimeFinish.Split(':');
+
+                    DateTime afterTimeStart = new DateTime(timetable.Date.Year, timetable.Date.Month, timetable.Date.Day, int.Parse(arrAfterTimeStart[0]), int.Parse(arrAfterTimeStart[1]), 0);
+                    DateTime afterTimeFinish = new DateTime(timetable.Date.Year, timetable.Date.Month, timetable.Date.Day, int.Parse(arrAfterTimeFinish[0]), int.Parse(arrAfterTimeFinish[1]), 0);
+
+                    DateTime afterTimeAux = afterTimeStart;
+
+                    while (afterTimeAux <= afterTimeFinish)
+                    {
+                        Appointment app = new Appointment()
+                        {
+                            Date = timetable.Date,
+                            Time = afterTimeAux.ToString("HH:mm")
+                        };
+
+                        afterTimeAux = afterTimeAux.AddMinutes((int)timetable.AfternoonDuration);
+
+                        lstAppointments.Add(app);
+                    }
+                }
+            }
+
+            return lstAppointments;
+        }
     }
 }
