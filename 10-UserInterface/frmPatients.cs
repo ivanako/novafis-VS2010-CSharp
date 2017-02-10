@@ -25,6 +25,12 @@ namespace UserInterface
         private const int PATIENTS_PER_PAGE = 35;
         private int currentPage = 0;
         private int pageCount = 0;
+        private int patientIndex = 0;
+
+        private enum FilterOrigins
+        {
+            Filter, SavePatient, DeletePatient
+        }
 
         private List<Patient> Patients;
 
@@ -69,19 +75,23 @@ namespace UserInterface
 
         private void txtFilterName_TextChanged(object sender, EventArgs e)
         {
-            filterPatients();
+            filterPatients(FilterOrigins.Filter);
         }
         private void txtFilterSurname1_TextChanged(object sender, EventArgs e)
         {
-            filterPatients();
+            filterPatients(FilterOrigins.Filter);
         }
         private void txtFilterSurname2_TextChanged(object sender, EventArgs e)
         {
-            filterPatients();
+            filterPatients(FilterOrigins.Filter);
         }
         private void chkBlackList_CheckedChanged(object sender, EventArgs e)
         {
-            filterPatients();
+            filterPatients(FilterOrigins.Filter);
+        }
+        private void chkDeleted_CheckedChanged(object sender, EventArgs e)
+        {
+            filterPatients(FilterOrigins.Filter);
         }
 
         private void dgvPatients_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -90,18 +100,43 @@ namespace UserInterface
             {
                 if (Convert.ToBoolean(dgvPatients.Rows[e.RowIndex].Cells["BlackList"].Value))
                 {
-                    dgvPatients.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                    dgvPatients.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Red;
                 }
                 //dgvPatients.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = ColorTranslator.FromHtml(e.Value.ToString());
                 //dgvPhysios.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.ForeColor = ColorTranslator.FromHtml(e.Value.ToString());
+            }
+            if (e.ColumnIndex == dgvPatients.Columns["Deleted"].Index)
+            {
+                if (Convert.ToBoolean(dgvPatients.Rows[e.RowIndex].Cells["Deleted"].Value))
+                {
+                    dgvPatients.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                    dgvPatients.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                }
             }
         }
         private void dgvPatients_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                this.patientOperation = Maintenance.Edit;
-                launchPatientDetails();
+                if (Convert.ToBoolean(dgvPatients.Rows[e.RowIndex].Cells["Deleted"].Value))
+                {
+                    MessageBox.Show("Este Paciente está eliminado. No se puede modificar.", this.Text, MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    this.patientOperation = Maintenance.Edit;
+                    this.patientIndex = e.RowIndex;
+
+                    launchPatientDetails();
+                }
+            }
+        }
+        private void dgvPatients_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvPatients.SelectedRows.Count == 1)
+            {
+                btnModify.Enabled = !Convert.ToBoolean(dgvPatients.SelectedRows[0].Cells["Deleted"].Value);
             }
         }
 
@@ -113,9 +148,11 @@ namespace UserInterface
 
         private void btnModify_Click(object sender, EventArgs e)
         {
-            if (dgvPatients.SelectedRows.Count > 0)
+            if (dgvPatients.SelectedRows.Count == 1)
             {
                 this.patientOperation = Maintenance.Edit;
+                this.patientIndex = dgvPatients.CurrentRow.Index;
+
                 launchPatientDetails();
             }
         }
@@ -124,15 +161,27 @@ namespace UserInterface
         {
             if (dgvPatients.SelectedRows.Count == 1)
             {
-                if (MessageBox.Show("¿Eliminar el Paciente seleccionado?", "Eliminar Paciente", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    int idPatient = Convert.ToInt32(dgvPatients.SelectedRows[0].Cells["Identifier"].Value);
+                int idPatient = Convert.ToInt32(dgvPatients.SelectedRows[0].Cells["Identifier"].Value);
 
+                Patient pat = GlobalVars.Patients.Single<Patient>(p => p.Identifier == idPatient);
+
+                string msgDeletionConfirm = pat.Deleted ? "¿Recuperar el Paciente seleccionado?" : "¿Eliminar el Paciente seleccionado?";
+
+                if (MessageBox.Show(msgDeletionConfirm, this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
                     if (PatientBL.deletePatient(idPatient))
                     {
-                        MessageBox.Show("Paciente eliminado", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        GlobalVars.Patients = PatientBL.findAllPatients();
-                        initLoad();
+                        pat.Deleted = !pat.Deleted;
+
+                        string msgDeletionResult = pat.Deleted ? "Paciente eliminado" : "Paciente recuperado";
+
+                        MessageBox.Show(msgDeletionResult, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        //populatePatientGrid();
+                        filterPatients(FilterOrigins.DeletePatient);
+
+                        //GlobalVars.Patients = PatientBL.findAllPatients();
+                        //initLoad();
                     }
                 }
             }
@@ -140,8 +189,17 @@ namespace UserInterface
 
         private void btnReload_Click(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.WaitCursor;
+
+            this.patientIndex = 0;
+
             GlobalVars.Patients = PatientBL.findAllPatients();
+
             initLoad();
+
+            resetFilter();
+
+            this.Cursor = Cursors.Default;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -180,7 +238,7 @@ namespace UserInterface
 
             //GlobalVars.Patients = PatientBL.findAllPatients();
 
-            this.Patients = GlobalVars.Patients;
+            this.Patients = GlobalVars.Patients.Where(p => p.Deleted == false).OrderBy(p => p.FullName).ToList<Patient>();
 
             this.pageCount = calculatePageCount();
             lblPageCount.Text = this.pageCount.ToString();
@@ -211,7 +269,7 @@ namespace UserInterface
             dgvPatients.Columns["Gender"].Visible = false;
             dgvPatients.Columns["DateOfBirth"].Visible = false;
             //dgvPatients.Columns["BlackList"].Visible = false;
-            dgvPatients.Columns["Deleted"].Visible = false;
+            //dgvPatients.Columns["Deleted"].Visible = false;
             dgvPatients.Columns["Source"].Visible = false;
             dgvPatients.Columns["Physiotherapist"].Visible = false;
             dgvPatients.Columns["Address"].Visible = false;
@@ -223,10 +281,15 @@ namespace UserInterface
             dgvPatients.Columns["FullName"].DisplayIndex = 1;
             dgvPatients.Columns["SourceDesc"].DisplayIndex = 7;
             dgvPatients.Columns["PhysiotherapistName"].DisplayIndex = 8;
+
+            if (this.patientIndex > 0)
+            {
+                dgvPatients.Rows[this.patientIndex].Selected = true;
+            }
         }
 
 
-        private void filterPatients()
+        private void filterPatients(FilterOrigins origin)
         {
             string filterName = txtFilterName.Text.Trim();
             string filterSurname1 = txtFilterSurname1.Text.Trim();
@@ -241,13 +304,21 @@ namespace UserInterface
             {
                 lst = lst.Where(p => p.BlackList == chkBlackList.Checked);
             }
+            //if (chkDeleted.Checked)
+            //{
+            lst = lst.Where(p => p.Deleted == chkDeleted.Checked);
+            //}
 
-
-            this.Patients = lst.ToList();
+            this.Patients = lst.OrderBy(p => p.FullName).ToList();
             this.pageCount = calculatePageCount();
             lblPageCount.Text = this.pageCount.ToString();
 
-            navigateGrid(Navigation.First);
+            if (origin == FilterOrigins.Filter)
+            {
+                navigateGrid(Navigation.First);
+                this.patientIndex = 0;
+            }
+
             grbNavigator.Enabled = (this.pageCount > 1);
 
             //if (this.pageCount > 1)
@@ -263,6 +334,26 @@ namespace UserInterface
             populatePatientGrid();
         }
 
+        private void resetFilter()
+        {
+            txtFilterName.TextChanged -= txtFilterName_TextChanged;
+            txtFilterSurname1.TextChanged -= txtFilterSurname1_TextChanged;
+            txtFilterSurname2.TextChanged -= txtFilterSurname2_TextChanged;
+            chkBlackList.CheckedChanged -= chkBlackList_CheckedChanged;
+            chkDeleted.CheckedChanged -= chkDeleted_CheckedChanged;
+
+            txtFilterName.Text = string.Empty;
+            txtFilterSurname1.Text = string.Empty;
+            txtFilterSurname2.Text = string.Empty;
+            chkBlackList.Checked = false;
+            chkDeleted.Checked = false;
+
+            txtFilterName.TextChanged += txtFilterName_TextChanged;
+            txtFilterSurname1.TextChanged += txtFilterSurname1_TextChanged;
+            txtFilterSurname2.TextChanged += txtFilterSurname2_TextChanged;
+            chkBlackList.CheckedChanged += chkBlackList_CheckedChanged;
+            chkDeleted.CheckedChanged += chkDeleted_CheckedChanged;
+        }
 
         private void launchPatientDetails()
         {
@@ -280,9 +371,10 @@ namespace UserInterface
                         Name = "Madrid"
                     };
 
-                    selPatient = new Patient()
+                    this.selPatient = new Patient()
                     {
                         Identifier = 0,
+                        Surname2 = string.Empty,
                         EntryDate = DateTime.Today,
                         Address = patAddress
                     };
@@ -297,7 +389,7 @@ namespace UserInterface
                 case Maintenance.Edit:
                     foreach (DataGridViewRow pat in dgvPatients.SelectedRows)
                     {
-                        selPatient = new Patient()
+                        this.selPatient = new Patient()
                         {
                             Identifier = Convert.ToInt32(pat.Cells["Identifier"].Value),
                             Name = pat.Cells["Name"].Value.ToString(),
@@ -319,13 +411,13 @@ namespace UserInterface
                         List<Observation> patObservations = ObservationBL.findObservationsByPatient(selPatient.Identifier);
                         List<Treatment> patTreatments = TreatmentBL.findTreatmentsByPatient(selPatient.Identifier);
 
-                        selPatient.Address = patAddress;
-                        selPatient.Cancellations = patCancellations;
-                        selPatient.Observations = patObservations;
-                        selPatient.Treatments = patTreatments;
+                        this.selPatient.Address = patAddress;
+                        this.selPatient.Cancellations = patCancellations;
+                        this.selPatient.Observations = patObservations;
+                        this.selPatient.Treatments = patTreatments;
                     }
 
-                    frmPatientDetail.Text = selPatient.FullName;
+                    frmPatientDetail.Text = this.selPatient.FullName;
 
                     break;
             }
@@ -333,17 +425,27 @@ namespace UserInterface
             
 
             
-            frmPatientDetail.patientDetails = selPatient;
+            frmPatientDetail.patientDetails = this.selPatient;
             frmPatientDetail.patientOperation = this.patientOperation;
             //frmPatientDetail.Text = string.Format(frmPatientDetail.Text, selPatient.FullName);
 
 
             if (frmPatientDetail.ShowDialog() == DialogResult.OK)
             {
-                GlobalVars.Patients = PatientBL.findAllPatients();
-                initLoad();
+                if (this.patientOperation == Maintenance.Edit)
+                {
+                    GlobalVars.Patients.RemoveAll(p => p.Identifier == frmPatientDetail.patientDetails.Identifier);
+                }
+
+                GlobalVars.Patients.Add(frmPatientDetail.patientDetails);
+
+                //initLoad();
+                //populatePatientGrid();
+                filterPatients(FilterOrigins.SavePatient);
 
                 MessageBox.Show("Paciente guardado correctamente", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                frmPatientDetail.Dispose();
             }
         }
 
@@ -410,18 +512,6 @@ namespace UserInterface
 
             populatePatientGrid();
         }
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
 
         
 

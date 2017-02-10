@@ -33,6 +33,12 @@ namespace UserInterface
             populatePhysios();
 
             bindAppControls();
+
+            if (this.appOperation == Maintenance.Edit)
+            {
+                checkDebt();
+                txtAppPatient.TabStop = false;
+            }
         }
 
         private void txtAppPatient_KeyDown(object sender, KeyEventArgs e)
@@ -108,6 +114,49 @@ namespace UserInterface
         }
 
 
+        private void checkDebt()
+        { 
+            double patDebt = 0;
+            DateTime patDebtDate = DateTime.Today.AddDays(-1);
+            string patObs = string.Empty;
+
+            //Patient pat = this.appDetails.Patient == null ? (Patient)txtAppPatient.Tag : this.appDetails.Patient;
+            Patient pat = (Patient)txtAppPatient.Tag;
+
+            bool checkOK = AppointmentBL.checkDebt(pat.Identifier, this.appDetails.Date, ref patDebt, ref patDebtDate, ref patObs);
+
+            if (checkOK)
+            {
+                StringBuilder sbDebtMsg = new StringBuilder();
+
+                string msgHeader = string.Format("El paciente {0} ", pat.FullName) + "\n";
+
+                if (patDebt > 0)
+                {
+                    sbDebtMsg.Append(msgHeader);
+                    sbDebtMsg.AppendFormat("tiene una deuda pendiente de {0} euros del día {1}", patDebt, patDebtDate.ToShortDateString());
+                }
+                if (!string.IsNullOrWhiteSpace(patObs))
+                {
+                    if (patDebt == 0)
+                    {
+                        sbDebtMsg.Append(msgHeader);
+                    }
+                    else
+                    {
+                        sbDebtMsg.AppendLine();
+                    }
+
+                    sbDebtMsg.AppendLine("presenta las siguientes observaciones permanentes:");
+                    sbDebtMsg.Append(patObs);
+                }
+
+                if (sbDebtMsg.Length > 0)
+                {
+                    MessageBox.Show(sbDebtMsg.ToString());
+                }
+            }
+        }
 
         private void bindAppControls()
         {
@@ -129,7 +178,7 @@ namespace UserInterface
             txtAppPatient.AutoCompleteMode = AutoCompleteMode.Suggest;
             txtAppPatient.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
-            string[] arrPatients = GlobalVars.Patients.Select(p => p.FullName).ToArray();
+            string[] arrPatients = GlobalVars.Patients.Where(p => p.Deleted == false).Select(p => p.FullName).ToArray();
             AutoCompleteStringCollection colPatients = new AutoCompleteStringCollection();
             colPatients.AddRange(arrPatients);
             txtAppPatient.AutoCompleteCustomSource = colPatients;
@@ -176,6 +225,8 @@ namespace UserInterface
                 {
                     btnAppPatient.ForeColor = Color.Red;
                 }
+
+                checkDebt();
             }
             else
             {
@@ -244,7 +295,7 @@ namespace UserInterface
 
             if (isAllowed)
             {
-                List<Appointment> lstAppDate = AppointmentBL.findAppointmentsByDate(this.appDetails.Date);
+                List<Appointment> lstAppDate = AppointmentBL.findAppointmentsByDate(this.appDetails.Date, 0);
                 int appCount = lstAppDate
                                     .Where(a => a.Physiotherapist.Identifier == this.appDetails.Physiotherapist.Identifier)
                                     .Where(a => a.Time.Equals(this.appDetails.Time))

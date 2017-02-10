@@ -30,15 +30,16 @@ namespace BusinessLayer
                 Patient pat = new Patient()
                 {
                     Identifier = Convert.ToInt32(drPatient["PAC_ID"]),
-                    Name = drPatient["PAC_Nombre"].ToString(),
-                    Surname1 = drPatient["PAC_Apellido1"].ToString(),
-                    Surname2 = drPatient["PAC_Apellido2"].ToString(),
-                    Identification = drPatient["PAC_Identificacion"].ToString(),
+                    Name = drPatient["PAC_Nombre"].ToString().ToUpper(),
+                    Surname1 = drPatient["PAC_Apellido1"].ToString().ToUpper(),
+                    Surname2 = drPatient["PAC_Apellido2"].ToString().ToUpper(),
+                    Identification = drPatient["PAC_Identificacion"].ToString().ToUpper(),
                     EntryDate = DateTime.Parse(drPatient["PAC_FechaRegistro"].ToString()),
-                    HowHeardAboutUs = drPatient["PAC_Conocer"].ToString(),
+                    HowHeardAboutUs = drPatient["PAC_Conocer"].ToString().ToUpper(),
                     Gender = drPatient["PAC_Sexo"] == DBNull.Value ? Constants.NULL_CHAR : drPatient["PAC_Sexo"].ToString()[0],
                     DateOfBirth = drPatient["PAC_FechaNacimiento"] == DBNull.Value ? Constants.NULL_DATE : DateTime.Parse(drPatient["PAC_FechaNacimiento"].ToString()),
                     BlackList = Convert.ToBoolean(drPatient["PAC_ListaNegra"]),
+                    Deleted = Convert.ToBoolean(drPatient["PAC_Eliminado"]),
                     Source = src,
                     Physiotherapist = physio
                 };
@@ -92,15 +93,30 @@ namespace BusinessLayer
             return pat;
         }
 
-        public static bool savePatient(Patient patient)
+        public static Patient savePatient(Patient patient)
         {
-            //List<Patient> lstPatients = new List<Patient>();
+            Patient savedPatient = patient;
+
+            if (!string.IsNullOrWhiteSpace(patient.Name))
+            {
+                savedPatient.Name = General.removeAccents(patient.Name.Trim()).ToUpper();
+            }
+            if (!string.IsNullOrWhiteSpace(patient.Surname1))
+            {
+                savedPatient.Surname1 = General.removeAccents(patient.Surname1.Trim()).ToUpper();
+            }
+            if (!string.IsNullOrWhiteSpace(patient.Surname2))
+            {
+                savedPatient.Surname2 = General.removeAccents(patient.Surname2.Trim()).ToUpper();
+            }
 
             bool isOK = false;
 
             if (patient.Identifier == 0)
             {
                 int idPatient = PatientDL.addPatient(patient);
+
+                savedPatient.Identifier = idPatient;
 
                 if (idPatient != 0)
                 {
@@ -121,7 +137,8 @@ namespace BusinessLayer
             //    lstPatients = findAllPatients();
             //}
 
-            return isOK;
+            //return isOK;
+            return savedPatient;
         }
 
         public static bool deletePatient(int idPatient)

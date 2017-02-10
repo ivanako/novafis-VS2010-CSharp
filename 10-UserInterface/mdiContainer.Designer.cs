@@ -28,14 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mdiContainer));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mnuMain = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMain_Patients = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMain_Physios = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMain_Appointments = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMain_Sep1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuMain_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAccesories = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAccesories_Locs_Les = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAccesories_Sources_Notes = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMain_Appointments = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuWindows = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,8 +47,10 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuMain,
-            this.mnuAccesories});
+            this.mnuAccesories,
+            this.mnuWindows});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.MdiWindowListItem = this.mnuWindows;
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
             this.menuStrip1.Size = new System.Drawing.Size(691, 24);
@@ -56,7 +62,9 @@
             this.mnuMain.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuMain_Patients,
             this.mnuMain_Physios,
-            this.mnuMain_Appointments});
+            this.mnuMain_Appointments,
+            this.mnuMain_Sep1,
+            this.mnuMain_Exit});
             this.mnuMain.Name = "mnuMain";
             this.mnuMain.Size = new System.Drawing.Size(65, 20);
             this.mnuMain.Text = "Principal";
@@ -74,6 +82,25 @@
             this.mnuMain_Physios.Size = new System.Drawing.Size(162, 22);
             this.mnuMain_Physios.Text = "Fisioterapeutas...";
             this.mnuMain_Physios.Click += new System.EventHandler(this.mnuMain_Physios_Click);
+            // 
+            // mnuMain_Appointments
+            // 
+            this.mnuMain_Appointments.Name = "mnuMain_Appointments";
+            this.mnuMain_Appointments.Size = new System.Drawing.Size(162, 22);
+            this.mnuMain_Appointments.Text = "Citas...";
+            this.mnuMain_Appointments.Click += new System.EventHandler(this.mnuMain_Appointments_Click);
+            // 
+            // mnuMain_Sep1
+            // 
+            this.mnuMain_Sep1.Name = "mnuMain_Sep1";
+            this.mnuMain_Sep1.Size = new System.Drawing.Size(159, 6);
+            // 
+            // mnuMain_Exit
+            // 
+            this.mnuMain_Exit.Name = "mnuMain_Exit";
+            this.mnuMain_Exit.Size = new System.Drawing.Size(162, 22);
+            this.mnuMain_Exit.Text = "Salir";
+            this.mnuMain_Exit.Click += new System.EventHandler(this.mnuMain_Exit_Click);
             // 
             // mnuAccesories
             // 
@@ -98,12 +125,11 @@
             this.mnuAccesories_Sources_Notes.Text = "Fuentes y Notas...";
             this.mnuAccesories_Sources_Notes.Click += new System.EventHandler(this.mnuAccesories_Sources_Notes_Click);
             // 
-            // mnuMain_Appointments
+            // mnuWindows
             // 
-            this.mnuMain_Appointments.Name = "mnuMain_Appointments";
-            this.mnuMain_Appointments.Size = new System.Drawing.Size(162, 22);
-            this.mnuMain_Appointments.Text = "Citas...";
-            this.mnuMain_Appointments.Click += new System.EventHandler(this.mnuMain_Appointments_Click);
+            this.mnuWindows.Name = "mnuWindows";
+            this.mnuWindows.Size = new System.Drawing.Size(66, 20);
+            this.mnuWindows.Text = "Ventanas";
             // 
             // mdiContainer
             // 
@@ -112,11 +138,13 @@
             this.ClientSize = new System.Drawing.Size(691, 375);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "mdiContainer";
-            this.Text = "NOVAFIS";
+            this.Text = "NOVAFIS FISIOTERAPIA";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.mdiContainer_FormClosing);
             this.Load += new System.EventHandler(this.mdiContainer_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -135,5 +163,8 @@
         private System.Windows.Forms.ToolStripMenuItem mnuMain_Patients;
         private System.Windows.Forms.ToolStripMenuItem mnuAccesories_Sources_Notes;
         private System.Windows.Forms.ToolStripMenuItem mnuMain_Appointments;
+        private System.Windows.Forms.ToolStripSeparator mnuMain_Sep1;
+        private System.Windows.Forms.ToolStripMenuItem mnuMain_Exit;
+        private System.Windows.Forms.ToolStripMenuItem mnuWindows;
     }
 }

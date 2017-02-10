@@ -28,7 +28,10 @@ namespace UserInterface
 
             checkFormOpen(new frmAppointments());
         }
-
+        private void mdiContainer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = !exitApplication();
+        }
 
         private void mnuMain_Physios_Click(object sender, EventArgs e)
         {
@@ -41,6 +44,10 @@ namespace UserInterface
         private void mnuMain_Appointments_Click(object sender, EventArgs e)
         {
             checkFormOpen(new frmAppointments());
+        }
+        private void mnuMain_Exit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
         private void mnuAccesories_Locs_Les_Click(object sender, EventArgs e)
@@ -92,13 +99,19 @@ namespace UserInterface
             frm.Focus();
         }
 
-        
 
+        private bool exitApplication()
+        {
+            bool exitApp = true;
 
-        
+            if (MessageBox.Show("¿Salir de la Aplicación?", Application.ProductName, MessageBoxButtons.YesNo, 
+                                MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
+            {
+                exitApp = false;
+            }
 
-        
-
+            return exitApp;
+        }
 
 
     }

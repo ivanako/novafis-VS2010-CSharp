@@ -10,11 +10,11 @@ namespace BusinessLayer
 {
     public class AppointmentBL
     {
-        public static List<Appointment> findAppointmentsByDate(DateTime appDate)
+        public static List<Appointment> findAppointmentsByDate(DateTime appDate, int idPhysio)
         {
             List<Appointment> lstAppointments = new List<Appointment>();
 
-            DataTable dtAppointments = AppointmentDL.findAppointmentsByDate(appDate);
+            DataTable dtAppointments = AppointmentDL.findAppointmentsByDate(appDate, idPhysio);
 
             foreach (DataRow drAppointment in dtAppointments.Rows)
             {
@@ -58,6 +58,15 @@ namespace BusinessLayer
             delOK = AppointmentDL.deleteAppointment(app);
 
             return delOK;
+        }
+
+        public static bool checkDebt(int idPatient, DateTime appDate, ref double patDebt, ref DateTime patDebtDate, ref string patObs)
+        {
+            bool chackOK = false;
+
+            chackOK = AppointmentDL.checkDebt(idPatient, appDate, ref patDebt, ref patDebtDate, ref patObs);
+
+            return chackOK;
         }
     }
 }

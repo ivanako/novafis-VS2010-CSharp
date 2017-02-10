@@ -31,19 +31,22 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tipPhysios = new System.Windows.Forms.ToolTip(this.components);
-            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnReload = new System.Windows.Forms.Button();
+            this.btnPhyInvoices = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
             this.btnColour = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnAddTimetable = new System.Windows.Forms.Button();
-            this.btnClose = new System.Windows.Forms.Button();
             this.errPhysios = new System.Windows.Forms.ErrorProvider(this.components);
             this.splPhysios = new System.Windows.Forms.SplitContainer();
-            this.dgvPhysios = new UserInterface.Controls.NovaGrid();
             this.tabDetails = new System.Windows.Forms.TabControl();
             this.tbpData = new System.Windows.Forms.TabPage();
+            this.chkInvoice = new System.Windows.Forms.CheckBox();
             this.pcbColour = new System.Windows.Forms.PictureBox();
             this.pnlGender = new System.Windows.Forms.Panel();
             this.lblGender = new System.Windows.Forms.Label();
@@ -73,32 +76,57 @@
             this.dtpDateBegin = new System.Windows.Forms.DateTimePicker();
             this.lblDateEnd = new System.Windows.Forms.Label();
             this.lblDateBegin = new System.Windows.Forms.Label();
+            this.dgvPhysios = new UserInterface.Controls.NovaGrid();
             this.dgvTimetable = new UserInterface.Controls.NovaGrid();
             ((System.ComponentModel.ISupportInitialize)(this.errPhysios)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splPhysios)).BeginInit();
             this.splPhysios.Panel1.SuspendLayout();
             this.splPhysios.Panel2.SuspendLayout();
             this.splPhysios.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvPhysios)).BeginInit();
             this.tabDetails.SuspendLayout();
             this.tbpData.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pcbColour)).BeginInit();
             this.pnlGender.SuspendLayout();
             this.tbpTimetable.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPhysios)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTimetable)).BeginInit();
             this.SuspendLayout();
             // 
-            // btnRefresh
+            // btnClose
             // 
-            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefresh.Location = new System.Drawing.Point(815, 56);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(86, 33);
-            this.btnRefresh.TabIndex = 1;
-            this.btnRefresh.Text = "Refrescar";
-            this.tipPhysios.SetToolTip(this.btnRefresh, "Recargar lista de Fisios");
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.Location = new System.Drawing.Point(815, 296);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(86, 33);
+            this.btnClose.TabIndex = 1;
+            this.btnClose.Text = "Cerrar";
+            this.tipPhysios.SetToolTip(this.btnClose, "Cerrar ventana");
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnReload
+            // 
+            this.btnReload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnReload.Location = new System.Drawing.Point(815, 95);
+            this.btnReload.Name = "btnReload";
+            this.btnReload.Size = new System.Drawing.Size(86, 33);
+            this.btnReload.TabIndex = 1;
+            this.btnReload.Text = "Recargar";
+            this.tipPhysios.SetToolTip(this.btnReload, "Recargar lista de Fisios");
+            this.btnReload.UseVisualStyleBackColor = true;
+            this.btnReload.Click += new System.EventHandler(this.btnReload_Click);
+            // 
+            // btnPhyInvoices
+            // 
+            this.btnPhyInvoices.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPhyInvoices.Location = new System.Drawing.Point(815, 56);
+            this.btnPhyInvoices.Name = "btnPhyInvoices";
+            this.btnPhyInvoices.Size = new System.Drawing.Size(86, 33);
+            this.btnPhyInvoices.TabIndex = 0;
+            this.btnPhyInvoices.Text = "Facturas...";
+            this.tipPhysios.SetToolTip(this.btnPhyInvoices, "Facturas del Fisio");
+            this.btnPhyInvoices.UseVisualStyleBackColor = true;
+            this.btnPhyInvoices.Click += new System.EventHandler(this.btnPhyInvoices_Click);
             // 
             // btnNew
             // 
@@ -117,7 +145,7 @@
             this.btnColour.Location = new System.Drawing.Point(541, 162);
             this.btnColour.Name = "btnColour";
             this.btnColour.Size = new System.Drawing.Size(32, 25);
-            this.btnColour.TabIndex = 28;
+            this.btnColour.TabIndex = 9;
             this.btnColour.Text = "...";
             this.tipPhysios.SetToolTip(this.btnColour, "Seleccionar color");
             this.btnColour.UseVisualStyleBackColor = true;
@@ -125,10 +153,10 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(719, 158);
+            this.btnCancel.Location = new System.Drawing.Point(719, 206);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(86, 33);
-            this.btnCancel.TabIndex = 31;
+            this.btnCancel.TabIndex = 12;
             this.btnCancel.Text = "Cancelar";
             this.tipPhysios.SetToolTip(this.btnCancel, "Cancelar alta Fisio");
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -137,10 +165,10 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(811, 158);
+            this.btnSave.Location = new System.Drawing.Point(811, 206);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(86, 33);
-            this.btnSave.TabIndex = 30;
+            this.btnSave.TabIndex = 11;
             this.btnSave.Text = "Guardar";
             this.tipPhysios.SetToolTip(this.btnSave, "Cuardar cambios de un Fisio");
             this.btnSave.UseVisualStyleBackColor = true;
@@ -158,18 +186,6 @@
             this.btnAddTimetable.UseVisualStyleBackColor = true;
             this.btnAddTimetable.Click += new System.EventHandler(this.btnAddTimetable_Click);
             // 
-            // btnClose
-            // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.Location = new System.Drawing.Point(815, 296);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(86, 33);
-            this.btnClose.TabIndex = 1;
-            this.btnClose.Text = "Cerrar";
-            this.tipPhysios.SetToolTip(this.btnClose, "Cerrar ventana");
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
             // errPhysios
             // 
             this.errPhysios.ContainerControl = this;
@@ -185,7 +201,8 @@
             // splPhysios.Panel1
             // 
             this.splPhysios.Panel1.Controls.Add(this.btnClose);
-            this.splPhysios.Panel1.Controls.Add(this.btnRefresh);
+            this.splPhysios.Panel1.Controls.Add(this.btnReload);
+            this.splPhysios.Panel1.Controls.Add(this.btnPhyInvoices);
             this.splPhysios.Panel1.Controls.Add(this.btnNew);
             this.splPhysios.Panel1.Controls.Add(this.dgvPhysios);
             this.splPhysios.Panel1MinSize = 250;
@@ -198,36 +215,6 @@
             this.splPhysios.SplitterDistance = 333;
             this.splPhysios.TabIndex = 1;
             // 
-            // dgvPhysios
-            // 
-            this.dgvPhysios.AllowUserToAddRows = false;
-            this.dgvPhysios.AllowUserToDeleteRows = false;
-            this.dgvPhysios.AllowUserToResizeRows = false;
-            this.dgvPhysios.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvPhysios.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvPhysios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvPhysios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPhysios.Location = new System.Drawing.Point(0, 0);
-            this.dgvPhysios.MultiSelect = false;
-            this.dgvPhysios.Name = "dgvPhysios";
-            this.dgvPhysios.ReadOnly = true;
-            this.dgvPhysios.RowHeadersVisible = false;
-            this.dgvPhysios.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
-            this.dgvPhysios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPhysios.Size = new System.Drawing.Size(775, 329);
-            this.dgvPhysios.TabIndex = 0;
-            this.dgvPhysios.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvPhysios_CellFormatting);
-            this.dgvPhysios.SelectionChanged += new System.EventHandler(this.dgvPhysios_SelectionChanged);
-            // 
             // tabDetails
             // 
             this.tabDetails.Controls.Add(this.tbpData);
@@ -237,10 +224,11 @@
             this.tabDetails.Name = "tabDetails";
             this.tabDetails.SelectedIndex = 0;
             this.tabDetails.Size = new System.Drawing.Size(926, 346);
-            this.tabDetails.TabIndex = 11;
+            this.tabDetails.TabIndex = 0;
             // 
             // tbpData
             // 
+            this.tbpData.Controls.Add(this.chkInvoice);
             this.tbpData.Controls.Add(this.btnColour);
             this.tbpData.Controls.Add(this.pcbColour);
             this.tbpData.Controls.Add(this.btnCancel);
@@ -273,6 +261,16 @@
             this.tbpData.Text = "Datos profesionales";
             this.tbpData.UseVisualStyleBackColor = true;
             // 
+            // chkInvoice
+            // 
+            this.chkInvoice.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkInvoice.Location = new System.Drawing.Point(602, 158);
+            this.chkInvoice.Name = "chkInvoice";
+            this.chkInvoice.Size = new System.Drawing.Size(125, 29);
+            this.chkInvoice.TabIndex = 10;
+            this.chkInvoice.Text = "Emite factura";
+            this.chkInvoice.UseVisualStyleBackColor = true;
+            // 
             // pcbColour
             // 
             this.pcbColour.Location = new System.Drawing.Point(395, 162);
@@ -289,7 +287,7 @@
             this.pnlGender.Location = new System.Drawing.Point(13, 141);
             this.pnlGender.Name = "pnlGender";
             this.pnlGender.Size = new System.Drawing.Size(253, 68);
-            this.pnlGender.TabIndex = 27;
+            this.pnlGender.TabIndex = 8;
             // 
             // lblGender
             // 
@@ -341,7 +339,7 @@
             this.dtpTerminationDate.Name = "dtpTerminationDate";
             this.dtpTerminationDate.ShowCheckBox = true;
             this.dtpTerminationDate.Size = new System.Drawing.Size(178, 21);
-            this.dtpTerminationDate.TabIndex = 25;
+            this.dtpTerminationDate.TabIndex = 7;
             // 
             // dtpEntryDate
             // 
@@ -350,7 +348,7 @@
             this.dtpEntryDate.Location = new System.Drawing.Point(387, 100);
             this.dtpEntryDate.Name = "dtpEntryDate";
             this.dtpEntryDate.Size = new System.Drawing.Size(178, 21);
-            this.dtpEntryDate.TabIndex = 24;
+            this.dtpEntryDate.TabIndex = 6;
             // 
             // txtAlias
             // 
@@ -358,7 +356,7 @@
             this.txtAlias.MaxLength = 50;
             this.txtAlias.Name = "txtAlias";
             this.txtAlias.Size = new System.Drawing.Size(178, 21);
-            this.txtAlias.TabIndex = 23;
+            this.txtAlias.TabIndex = 5;
             // 
             // txtSurname2
             // 
@@ -366,7 +364,7 @@
             this.txtSurname2.MaxLength = 50;
             this.txtSurname2.Name = "txtSurname2";
             this.txtSurname2.Size = new System.Drawing.Size(178, 21);
-            this.txtSurname2.TabIndex = 22;
+            this.txtSurname2.TabIndex = 4;
             // 
             // txtIdentification
             // 
@@ -374,7 +372,7 @@
             this.txtIdentification.MaxLength = 20;
             this.txtIdentification.Name = "txtIdentification";
             this.txtIdentification.Size = new System.Drawing.Size(178, 21);
-            this.txtIdentification.TabIndex = 19;
+            this.txtIdentification.TabIndex = 1;
             // 
             // txtSurname1
             // 
@@ -382,7 +380,7 @@
             this.txtSurname1.MaxLength = 50;
             this.txtSurname1.Name = "txtSurname1";
             this.txtSurname1.Size = new System.Drawing.Size(178, 21);
-            this.txtSurname1.TabIndex = 21;
+            this.txtSurname1.TabIndex = 3;
             // 
             // txtLicNumber
             // 
@@ -390,7 +388,7 @@
             this.txtLicNumber.MaxLength = 50;
             this.txtLicNumber.Name = "txtLicNumber";
             this.txtLicNumber.Size = new System.Drawing.Size(178, 21);
-            this.txtLicNumber.TabIndex = 9;
+            this.txtLicNumber.TabIndex = 0;
             // 
             // lblAlias
             // 
@@ -407,7 +405,7 @@
             this.txtName.MaxLength = 50;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(178, 21);
-            this.txtName.TabIndex = 20;
+            this.txtName.TabIndex = 2;
             // 
             // lblSurname2
             // 
@@ -549,6 +547,44 @@
             this.lblDateBegin.TabIndex = 1;
             this.lblDateBegin.Text = "Fecha Inicio";
             // 
+            // dgvPhysios
+            // 
+            this.dgvPhysios.AllowUserToAddRows = false;
+            this.dgvPhysios.AllowUserToDeleteRows = false;
+            this.dgvPhysios.AllowUserToResizeRows = false;
+            this.dgvPhysios.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvPhysios.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvPhysios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvPhysios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvPhysios.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvPhysios.Location = new System.Drawing.Point(0, 0);
+            this.dgvPhysios.MultiSelect = false;
+            this.dgvPhysios.Name = "dgvPhysios";
+            this.dgvPhysios.ReadOnly = true;
+            this.dgvPhysios.RowHeadersVisible = false;
+            this.dgvPhysios.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
+            this.dgvPhysios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvPhysios.Size = new System.Drawing.Size(775, 329);
+            this.dgvPhysios.TabIndex = 0;
+            this.dgvPhysios.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvPhysios_CellFormatting);
+            this.dgvPhysios.SelectionChanged += new System.EventHandler(this.dgvPhysios_SelectionChanged);
+            // 
             // dgvTimetable
             // 
             this.dgvTimetable.AllowUserToAddRows = false;
@@ -558,15 +594,23 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvTimetable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvTimetable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvTimetable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvTimetable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvTimetable.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvTimetable.Location = new System.Drawing.Point(8, 39);
             this.dgvTimetable.MultiSelect = false;
             this.dgvTimetable.Name = "dgvTimetable";
@@ -597,7 +641,6 @@
             this.splPhysios.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splPhysios)).EndInit();
             this.splPhysios.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvPhysios)).EndInit();
             this.tabDetails.ResumeLayout(false);
             this.tbpData.ResumeLayout(false);
             this.tbpData.PerformLayout();
@@ -606,6 +649,7 @@
             this.pnlGender.PerformLayout();
             this.tbpTimetable.ResumeLayout(false);
             this.tbpTimetable.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPhysios)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTimetable)).EndInit();
             this.ResumeLayout(false);
 
@@ -618,7 +662,7 @@
         private System.Windows.Forms.Button btnNew;
         private System.Windows.Forms.ToolTip tipPhysios;
         private System.Windows.Forms.ErrorProvider errPhysios;
-        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Button btnReload;
         private System.Windows.Forms.TabControl tabDetails;
         private System.Windows.Forms.TabPage tbpData;
         private System.Windows.Forms.TabPage tbpTimetable;
@@ -656,6 +700,8 @@
         private System.Windows.Forms.Label lblDateBegin;
         private System.Windows.Forms.Button btnAddTimetable;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.CheckBox chkInvoice;
+        private System.Windows.Forms.Button btnPhyInvoices;
 
     }
 }

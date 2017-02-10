@@ -11,13 +11,25 @@ namespace DataLayer
 {
     public class AppointmentDL
     {
-        public static DataTable findAppointmentsByDate(DateTime appDate)
+        public static DataTable findAppointmentsByDate(DateTime appDate, int idPhysio)
         {
             List<MySqlParameter> lstParams = new List<MySqlParameter>()
             {
                 new MySqlParameter() {ParameterName = "fFecha", MySqlDbType = MySqlDbType.Date, Value = appDate, Direction = ParameterDirection.Input}
                 //new MySqlParameter() {ParameterName = "idFisio", MySqlDbType = MySqlDbType.Int32, Value = idPhysio, Direction = ParameterDirection.Input}
             };
+
+            MySqlParameter sqlAdd = null;
+
+            if (idPhysio == 0)
+            {
+                sqlAdd = new MySqlParameter() { ParameterName = "idFisio", MySqlDbType = MySqlDbType.Int32, Value = DBNull.Value, Direction = ParameterDirection.Input };
+            }
+            else
+            {
+                sqlAdd = new MySqlParameter() { ParameterName = "idFisio", MySqlDbType = MySqlDbType.Int32, Value = idPhysio, Direction = ParameterDirection.Input };
+            }
+            lstParams.Add(sqlAdd);
 
             return MyStoredProcs.callStoredProc("spCitas_LLenar", lstParams);
         }
@@ -59,6 +71,38 @@ namespace DataLayer
             delOK = MyStoredProcs.callStoredProc2("spCitas_Eliminar", lstParams);
 
             return delOK;
+        }
+
+
+        public static bool checkDebt(int idPatient, DateTime appDate, ref double patDebt, ref DateTime patDebtDate, ref string patObs)
+        {
+            bool checkOK = true;
+
+            List<MySqlParameter> lstParams = new List<MySqlParameter>()
+            {
+                new MySqlParameter() {ParameterName = "iIDPaciente", MySqlDbType = MySqlDbType.Int32, Value = idPatient, Direction = ParameterDirection.Input},
+                new MySqlParameter() {ParameterName = "fFecha", MySqlDbType = MySqlDbType.Date, Value = appDate, Direction = ParameterDirection.Input},
+                new MySqlParameter() {ParameterName = "dDeuda", MySqlDbType = MySqlDbType.Decimal, Scale = 5, Precision = 2, Direction = ParameterDirection.Output},
+                new MySqlParameter() {ParameterName = "fFechaDeuda", MySqlDbType = MySqlDbType.Date, Direction = ParameterDirection.Output},
+                new MySqlParameter() {ParameterName = "sObs", MySqlDbType = MySqlDbType.VarChar, Size = 500, Direction = ParameterDirection.Output}
+            };
+
+            checkOK = MyStoredProcs.callStoredProc2("spCitas_ComprobarDeuda", lstParams);
+
+            if (checkOK)
+            {
+                if (lstParams[2].Value != DBNull.Value)
+                {
+                    patDebt = Convert.ToDouble(lstParams[2].Value);
+                }
+                if (lstParams[3].Value != DBNull.Value)
+                {
+                    patDebtDate = DateTime.Parse(lstParams[3].Value.ToString());
+                }
+                patObs = Convert.ToString(lstParams[4].Value);
+            }
+
+            return checkOK;
         }
     }
 }

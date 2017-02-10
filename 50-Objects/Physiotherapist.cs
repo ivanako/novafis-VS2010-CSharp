@@ -20,6 +20,8 @@ namespace Objects
         private string _licenseNumber;
         private char _gender;
         private string _colour;
+        private bool _hasInvoice;
+        private List<Invoice> _invoices;
 
         [DisplayName("Identificador")]
         public int Identifier 
@@ -122,6 +124,16 @@ namespace Objects
                 InvokePropertyChanged(new PropertyChangedEventArgs("Gender")); 
             }
         }
+        [DisplayName("Emite Factura")]
+        public bool IssueInvoice
+        {
+            get { return _hasInvoice; }
+            set
+            {
+                _hasInvoice = value;
+                InvokePropertyChanged(new PropertyChangedEventArgs("IssueInvoice"));
+            }
+        }
         [DisplayName("Color")]
         public string Colour
         {
@@ -132,6 +144,7 @@ namespace Objects
                 InvokePropertyChanged(new PropertyChangedEventArgs("Colour"));
             }
         }
+        
 
         [DisplayName("Nombre completo")]
         public string FullName
@@ -142,6 +155,12 @@ namespace Objects
             }
         }
 
+        [DisplayName("Facturas")]
+        public List<Invoice> Invoices 
+        {
+            get { return _invoices; }
+            set { _invoices = value; }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

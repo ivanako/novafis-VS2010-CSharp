@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -58,12 +61,6 @@
     <Compile Include="Controls\NovaGridOld.Designer.cs">
       <DependentUpon>NovaGridOld.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmAppointments.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,6 +72,12 @@
     </Compile>
     <Compile Include="frmAppointmentsDetail.Designer.cs">
       <DependentUpon>frmAppointmentsDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmInvoices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmInvoices.Designer.cs">
+      <DependentUpon>frmInvoices.cs</DependentUpon>
     </Compile>
     <Compile Include="frmLocsLes.cs">
       <SubType>Form</SubType>
@@ -129,14 +132,14 @@
     <EmbeddedResource Include="Controls\NovaGridOld.resx">
       <DependentUpon>NovaGridOld.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmAppointments.resx">
       <DependentUpon>frmAppointments.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmAppointmentsDetail.resx">
       <DependentUpon>frmAppointmentsDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmInvoices.resx">
+      <DependentUpon>frmInvoices.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLocsLes.resx">
       <DependentUpon>frmLocsLes.cs</DependentUpon>
@@ -172,6 +175,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Factura.dotx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -191,6 +195,9 @@
       <Project>{58CFBB88-8032-40CC-8288-E3FD3E082E52}</Project>
       <Name>50-Objects</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="novafis.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -22,6 +22,9 @@ namespace UserInterface
         
 
         private List<Timetable> TimetablePhysio;
+        private List<Invoice> InvoicesPhysio;
+
+        private int physioIndex = 0;
 
         private void frmPhysiotherapists_Load(object sender, EventArgs e)
         {
@@ -30,14 +33,16 @@ namespace UserInterface
 
         private void dgvPhysios_SelectionChanged(object sender, EventArgs e)
         {
-            Cursor.Current = Cursors.WaitCursor;
+            this.Cursor = Cursors.WaitCursor;
+
+            //dgvPhysios.CurrentRow.Cells["Colour"].Style.ForeColor = dgvPhysios.CurrentRow.Cells["Colour"].Style.BackColor;
 
             foreach (DataGridViewRow phy in dgvPhysios.SelectedRows)
             {
                 selPhysio.Identifier = Convert.ToInt32(phy.Cells["Identifier"].Value);
                 selPhysio.Name = phy.Cells["Name"].Value.ToString();
                 selPhysio.Surname1 = phy.Cells["Surname1"].Value.ToString();
-                selPhysio.Surname2 = phy.Cells["Surname1"].Value.ToString();
+                selPhysio.Surname2 = phy.Cells["Surname2"].Value.ToString();
                 selPhysio.LicenseNumber = phy.Cells["LicenseNumber"].Value.ToString();
                 selPhysio.Alias = phy.Cells["Alias"].Value.ToString();
                 selPhysio.Identification = phy.Cells["Identification"].Value.ToString();
@@ -45,7 +50,8 @@ namespace UserInterface
                 selPhysio.TerminationDate = Convert.ToDateTime(phy.Cells["TerminationDate"].Value);
                 selPhysio.Gender = phy.Cells["Gender"].Value.ToString()[0];
                 selPhysio.Colour = phy.Cells["Colour"].Value.ToString();
-
+                selPhysio.IssueInvoice = Convert.ToBoolean(phy.Cells["IssueInvoice"].Value);
+                
                 DateTime termDate = selPhysio.TerminationDate ?? DateTime.Today;
 
                 dtpTerminationDate.Value = selPhysio.TerminationDate.Equals(DateTime.MinValue) ? DateTime.Today : termDate;
@@ -58,7 +64,16 @@ namespace UserInterface
                 pcbColour.Tag = selPhysio.Colour;
 
                 getTimetablePhysio(selPhysio.Identifier);
+
+                if (selPhysio.IssueInvoice)
+                {
+                    selPhysio.Invoices = InvoiceBL.findInvoicesByPhysio(selPhysio.Identifier);
+                }
+
+                //this.physioIndex = phy.Index;
             }
+
+            lblIdValue.Text = this.selPhysio.Identifier.ToString();
 
             dtpDateBegin.ValueChanged -= dtpDateBegin_ValueChanged;
             dtpDateEnd.ValueChanged -= dtpDateEnd_ValueChanged;
@@ -69,7 +84,27 @@ namespace UserInterface
             dtpDateBegin.ValueChanged += dtpDateBegin_ValueChanged;
             dtpDateEnd.ValueChanged += dtpDateEnd_ValueChanged;
 
-            Cursor.Current = Cursors.Default;
+            btnPhyInvoices.Enabled = selPhysio.IssueInvoice;
+
+            
+
+
+            //((Control)tbpInvoices).Enabled = selPhysio.IssueInvoice;
+
+
+            //if (selPhysio.IssueInvoice)
+            //{
+            //    if (!tabDetails.TabPages.Contains(tbpInvoices))
+            //    {
+            //        tabDetails.TabPages.Add(tbpInvoices);
+            //    }
+            //}
+            //else
+            //{
+            //    tabDetails.TabPages.Remove(tbpInvoices);
+            //}
+
+            this.Cursor = Cursors.Default;
         }
 
         private void dgvPhysios_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -79,6 +114,10 @@ namespace UserInterface
                 dgvPhysios.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = ColorTranslator.FromHtml(e.Value.ToString());
                 dgvPhysios.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.ForeColor = ColorTranslator.FromHtml(e.Value.ToString());
             }
+            //if (dgvPhysios.Rows[e.RowIndex].Selected)
+            //{
+            //    dgvPhysios.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.ForeColor = dgvPhysios.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor;
+            //}
         }
 
         private void btnNew_Click(object sender, EventArgs e)
@@ -92,8 +131,10 @@ namespace UserInterface
             btnCancel.Visible = true;
         }
 
-        private void btnRefresh_Click(object sender, EventArgs e)
+        private void btnReload_Click(object sender, EventArgs e)
         {
+            this.physioIndex = 0;
+
             //List<Physiotherapist> lstPhysios = PhysioBL.findAllPhysios();
             GlobalVars.Physiotherapists = PhysioBL.findAllPhysios();
 
@@ -144,6 +185,14 @@ namespace UserInterface
                 case Maintenance.Edit:
                     break;
             }
+
+            errPhysios.SetError(txtLicNumber, string.Empty);
+            errPhysios.SetError(txtName, string.Empty);
+            errPhysios.SetError(txtSurname1, string.Empty);
+            errPhysios.SetError(txtAlias, string.Empty);
+            errPhysios.SetError(radMale, string.Empty);
+            errPhysios.SetError(radFemale, string.Empty);
+            errPhysios.SetError(pcbColour, string.Empty);
         }
 
 
@@ -176,15 +225,20 @@ namespace UserInterface
 
             dgvPhysios.Columns["FullName"].DisplayIndex = 0;
 
-            lblIdValue.Visible = true;
+            if (this.physioIndex > 0)
+            {
+                dgvPhysios.Rows[this.physioIndex].Selected = true;
+            }
+
+            //lblIdValue.Visible = true;
         }
 
 
         private void bindControls()
         {
-            BindingSource bs = new BindingSource(selPhysio, null);
+            BindingSource bs = new BindingSource(this.selPhysio, null);
 
-            lblIdValue.DataBindings.Add("Text", bs, "Identifier", true, DataSourceUpdateMode.OnPropertyChanged);
+            //lblIdValue.DataBindings.Add("Text", bs, "Identifier", true, DataSourceUpdateMode.OnPropertyChanged);
             txtName.DataBindings.Add("Text", bs, "Name", true, DataSourceUpdateMode.OnPropertyChanged);
             txtSurname1.DataBindings.Add("Text", bs, "Surname1", true, DataSourceUpdateMode.OnPropertyChanged);
             txtSurname2.DataBindings.Add("Text", bs, "Surname2", true, DataSourceUpdateMode.OnPropertyChanged);
@@ -192,6 +246,7 @@ namespace UserInterface
             txtLicNumber.DataBindings.Add("Text", bs, "LicenseNumber", true, DataSourceUpdateMode.OnPropertyChanged);
             txtAlias.DataBindings.Add("Text", bs, "Alias", true, DataSourceUpdateMode.OnPropertyChanged);
             dtpEntryDate.DataBindings.Add("Value", bs, "EntryDate", true, DataSourceUpdateMode.OnPropertyChanged);
+            chkInvoice.DataBindings.Add("Checked", bs, "IssueInvoice", true, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         
@@ -212,7 +267,9 @@ namespace UserInterface
             pcbColour.Tag = string.Empty;
 
             lblIdValue.Text = string.Empty;
-            lblIdValue.Visible = false;
+            //lblIdValue.Visible = false;
+
+            //this.selPhysio = new Physiotherapist();
         }
 
 
@@ -220,11 +277,19 @@ namespace UserInterface
         {
             bool isOK = true;
 
+            errPhysios.SetError(txtLicNumber, string.Empty);
             errPhysios.SetError(txtName, string.Empty);
             errPhysios.SetError(txtSurname1, string.Empty);
             errPhysios.SetError(txtAlias, string.Empty);
+            errPhysios.SetError(radMale, string.Empty);
+            errPhysios.SetError(radFemale, string.Empty);
             errPhysios.SetError(pcbColour, string.Empty);
 
+            if (string.IsNullOrWhiteSpace(txtLicNumber.Text))
+            {
+                errPhysios.SetError(txtLicNumber, "Proporcionar Número de Colegiado");
+                isOK = false;
+            }
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
                 errPhysios.SetError(txtName, "Proporcionar Nombre");
@@ -240,6 +305,12 @@ namespace UserInterface
                 errPhysios.SetError(txtAlias, "Proporcionar Alias");
                 isOK = false;
             }
+            if (!radMale.Checked && !radFemale.Checked)
+            {
+                errPhysios.SetError(radMale, "Proporcionar Sexo");
+                errPhysios.SetError(radFemale, "Proporcionar Sexo");
+                isOK = false;
+            }
             if (string.IsNullOrWhiteSpace(pcbColour.Tag.ToString()))
             {
                 errPhysios.SetIconAlignment(pcbColour, ErrorIconAlignment.MiddleLeft);
@@ -253,6 +324,8 @@ namespace UserInterface
 
         private void savePhysio() 
         {
+            this.physioIndex = dgvPhysios.CurrentRow.Index;
+
             Physiotherapist phys = new Physiotherapist()
             {
                 Name = txtName.Text.Trim(),
@@ -263,7 +336,8 @@ namespace UserInterface
                 LicenseNumber = txtLicNumber.Text.Trim(),
                 EntryDate = dtpEntryDate.Value,
                 TerminationDate = dtpTerminationDate.Checked ? dtpTerminationDate.Value : Constants.NULL_DATE,
-                Colour = pcbColour.Tag.ToString()
+                Colour = pcbColour.Tag.ToString(),
+                IssueInvoice = chkInvoice.Checked
             };
 
             if (radMale.Checked || radFemale.Checked)
@@ -277,18 +351,30 @@ namespace UserInterface
                 phys.Identifier = Convert.ToInt32(lblIdValue.Text);
             }
 
-            List<Physiotherapist> lstPhysios = PhysioBL.savePhysio(phys);
+            Physiotherapist physio = PhysioBL.savePhysio(phys);
             //GlobalVars.Physiotherapists = PhysioBL.savePhysio(phys);
 
-            if (lstPhysios.Count == 0)
+            if (physio.Identifier == 0 || string.IsNullOrWhiteSpace(physio.Colour))
             {
                 MessageBox.Show("Color repetido", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                GlobalVars.Physiotherapists = lstPhysios;
+                if (this.physioOperation == Maintenance.Edit)
+                {
+                    GlobalVars.Physiotherapists.RemoveAll(p => p.Identifier == phys.Identifier);
+                }
 
-                populatePhysioGrid(lstPhysios);
+                GlobalVars.Physiotherapists.Add(phys);
+                //GlobalVars.Physiotherapists = lstPhysios;
+
+                List<Physiotherapist> lstPhysios = GlobalVars.Physiotherapists
+                                        .OrderBy(p => p.Alias).ToList<Physiotherapist>();
+
+                //if (this.physioOperation == Maintenance.Create)
+                //{
+                    populatePhysioGrid(lstPhysios);
+                //}
 
                 if (physioOperation.Equals(Maintenance.Create))
                 {
@@ -303,6 +389,29 @@ namespace UserInterface
         #region TIMETABLE
             private Timetable selTimetable;
             private Maintenance timetableOperation;
+            private int timetableIndex = 0;
+
+            private void dtpDateBegin_ValueChanged(object sender, EventArgs e)
+            {
+                filterTimetable();
+            }
+            private void dtpDateEnd_ValueChanged(object sender, EventArgs e)
+            {
+                filterTimetable();
+            }
+
+            private void dgvTimetable_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+            {
+                this.timetableIndex = e.RowIndex;
+                this.timetableOperation = Maintenance.Edit;
+                launchTimetableDetails();
+            }
+
+            private void btnAddTimetable_Click(object sender, EventArgs e)
+            {
+                this.timetableOperation = Maintenance.Create;
+                launchTimetableDetails();
+            }
 
             private void getTimetablePhysio(int idPhysio)
             {
@@ -319,27 +428,11 @@ namespace UserInterface
 
                 dgvTimetable.Columns["Identifier"].Visible = false;
                 dgvTimetable.Columns["Physiotherapist"].Visible = false;
-            }
 
-            private void dtpDateBegin_ValueChanged(object sender, EventArgs e)
-            {
-                filterTimetable();
-            }
-            private void dtpDateEnd_ValueChanged(object sender, EventArgs e)
-            {
-                filterTimetable();
-            }
-
-            private void dgvTimetable_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-            {
-                this.timetableOperation = Maintenance.Edit;
-                launchTimetableDetails();
-            }
-
-            private void btnAddTimetable_Click(object sender, EventArgs e)
-            {
-                this.timetableOperation = Maintenance.Create;
-                launchTimetableDetails();
+                if (this.timetableIndex > 0)
+                {
+                    dgvTimetable.Rows[this.timetableIndex].Selected = true;
+                }
             }
 
             private void filterTimetable()
@@ -398,7 +491,7 @@ namespace UserInterface
                                 AfternoonTimeStart = tmtTable.Cells["AfternoonTimeStart"].Value.ToString(),
                                 AfternoonTimeFinish = tmtTable.Cells["AfternoonTimeFinish"].Value.ToString(),
                                 AfternoonDuration = Convert.ToByte(tmtTable.Cells["AfternoonDuration"].Value),
-                                Physiotherapist = selPhysio
+                                Physiotherapist = this.selPhysio
                             };
                         }
 
@@ -412,16 +505,62 @@ namespace UserInterface
 
                 if (frmTimetable.ShowDialog() == DialogResult.OK)
                 {
-                    getTimetablePhysio(this.selPhysio.Identifier);
+                    this.TimetablePhysio = TimetableBL.findAllTimetablesByPhysio(this.selPhysio.Identifier);
+                    filterTimetable();
+
+                    //getTimetablePhysio(this.selPhysio.Identifier);
+
+                    frmTimetable.Dispose();
                 }
             }
         #endregion
 
 
+        #region INVOICES
+            private void btnPhyInvoices_Click(object sender, EventArgs e)
+            {
+                launchPhysioInvoices();
+            }
+
+            private void launchPhysioInvoices()
+            {
+                frmInvoices frmInvoices = new frmInvoices();
+
+                frmInvoices.physio = this.selPhysio;
+                frmInvoices.invoiceOperation = Maintenance.View;
+
+                frmInvoices.ShowDialog();
+            }
+        #endregion
+
+
+            //#region INVOICES
+        //    private Invoice selInvoice;
+        //    private Maintenance invoiceOperation;
+
+        //    private void getInvoices(int idPhysio)
+        //    {
+        //        this.InvoicesPhysio = InvoiceBL.findInvoicesByPhysio(idPhysio);
+
+        //        populateInvoiceGrid(this.InvoicesPhysio);
+        //    }
+        //    private void populateInvoiceGrid(List<Invoice> lstInvoices)
+        //    {
+        //        SortableBindingList<Invoice> sblInvoices = new SortableBindingList<Invoice>(lstInvoices);
+
+        //        dgvPhyInvoices.DataSource = sblInvoices;
+
+        //        dgvPhyInvoices.Columns["Identifier"].Visible = false;
+        //        dgvPhyInvoices.Columns["Physio"].Visible = false;
+        //    }
+        //#endregion
+
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Dispose();
         }
+
+        
             
     }
 }

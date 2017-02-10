@@ -31,7 +31,8 @@ namespace BusinessLayer
                     Gender = drPhysio["FIS_Sexo"].ToString()[0],
                     Identification = drPhysio["FIS_Identificacion"].ToString(),
                     LicenseNumber = drPhysio["FIS_NumColegiado"].ToString(),
-                    Colour = drPhysio["FIS_Color"].ToString()
+                    Colour = drPhysio["FIS_Color"].ToString(),
+                    IssueInvoice = Convert.ToBoolean(drPhysio["FIS_Factura"])
                 };
 
                 lstPhysios.Add(physio);
@@ -59,18 +60,34 @@ namespace BusinessLayer
             return physio;
         }
 
-        public static List<Physiotherapist> savePhysio(Physiotherapist physio)
+        public static Physiotherapist savePhysio(Physiotherapist physio)
         {
-            List<Physiotherapist> lstPhysios = new List<Physiotherapist>();
+            Physiotherapist savedPhysio = physio;
 
-            bool isOK = PhysioDL.savePhysio(physio);
+            //List<Physiotherapist> lstPhysios = new List<Physiotherapist>();
 
-            if (isOK)
+            if (physio.Identifier == 0)
             {
-                lstPhysios = findAllPhysios();
+                int idPhysio = PhysioDL.addPhysio(physio);
+
+                savedPhysio.Identifier = idPhysio;
+            }
+            else
+            {
+                bool isOK = PhysioDL.modifyPhysio(physio);
+
+                if (!isOK)
+                {
+                    savedPhysio.Colour = string.Empty;
+                }
             }
 
-            return lstPhysios;
+            //if (isOK)
+            //{
+            //    lstPhysios = findAllPhysios();
+            //}
+
+            return savedPhysio;
         }
     }
 }

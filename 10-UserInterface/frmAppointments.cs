@@ -66,7 +66,7 @@ namespace UserInterface
 
                 populateDateNotes();
 
-                this.dateAppointments = AppointmentBL.findAppointmentsByDate(calAppointment.SelectionStart);
+                this.dateAppointments = AppointmentBL.findAppointmentsByDate(calAppointment.SelectionStart, 0);
 
                 if (this.PhysioSel != null)
                 {
@@ -152,6 +152,7 @@ namespace UserInterface
             frmPatientsDetail frmPatientDetail = new frmPatientsDetail();
             frmPatientDetail.patientDetails = this.selAppointment.Patient;
             frmPatientDetail.patientOperation = Maintenance.Edit;
+            frmPatientDetail.tabIndex = 4;
 
             if (frmPatientDetail.ShowDialog() == DialogResult.OK)
             {
@@ -159,6 +160,8 @@ namespace UserInterface
 
                 //GlobalVars.Patients = PatientBL.findAllPatients();
                 manageDate();
+
+                frmPatientDetail.Dispose();
 
                 this.Cursor = Cursors.Default;
             }
@@ -377,7 +380,7 @@ namespace UserInterface
 
             if (frmAppDetail.ShowDialog() == DialogResult.OK)
             {
-                this.dateAppointments = AppointmentBL.findAppointmentsByDate(calAppointment.SelectionStart);
+                this.dateAppointments = AppointmentBL.findAppointmentsByDate(calAppointment.SelectionStart, 0);
 
                 populateAppointmentsGrid();
 
@@ -472,7 +475,7 @@ namespace UserInterface
 
         #region APPOINTMENT PANEL
 
-        private void txtPatName_KeyDown(object sender, KeyEventArgs e)
+            private void txtPatName_KeyDown(object sender, KeyEventArgs e)
             {
                 if (e.KeyData == Keys.Enter && GetKeyState(Keys.Enter) < 0)
                 {
@@ -531,7 +534,7 @@ namespace UserInterface
                 txtPatName.AutoCompleteMode = AutoCompleteMode.Suggest;
                 txtPatName.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
-                string[] arrPatients = GlobalVars.Patients.Select(p => p.FullName).ToArray();
+                string[] arrPatients = GlobalVars.Patients.Where(p => p.Deleted == false).Select(p => p.FullName).ToArray();
                 AutoCompleteStringCollection colPatients = new AutoCompleteStringCollection();
                 colPatients.AddRange(arrPatients);
                 txtPatName.AutoCompleteCustomSource = colPatients;

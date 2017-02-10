@@ -20,6 +20,7 @@ namespace UserInterface
 
         internal Patient patientDetails;
         internal Maintenance patientOperation;
+        internal int tabIndex = 0;
 
         private bool hasChanged;
 
@@ -44,6 +45,8 @@ namespace UserInterface
                 initCancellations();
                 initObservations();
                 initTreatments();
+
+                tabDetails.SelectedIndex = this.tabIndex;
             }
 
             hasChanged = false;
@@ -523,10 +526,10 @@ namespace UserInterface
 
                 this.selTreatment = new Treatment();
 
-                populatePatientGrid(this.patientDetails.Treatments);
+                populateTreatmentGrid(this.patientDetails.Treatments);
             }
 
-            private void populatePatientGrid(List<Treatment> lstTreatments)
+            private void populateTreatmentGrid(List<Treatment> lstTreatments)
             {
                 SortableBindingList<Treatment> sblTreatments = new SortableBindingList<Treatment>(lstTreatments);
 
@@ -663,15 +666,16 @@ namespace UserInterface
             }
 
 
-            bool saveOK = PatientBL.savePatient(patientDetails);
+            //bool saveOK = PatientBL.savePatient(patientDetails);
+            this.patientDetails = PatientBL.savePatient(patientDetails);
 
-            if (saveOK)
+            if (this.patientDetails.Identifier == 0)
             {
-                this.DialogResult = DialogResult.OK;
+                this.DialogResult = DialogResult.None;
             }
             else
             {
-                this.DialogResult = DialogResult.None;
+                this.DialogResult = DialogResult.OK;
             }
         }
 
@@ -801,6 +805,53 @@ namespace UserInterface
         {
             hasChanged = true;
         }
+
+
+
+
+
+        private void tabDetails_Selected(object sender, TabControlEventArgs e)
+        {
+            if (e.TabPageIndex == 1)
+            {
+                txtThoroughfare.TextChanged -= txtThoroughfare_TextChanged;
+                txtNumber.TextChanged -= txtNumber_TextChanged;
+                txtBlock.TextChanged -= txtBlock_TextChanged;
+                txtStair.TextChanged -= txtStair_TextChanged;
+                txtFloor.TextChanged -= txtFloor_TextChanged;
+                txtGate.TextChanged -= txtGate_TextChanged;
+                txtCity.TextChanged -= txtCity_TextChanged;
+                txtPostCode.TextChanged -= txtPostCode_TextChanged;
+                cboProvinces.SelectedIndexChanged -= cboProvinces_SelectedIndexChanged;
+                txtPhone1.TextChanged -= txtPhone1_TextChanged;
+                txtPhone2.TextChanged -= txtPhone2_TextChanged;
+                txtPhone3.TextChanged -= txtPhone3_TextChanged;
+                txtEmail.TextChanged -= txtEmail_TextChanged;
+                txtWeb.TextChanged -= txtWeb_TextChanged;
+            }
+        }
+        private void tabDetails_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabDetails.SelectedIndex == 1)
+            {
+                txtThoroughfare.TextChanged += txtThoroughfare_TextChanged;
+                txtNumber.TextChanged += txtNumber_TextChanged;
+                txtBlock.TextChanged += txtBlock_TextChanged;
+                txtStair.TextChanged += txtStair_TextChanged;
+                txtFloor.TextChanged += txtFloor_TextChanged;
+                txtGate.TextChanged += txtGate_TextChanged;
+                txtCity.TextChanged += txtCity_TextChanged;
+                txtPostCode.TextChanged += txtPostCode_TextChanged;
+                cboProvinces.SelectedIndexChanged += cboProvinces_SelectedIndexChanged;
+                txtPhone1.TextChanged += txtPhone1_TextChanged;
+                txtPhone2.TextChanged += txtPhone2_TextChanged;
+                txtPhone3.TextChanged += txtPhone3_TextChanged;
+                txtEmail.TextChanged += txtEmail_TextChanged;
+                txtWeb.TextChanged += txtWeb_TextChanged;
+            }
+        }
+
+        
 
         
 

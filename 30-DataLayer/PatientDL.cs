@@ -98,10 +98,24 @@ namespace DataLayer
                 new MySqlParameter() {ParameterName = "sSexo", MySqlDbType = MySqlDbType.String, Size = 1, Value = pat.Gender, Direction = ParameterDirection.Input},
                 new MySqlParameter() {ParameterName = "sConocer", MySqlDbType = MySqlDbType.VarChar, Size = 100, Value = pat.HowHeardAboutUs, Direction = ParameterDirection.Input},
                 new MySqlParameter() {ParameterName = "iIDFisio", MySqlDbType = MySqlDbType.Int32, Value = pat.Physiotherapist.Identifier, Direction = ParameterDirection.Input},
-                new MySqlParameter() {ParameterName = "iIDFuente", MySqlDbType = MySqlDbType.Int32, Value = pat.Source.Identifier, Direction = ParameterDirection.Input},
+                //new MySqlParameter() {ParameterName = "iIDFuente", MySqlDbType = MySqlDbType.Int32, Value = pat.Source.Identifier, Direction = ParameterDirection.Input},
                 new MySqlParameter() {ParameterName = "iIDPaciente", MySqlDbType = MySqlDbType.Int32, Value = pat.Identifier, Direction = ParameterDirection.Input},
                 new MySqlParameter() {ParameterName = "bListaNegra", MySqlDbType = MySqlDbType.Bit, Value = pat.BlackList, Direction = ParameterDirection.Input}
             };
+
+
+            MySqlParameter sqlMod = null;
+
+            if (pat.Source == null)
+            {
+                sqlMod = new MySqlParameter() { ParameterName = "iIDFuente", MySqlDbType = MySqlDbType.Int32, Value = DBNull.Value, Direction = ParameterDirection.Input };
+            }
+            else
+            {
+                sqlMod = new MySqlParameter() { ParameterName = "iIDFuente", MySqlDbType = MySqlDbType.Int32, Value = pat.Source.Identifier, Direction = ParameterDirection.Input };
+            }
+            lstParams.Add(sqlMod);
+
 
             int patCount = 0;
 

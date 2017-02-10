@@ -31,6 +31,8 @@ namespace UserInterface
                     chkAfternoon.Checked = false;
                     break;
                 case Maintenance.Edit:
+                    dtpDateBegin.Enabled = false;
+                    dtpDateEnd.Enabled = false;
                     chkMorning.Checked = !string.IsNullOrWhiteSpace(this.physioTimetable.MorningTimeStart);
                     chkAfternoon.Checked = !string.IsNullOrWhiteSpace(this.physioTimetable.AfternoonTimeStart);
 
@@ -183,9 +185,22 @@ namespace UserInterface
 
             while (dtBeginAux <= dtEndAux)
             {
-                tmt.Date = dtBeginAux;
+                if (dtBeginAux.DayOfWeek != DayOfWeek.Saturday && dtBeginAux.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    List<Appointment> lstApp = AppointmentBL.findAppointmentsByDate(dtBeginAux, this.physioTimetable.Physiotherapist.Identifier);
 
-                saveOK = TimetableBL.saveTimetable(tmt);
+                    if (lstApp.Count == 0)
+                    {
+                        tmt.Date = dtBeginAux;
+
+                        saveOK = TimetableBL.saveTimetable(tmt);
+                    }
+                    else
+                    {
+                        MessageBox.Show(String.Format("Este Fisio tiene citas reservadas para el día {0}", dtBeginAux.ToShortDateString()), this.Text, 
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
 
                 dtBeginAux = dtBeginAux.AddDays(1);
             }
