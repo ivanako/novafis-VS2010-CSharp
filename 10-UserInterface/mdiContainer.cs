@@ -60,6 +60,10 @@ namespace UserInterface
             checkFormOpen(new frmSourcesNotes());
         }
 
+        private void mnuAccesories_AdvancedSearch_Click(object sender, EventArgs e)
+        {
+            checkFormOpen(new frmAdvancedSearch());
+        }
 
 
 
@@ -69,21 +73,61 @@ namespace UserInterface
         /// <param name="frm">Form to check if it is open</param>
         private void checkFormOpen(Form frm)
         {
+            
             if (this.MdiChildren.Any())
             {
-                //foreach (Form openForm in Application.OpenForms)
-                foreach (Form mdiChild in this.MdiChildren)
+                int frmCount = this.MdiChildren.Where(f => f.GetType().Equals(frm.GetType())).Count();
+
+                if (frmCount == 0)
                 {
-                    if (mdiChild.Name.Equals(frm.Name))
-                    {
-                        frm.BringToFront();
-                        break;
-                    }
-                    else
-                    {
-                        openMDIChild(frm);
-                    }
+                    openMDIChild(frm);
                 }
+                else
+                {
+                    Form frmToActivate = this.MdiChildren.Single(f => f.GetType().Equals(frm.GetType()));
+                    frmToActivate.TopMost = true;
+                    frmToActivate.Activate();
+                }
+
+                
+                //foreach (Form mdiChild in this.MdiChildren)
+                //{
+                //    if (mdiChild.GetType() == typeof(frmSearch))
+                //    { }
+                //}
+
+
+                //int ee = this.MdiChildren.Where(f => f.Name.Equals(frm.Name)).Count();
+                //int ee2 = this.MdiChildren.Where(f => f.GetType() == frm.GetType()).Count();
+
+                //if (ee == 0)
+                //{
+                //    openMDIChild(frm);
+                //}
+                //else
+                //{
+
+                //    frm.TopMost = true;
+                //    frm.BringToFront();
+                //    frm.Show();
+                //    //frm.Activate();
+                //}
+
+                //foreach (Form openForm in Application.OpenForms)
+                //foreach (Form mdiChild in this.MdiChildren)
+                //{
+                //    if (mdiChild.GetType().Equals(frm.GetType()))
+                //    //if (mdiChild.Name.Equals(frm.Name))
+                //    {
+                //        frm.TopMost = true;
+                //        frm.BringToFront();
+                //        break;
+                //    }
+                //    else
+                //    {
+                //        openMDIChild(frm);
+                //    }
+                //}
             }
             else
             {
@@ -96,7 +140,7 @@ namespace UserInterface
             frm.MdiParent = this;
             frm.WindowState = FormWindowState.Maximized;
             frm.Show();
-            frm.Focus();
+            //frm.Focus();
         }
 
 
@@ -112,6 +156,8 @@ namespace UserInterface
 
             return exitApp;
         }
+
+        
 
 
     }

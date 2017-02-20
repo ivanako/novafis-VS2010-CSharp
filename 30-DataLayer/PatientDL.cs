@@ -15,7 +15,7 @@ namespace DataLayer
         {
             List<MySqlParameter> lstParams = new List<MySqlParameter>()
             {
-                new MySqlParameter() {ParameterName = "idPatient", MySqlDbType = MySqlDbType.Int32, Value = DBNull.Value, Direction = ParameterDirection.Input},
+                new MySqlParameter() {ParameterName = "idPatient", MySqlDbType = MySqlDbType.Int32, Value = DBNull.Value, Direction = ParameterDirection.Input}
             };
 
             return MyStoredProcs.callStoredProc("spPatients_FindAll", lstParams);
@@ -25,7 +25,7 @@ namespace DataLayer
         {
             List<MySqlParameter> lstParams = new List<MySqlParameter>()
             {
-                new MySqlParameter() {ParameterName = "idPatient", MySqlDbType = MySqlDbType.Int32, Value = idPatient, Direction = ParameterDirection.Input},
+                new MySqlParameter() {ParameterName = "idPatient", MySqlDbType = MySqlDbType.Int32, Value = idPatient, Direction = ParameterDirection.Input}
             };
 
             return MyStoredProcs.callStoredProc("spPatients_FindAll", lstParams);
@@ -138,6 +138,23 @@ namespace DataLayer
             isOK = MyStoredProcs.callStoredProc("spPacientes_Eliminar", lstParams, ref patCount);
 
             return isOK;
+        }
+
+        public static DataTable searchPatients(string patName, string patSurname1, string patSurname2, string patIdentification, 
+            string patAboutUs, string patPhone, int patSource)
+        {
+            List<MySqlParameter> lstParams = new List<MySqlParameter>()
+            {
+                new MySqlParameter() {ParameterName = "patName", MySqlDbType = MySqlDbType.VarChar, Size = 50, Value = patName, Direction = ParameterDirection.Input},
+                new MySqlParameter() {ParameterName = "patSurname1", MySqlDbType = MySqlDbType.VarChar, Size = 50, Value = patSurname1, Direction = ParameterDirection.Input},
+                new MySqlParameter() {ParameterName = "patSurname2", MySqlDbType = MySqlDbType.VarChar, Size = 50, Value = patSurname2, Direction = ParameterDirection.Input},
+                new MySqlParameter() {ParameterName = "patIdentification", MySqlDbType = MySqlDbType.VarChar, Size = 20, Value = patIdentification, Direction = ParameterDirection.Input},
+                new MySqlParameter() {ParameterName = "patAboutUs", MySqlDbType = MySqlDbType.VarChar, Size = 100, Value = patAboutUs, Direction = ParameterDirection.Input},
+                new MySqlParameter() {ParameterName = "patPhone", MySqlDbType = MySqlDbType.VarChar, Size = 20, Value = patPhone, Direction = ParameterDirection.Input},
+                new MySqlParameter() {ParameterName = "patSource", MySqlDbType = MySqlDbType.Int32, Value = patSource, Direction = ParameterDirection.Input}
+            };
+
+            return MyStoredProcs.callStoredProc("spPacientes_Search", lstParams);
         }
     }
 }

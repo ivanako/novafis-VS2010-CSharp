@@ -849,6 +849,20 @@ namespace UserInterface
                 txtEmail.TextChanged += txtEmail_TextChanged;
                 txtWeb.TextChanged += txtWeb_TextChanged;
             }
+
+            if (tabDetails.SelectedIndex == 4)
+            {
+                int treatCount = dgvTreatments.RowCount;
+
+                if (treatCount > 0)
+                {
+                    // Scroll to the last row
+                    dgvTreatments.FirstDisplayedScrollingRowIndex = treatCount - 1;
+
+                    // Select the last row
+                    dgvTreatments.Rows[treatCount - 1].Selected = true;
+                }
+            }
         }
 
         

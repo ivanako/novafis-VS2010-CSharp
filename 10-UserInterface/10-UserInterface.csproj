@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>novafis.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -60,6 +63,12 @@
     </Compile>
     <Compile Include="Controls\NovaGridOld.Designer.cs">
       <DependentUpon>NovaGridOld.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAdvancedSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAdvancedSearch.Designer.cs">
+      <DependentUpon>frmAdvancedSearch.cs</DependentUpon>
     </Compile>
     <Compile Include="frmAppointments.cs">
       <SubType>Form</SubType>
@@ -131,6 +140,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Controls\NovaGridOld.resx">
       <DependentUpon>NovaGridOld.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAdvancedSearch.resx">
+      <DependentUpon>frmAdvancedSearch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmAppointments.resx">
       <DependentUpon>frmAppointments.cs</DependentUpon>

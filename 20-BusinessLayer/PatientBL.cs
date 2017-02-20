@@ -145,5 +145,22 @@ namespace BusinessLayer
         {
             return PatientDL.deletePatient(idPatient);
         }
+
+        public static List<Patient> searchPatients(string patName, string patSurname1, string patSurname2, string patIdentification,
+            string patAboutUs, string patPhone, int patSource)
+        {
+            List<Patient> lstPatients = new List<Patient>();
+
+            DataTable dtPatients = PatientDL.searchPatients(patName, patSurname1, patSurname2, patIdentification, patAboutUs, patPhone, patSource);
+
+            foreach (DataRow drPatient in dtPatients.Rows)
+            {
+                Patient pat = findOnePatient(Convert.ToInt32(drPatient["PAC_ID"]));
+
+                lstPatients.Add(pat);
+            }
+
+            return lstPatients;
+        }
     }
 }

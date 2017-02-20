@@ -52,6 +52,7 @@
             this.tipAppDetail = new System.Windows.Forms.ToolTip(this.components);
             this.btnAppSave = new System.Windows.Forms.Button();
             this.btnAppPatient = new System.Windows.Forms.Button();
+            this.btnAppNewPatient = new System.Windows.Forms.Button();
             this.btnAppDelPatient = new System.Windows.Forms.Button();
             this.errAppDetail = new System.Windows.Forms.ErrorProvider(this.components);
             this.grbAppAccounting.SuspendLayout();
@@ -267,6 +268,7 @@
             // 
             // btnAppPatient
             // 
+            this.btnAppPatient.Enabled = false;
             this.btnAppPatient.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnAppPatient.Location = new System.Drawing.Point(25, 327);
             this.btnAppPatient.Name = "btnAppPatient";
@@ -276,6 +278,18 @@
             this.tipAppDetail.SetToolTip(this.btnAppPatient, "Mostrar ficha del Paciente");
             this.btnAppPatient.UseVisualStyleBackColor = true;
             this.btnAppPatient.Click += new System.EventHandler(this.btnAppPatient_Click);
+            // 
+            // btnAppNewPatient
+            // 
+            this.btnAppNewPatient.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnAppNewPatient.Location = new System.Drawing.Point(117, 327);
+            this.btnAppNewPatient.Name = "btnAppNewPatient";
+            this.btnAppNewPatient.Size = new System.Drawing.Size(86, 33);
+            this.btnAppNewPatient.TabIndex = 8;
+            this.btnAppNewPatient.Text = "Nuevo...";
+            this.tipAppDetail.SetToolTip(this.btnAppNewPatient, "Nuevo Paciente");
+            this.btnAppNewPatient.UseVisualStyleBackColor = true;
+            this.btnAppNewPatient.Click += new System.EventHandler(this.btnAppNewPatient_Click);
             // 
             // btnAppDelPatient
             // 
@@ -299,6 +313,7 @@
             this.ClientSize = new System.Drawing.Size(489, 381);
             this.ControlBox = false;
             this.Controls.Add(this.btnAppDelPatient);
+            this.Controls.Add(this.btnAppNewPatient);
             this.Controls.Add(this.btnAppPatient);
             this.Controls.Add(this.btnAppSave);
             this.Controls.Add(this.btnAppCancel);
@@ -322,6 +337,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Detalle de la cita";
+            this.Activated += new System.EventHandler(this.frmAppointmentsDetail_Activated);
             this.Load += new System.EventHandler(this.frmAppointmentsDetail_Load);
             this.grbAppAccounting.ResumeLayout(false);
             this.grbAppAccounting.PerformLayout();
@@ -360,5 +376,6 @@
         private System.Windows.Forms.Button btnAppPatient;
         private System.Windows.Forms.Button btnAppDelPatient;
         private System.Windows.Forms.ErrorProvider errAppDetail;
+        private System.Windows.Forms.Button btnAppNewPatient;
     }
 }

@@ -26,7 +26,7 @@ namespace DatabaseLayer
                         myCnn.Open();
 
                         myCmd.CommandText = spName;
-                        myCmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        myCmd.CommandType = CommandType.StoredProcedure;
                         myCmd.Connection = myCnn;
 
                         if (lstParams != null)
@@ -63,7 +63,7 @@ namespace DatabaseLayer
                         myCnn.Open();
 
                         myCmd.CommandText = spName;
-                        myCmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        myCmd.CommandType = CommandType.StoredProcedure;
                         myCmd.Connection = myCnn;
 
                         if (lstParams != null)
@@ -105,7 +105,7 @@ namespace DatabaseLayer
                         myCnn.Open();
 
                         myCmd.CommandText = spName;
-                        myCmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        myCmd.CommandType = CommandType.StoredProcedure;
                         myCmd.Connection = myCnn;
 
                         if (lstParams != null)

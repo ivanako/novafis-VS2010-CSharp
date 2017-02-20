@@ -46,13 +46,13 @@
         "Entry"
         {
         "MsmKey" = "8:_44EC7764CD6FEBE417477B3790C0E86C"
-        "OwnerKey" = "8:_4BF61AE06E9954F59B327F5A871DD02A"
+        "OwnerKey" = "8:_7EA6B1CED81122B284A2046E98C1953B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_44EC7764CD6FEBE417477B3790C0E86C"
-        "OwnerKey" = "8:_7EA6B1CED81122B284A2046E98C1953B"
+        "OwnerKey" = "8:_4BF61AE06E9954F59B327F5A871DD02A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -88,13 +88,13 @@
         "Entry"
         {
         "MsmKey" = "8:_CD285ACA6671C68FAAD7910C9319F299"
-        "OwnerKey" = "8:_03004BEFB124417CB6A93073C96889F6"
+        "OwnerKey" = "8:_293EAB919C586F3DF9DD3FE80805D426"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_CD285ACA6671C68FAAD7910C9319F299"
-        "OwnerKey" = "8:_293EAB919C586F3DF9DD3FE80805D426"
+        "OwnerKey" = "8:_03004BEFB124417CB6A93073C96889F6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -112,19 +112,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_293EAB919C586F3DF9DD3FE80805D426"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7EA6B1CED81122B284A2046E98C1953B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_CD285ACA6671C68FAAD7910C9319F299"
+        "OwnerKey" = "8:_03004BEFB124417CB6A93073C96889F6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -136,7 +124,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_03004BEFB124417CB6A93073C96889F6"
+        "OwnerKey" = "8:_CD285ACA6671C68FAAD7910C9319F299"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_7EA6B1CED81122B284A2046E98C1953B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_293EAB919C586F3DF9DD3FE80805D426"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -157,6 +157,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -173,6 +181,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -249,11 +265,6 @@
             "AssemblyAsmDisplayName" = "8:20-BusinessLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_293EAB919C586F3DF9DD3FE80805D426"
-                    {
-                    "Name" = "8:20-BusinessLayer.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:20-BusinessLayer.dll"
             "TargetName" = "8:"
@@ -280,11 +291,6 @@
             "AssemblyAsmDisplayName" = "8:MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_44EC7764CD6FEBE417477B3790C0E86C"
-                    {
-                    "Name" = "8:MySql.Data.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MySql.Data.dll"
             "TargetName" = "8:"
@@ -311,11 +317,6 @@
             "AssemblyAsmDisplayName" = "8:40-DatabaseLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_4BF61AE06E9954F59B327F5A871DD02A"
-                    {
-                    "Name" = "8:40-DatabaseLayer.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:40-DatabaseLayer.dll"
             "TargetName" = "8:"
@@ -342,11 +343,6 @@
             "AssemblyAsmDisplayName" = "8:30-DataLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_7EA6B1CED81122B284A2046E98C1953B"
-                    {
-                    "Name" = "8:30-DataLayer.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:30-DataLayer.dll"
             "TargetName" = "8:"
@@ -373,11 +369,6 @@
             "AssemblyAsmDisplayName" = "8:50-Objects, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_CD285ACA6671C68FAAD7910C9319F299"
-                    {
-                    "Name" = "8:50-Objects.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:50-Objects.dll"
             "TargetName" = "8:"
@@ -491,7 +482,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:"
+        "ARPPRODUCTICON" = "8:_222CD43B412F4048B90DC7EBFA77C531"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"

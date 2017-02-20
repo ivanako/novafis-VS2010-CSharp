@@ -43,6 +43,10 @@ namespace UserInterface
 
             splAppointments.Panel2Collapsed = true;
         }
+        private void frmAppointments_Activated(object sender, EventArgs e)
+        {
+            preparePatientTextBox();
+        }
 
         private void calAppointment_DateChanged(object sender, DateRangeEventArgs e)
         {
@@ -604,6 +608,8 @@ namespace UserInterface
                 }
             }
         #endregion
+
+            
 
     }
 }

@@ -10,7 +10,6 @@ namespace DatabaseLayer
 {
     public class MyQueries
     {
-        
         public static DataTable executeQuery(string sqlQuery)
         {
             DataTable dtData = new DataTable();
@@ -26,7 +25,7 @@ namespace DatabaseLayer
                         myCnn.Open();
 
                         myCmd.CommandText = sqlQuery;
-                        myCmd.CommandType = System.Data.CommandType.Text;
+                        myCmd.CommandType = CommandType.Text;
                         myCmd.Connection = myCnn;
 
                         MySqlDataAdapter myAdapter = new MySqlDataAdapter(myCmd);

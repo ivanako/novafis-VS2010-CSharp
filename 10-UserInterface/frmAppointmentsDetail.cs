@@ -25,7 +25,6 @@ namespace UserInterface
         internal Appointment appDetails;
         internal Maintenance appOperation;
 
-        private bool hasChanged;
 
 
         private void frmAppointmentsDetail_Load(object sender, EventArgs e)
@@ -38,7 +37,12 @@ namespace UserInterface
             {
                 checkDebt();
                 txtAppPatient.TabStop = false;
+                btnAppPatient.Enabled = true;
             }
+        }
+        private void frmAppointmentsDetail_Activated(object sender, EventArgs e)
+        {
+            preparePatientTextBox();
         }
 
         private void txtAppPatient_KeyDown(object sender, KeyEventArgs e)
@@ -175,13 +179,7 @@ namespace UserInterface
             txtAppPatient.ReadOnly = (this.appDetails.Patient != null);
             btnAppDelPatient.Enabled = (this.appDetails.Patient != null); ;
 
-            txtAppPatient.AutoCompleteMode = AutoCompleteMode.Suggest;
-            txtAppPatient.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
-            string[] arrPatients = GlobalVars.Patients.Where(p => p.Deleted == false).Select(p => p.FullName).ToArray();
-            AutoCompleteStringCollection colPatients = new AutoCompleteStringCollection();
-            colPatients.AddRange(arrPatients);
-            txtAppPatient.AutoCompleteCustomSource = colPatients;
+            preparePatientTextBox();
 
             txtAppCancellationReason.ReadOnly = !this.appDetails.IsCancelled;
 
@@ -193,6 +191,17 @@ namespace UserInterface
             {
                 cboAppPhysiotherapists.SelectedValue = this.appDetails.Physiotherapist.Identifier;
             }
+        }
+
+        private void preparePatientTextBox()
+        {
+            txtAppPatient.AutoCompleteMode = AutoCompleteMode.Suggest;
+            txtAppPatient.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+            string[] arrPatients = GlobalVars.Patients.Where(p => p.Deleted == false).Select(p => p.FullName).ToArray();
+            AutoCompleteStringCollection colPatients = new AutoCompleteStringCollection();
+            colPatients.AddRange(arrPatients);
+            txtAppPatient.AutoCompleteCustomSource = colPatients;
         }
 
         private void populatePhysios()
@@ -268,45 +277,57 @@ namespace UserInterface
         {
             bool isAllowed = true;
 
+            Physiotherapist physioSource = this.appDetails.Physiotherapist;
+
             this.appDetails.Physiotherapist = (Physiotherapist)cboAppPhysiotherapists.SelectedItem;
+
+            bool samePhysios = false;
+
+            if (physioSource != null)
+            {
+                samePhysios = (physioSource.Identifier == this.appDetails.Physiotherapist.Identifier);
+            }
 
             //Timetable timetable = TimetableBL.findTimetableByPhysioAndDate(this.appDetails.Physiotherapist.Identifier, this.appDetails.Date);
 
-            List<Appointment> lstAppPhysioTable = TimetableBL.loadTimetablePhysio(this.appDetails.Physiotherapist.Identifier, this.appDetails.Date);
-
-            if (lstAppPhysioTable.Count == 0)
+            if (!samePhysios)
             {
-                MessageBox.Show(String.Format("El fisio {0} no tiene asignadado un horario para el día {1}", this.appDetails.Physiotherapist.Alias, this.appDetails.Date.ToShortDateString()),
-                                "Fisio sin horario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                isAllowed = false;
-            }
+                List<Appointment> lstAppPhysioTable = TimetableBL.loadTimetablePhysio(this.appDetails.Physiotherapist.Identifier, this.appDetails.Date);
 
-            if (isAllowed)
-            {
-                int tmtCount = lstAppPhysioTable.Where(a => a.Time.Equals(this.appDetails.Time)).Count<Appointment>();
-
-                if (tmtCount == 0)
+                if (lstAppPhysioTable.Count == 0)
                 {
-                    MessageBox.Show(String.Format("El fisio {0} no dispone de cita a las {1}", this.appDetails.Physiotherapist.Alias, this.appDetails.Time),
-                                    "Fisio sin cita", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(String.Format("El fisio {0} no tiene asignadado un horario para el día {1}", this.appDetails.Physiotherapist.Alias, this.appDetails.Date.ToShortDateString()),
+                                    "Fisio sin horario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     isAllowed = false;
                 }
-            }
 
-            if (isAllowed)
-            {
-                List<Appointment> lstAppDate = AppointmentBL.findAppointmentsByDate(this.appDetails.Date, 0);
-                int appCount = lstAppDate
-                                    .Where(a => a.Physiotherapist.Identifier == this.appDetails.Physiotherapist.Identifier)
-                                    .Where(a => a.Time.Equals(this.appDetails.Time))
-                                    .Where(a => a.Patient != null)
-                                    .Count<Appointment>();
-
-                if (appCount > 0)
+                if (isAllowed)
                 {
-                    MessageBox.Show(String.Format("La cita de las {0} del fisio {1} ya tiene paciente", this.appDetails.Time, this.appDetails.Physiotherapist.Alias),
-                                    "Cita con Paciente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    isAllowed = false;
+                    int tmtCount = lstAppPhysioTable.Where(a => a.Time.Equals(this.appDetails.Time)).Count<Appointment>();
+
+                    if (tmtCount == 0)
+                    {
+                        MessageBox.Show(String.Format("El fisio {0} no dispone de cita a las {1}", this.appDetails.Physiotherapist.Alias, this.appDetails.Time),
+                                        "Fisio sin cita", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        isAllowed = false;
+                    }
+                }
+
+                if (isAllowed)
+                {
+                    List<Appointment> lstAppDate = AppointmentBL.findAppointmentsByDate(this.appDetails.Date, 0);
+                    int appCount = lstAppDate
+                                        .Where(a => a.Physiotherapist.Identifier == this.appDetails.Physiotherapist.Identifier)
+                                        .Where(a => a.Time.Equals(this.appDetails.Time))
+                                        .Where(a => a.Patient != null)
+                                        .Count<Appointment>();
+
+                    if (appCount > 0)
+                    {
+                        MessageBox.Show(String.Format("La cita de las {0} del fisio {1} ya tiene paciente", this.appDetails.Time, this.appDetails.Physiotherapist.Alias),
+                                        "Cita con Paciente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        isAllowed = false;
+                    }
                 }
             }
 
@@ -324,6 +345,43 @@ namespace UserInterface
                 }
             }
         }
+
+        private void btnAppNewPatient_Click(object sender, EventArgs e)
+        {
+            frmPatientsDetail frmPatientDetail = new frmPatientsDetail();
+
+            Address patAddress = new Address();
+            patAddress.Province = new Province()
+            {
+                Identifier = "28",
+                Name = "Madrid"
+            };
+
+            Patient pat = new Patient()
+            {
+                Identifier = 0,
+                Surname2 = string.Empty,
+                EntryDate = DateTime.Today,
+                Address = patAddress
+            };
+
+            frmPatientDetail.Text = "Nuevo Paciente";
+
+            frmPatientDetail.patientDetails = pat;
+            frmPatientDetail.patientOperation = Maintenance.Create;
+
+
+            if (frmPatientDetail.ShowDialog() == DialogResult.OK)
+            {
+                GlobalVars.Patients.Add(frmPatientDetail.patientDetails);
+
+                MessageBox.Show("Paciente guardado correctamente", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                frmPatientDetail.Dispose();
+            }
+        }
+
+
 
         
 
