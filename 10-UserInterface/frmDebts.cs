@@ -54,6 +54,8 @@ namespace UserInterface
             dgvDefaulters.Columns["Patient"].Visible = false;
             dgvDefaulters.Columns["Physiotherapist"].Visible = false;
 
+            dgvDefaulters.Columns["Debt"].DefaultCellStyle.Format = "c2";
+
             lblDebtDefaulterCount.Text = string.Format("Morosos: {0}", lstDefaulters.Count);
         }
 

@@ -32,13 +32,26 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tipDebts = new System.Windows.Forms.ToolTip(this.components);
+            this.btnClose = new System.Windows.Forms.Button();
             this.lblDebtDate = new System.Windows.Forms.Label();
             this.dtpDebtDate = new System.Windows.Forms.DateTimePicker();
-            this.btnClose = new System.Windows.Forms.Button();
             this.lblDebtDefaulterCount = new System.Windows.Forms.Label();
             this.dgvDefaulters = new UserInterface.Controls.NovaGrid();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDefaulters)).BeginInit();
             this.SuspendLayout();
+            // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnClose.Location = new System.Drawing.Point(563, 329);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(86, 33);
+            this.btnClose.TabIndex = 2;
+            this.btnClose.Text = "Cerrar";
+            this.tipDebts.SetToolTip(this.btnClose, "Cerrar ventana");
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // lblDebtDate
             // 
@@ -56,21 +69,8 @@
             this.dtpDebtDate.Location = new System.Drawing.Point(71, 12);
             this.dtpDebtDate.Name = "dtpDebtDate";
             this.dtpDebtDate.Size = new System.Drawing.Size(113, 21);
-            this.dtpDebtDate.TabIndex = 1;
+            this.dtpDebtDate.TabIndex = 0;
             this.dtpDebtDate.ValueChanged += new System.EventHandler(this.dtpDebtDate_ValueChanged);
-            // 
-            // btnClose
-            // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(563, 329);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(86, 33);
-            this.btnClose.TabIndex = 4;
-            this.btnClose.Text = "Cerrar";
-            this.tipDebts.SetToolTip(this.btnClose, "Cerrar ventana");
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // lblDebtDefaulterCount
             // 
@@ -87,8 +87,8 @@
             this.dgvDefaulters.AllowUserToAddRows = false;
             this.dgvDefaulters.AllowUserToDeleteRows = false;
             this.dgvDefaulters.AllowUserToResizeRows = false;
-            this.dgvDefaulters.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.dgvDefaulters.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.dgvDefaulters.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -115,7 +115,7 @@
             this.dgvDefaulters.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dgvDefaulters.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvDefaulters.Size = new System.Drawing.Size(532, 307);
-            this.dgvDefaulters.TabIndex = 2;
+            this.dgvDefaulters.TabIndex = 1;
             // 
             // frmDebts
             // 

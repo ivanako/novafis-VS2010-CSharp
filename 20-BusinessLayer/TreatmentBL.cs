@@ -66,5 +66,19 @@ namespace BusinessLayer
             //return lstTreatments;
             return isOK;
         }
+
+        public static List<Treatment> deleteTreatment(long idTreatment, int idPatient)
+        {
+            List<Treatment> lstTreats = new List<Treatment>();
+
+            bool isOK = TreatmentDL.deleteTreatment(idTreatment);
+
+            if (isOK)
+            {
+                lstTreats = findTreatmentsByPatient(idPatient);
+            }
+
+            return lstTreats;
+        }
     }
 }

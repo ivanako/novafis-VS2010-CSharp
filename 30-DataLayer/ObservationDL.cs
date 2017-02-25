@@ -54,5 +54,21 @@ namespace DataLayer
 
             return isOK;
         }
+
+        public static bool deleteObservation(int idObservation)
+        {
+            bool isOK = true;
+
+            List<MySqlParameter> lstParams = new List<MySqlParameter>()
+            {
+                new MySqlParameter() {ParameterName = "iIDObservacion", MySqlDbType = MySqlDbType.Int32, Value = idObservation, Direction = ParameterDirection.Input}
+            };
+
+            int obsCount = 0;
+
+            isOK = MyStoredProcs.callStoredProc("spObservaciones_Eliminar", lstParams, ref obsCount);
+
+            return isOK;
+        }
     }
 }

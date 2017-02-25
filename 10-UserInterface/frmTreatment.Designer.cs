@@ -103,7 +103,7 @@
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(305, 18);
+            this.lblStatus.Location = new System.Drawing.Point(337, 18);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(45, 13);
             this.lblStatus.TabIndex = 4;
@@ -113,16 +113,16 @@
             // 
             this.cboStatuses.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboStatuses.FormattingEnabled = true;
-            this.cboStatuses.Location = new System.Drawing.Point(380, 15);
+            this.cboStatuses.Location = new System.Drawing.Point(403, 15);
             this.cboStatuses.Name = "cboStatuses";
-            this.cboStatuses.Size = new System.Drawing.Size(108, 21);
+            this.cboStatuses.Size = new System.Drawing.Size(136, 21);
             this.cboStatuses.TabIndex = 5;
             this.cboStatuses.SelectedIndexChanged += new System.EventHandler(this.cboStatuses_SelectedIndexChanged);
             // 
             // lblPhysio
             // 
             this.lblPhysio.AutoSize = true;
-            this.lblPhysio.Location = new System.Drawing.Point(305, 56);
+            this.lblPhysio.Location = new System.Drawing.Point(337, 56);
             this.lblPhysio.Name = "lblPhysio";
             this.lblPhysio.Size = new System.Drawing.Size(32, 13);
             this.lblPhysio.TabIndex = 4;
@@ -132,9 +132,9 @@
             // 
             this.cboPhysiotherapists.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPhysiotherapists.FormattingEnabled = true;
-            this.cboPhysiotherapists.Location = new System.Drawing.Point(380, 53);
+            this.cboPhysiotherapists.Location = new System.Drawing.Point(403, 53);
             this.cboPhysiotherapists.Name = "cboPhysiotherapists";
-            this.cboPhysiotherapists.Size = new System.Drawing.Size(108, 21);
+            this.cboPhysiotherapists.Size = new System.Drawing.Size(136, 21);
             this.cboPhysiotherapists.TabIndex = 5;
             this.cboPhysiotherapists.SelectedIndexChanged += new System.EventHandler(this.cboPhysiotherapists_SelectedIndexChanged);
             // 
@@ -154,7 +154,7 @@
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescription.Size = new System.Drawing.Size(471, 43);
+            this.txtDescription.Size = new System.Drawing.Size(522, 136);
             this.txtDescription.TabIndex = 6;
             this.txtDescription.TextChanged += new System.EventHandler(this.txtDescription_TextChanged);
             // 
@@ -164,7 +164,7 @@
             this.grbLocation.Controls.Add(this.radLocNew);
             this.grbLocation.Controls.Add(this.cboLocations);
             this.grbLocation.Controls.Add(this.radLocSelect);
-            this.grbLocation.Location = new System.Drawing.Point(17, 206);
+            this.grbLocation.Location = new System.Drawing.Point(17, 301);
             this.grbLocation.Name = "grbLocation";
             this.grbLocation.Size = new System.Drawing.Size(247, 172);
             this.grbLocation.TabIndex = 7;
@@ -220,7 +220,7 @@
             this.grbLesion.Controls.Add(this.radLesNew);
             this.grbLesion.Controls.Add(this.cboLesions);
             this.grbLesion.Controls.Add(this.radLesSelect);
-            this.grbLesion.Location = new System.Drawing.Point(292, 206);
+            this.grbLesion.Location = new System.Drawing.Point(292, 301);
             this.grbLesion.Name = "grbLesion";
             this.grbLesion.Size = new System.Drawing.Size(247, 172);
             this.grbLesion.TabIndex = 7;
@@ -274,7 +274,7 @@
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.Location = new System.Drawing.Point(453, 393);
+            this.btnClose.Location = new System.Drawing.Point(453, 496);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(86, 33);
             this.btnClose.TabIndex = 8;
@@ -287,7 +287,7 @@
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(352, 393);
+            this.btnSave.Location = new System.Drawing.Point(352, 496);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(86, 33);
             this.btnSave.TabIndex = 8;
@@ -304,7 +304,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(596, 448);
+            this.ClientSize = new System.Drawing.Size(563, 551);
             this.ControlBox = false;
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnClose);

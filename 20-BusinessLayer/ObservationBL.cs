@@ -39,5 +39,19 @@ namespace BusinessLayer
         {
             return ObservationDL.modifyObservation(observation);
         }
+
+        public static List<Observation> deleteObservation(int idObservation, int idPatient)
+        {
+            List<Observation> lstObs = new List<Observation>();
+
+            bool isOK = ObservationDL.deleteObservation(idObservation);
+
+            if (isOK)
+            {
+                lstObs = findObservationsByPatient(idPatient);
+            }
+
+            return lstObs;
+        }
     }
 }

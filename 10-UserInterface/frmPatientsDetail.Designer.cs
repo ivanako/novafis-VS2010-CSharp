@@ -102,21 +102,23 @@
             this.lblCancReason = new System.Windows.Forms.Label();
             this.dtpCancDate = new System.Windows.Forms.DateTimePicker();
             this.lblCancDate = new System.Windows.Forms.Label();
-            this.dgvCancellations = new UserInterface.Controls.NovaGrid();
             this.tbpObservations = new System.Windows.Forms.TabPage();
             this.btnObsCancel = new System.Windows.Forms.Button();
             this.btnObsSave = new System.Windows.Forms.Button();
             this.txtObsDescription = new System.Windows.Forms.TextBox();
             this.lblObsDescription = new System.Windows.Forms.Label();
             this.btnObsAdd = new System.Windows.Forms.Button();
-            this.dgvObservations = new UserInterface.Controls.NovaGrid();
             this.tbpTreatments = new System.Windows.Forms.TabPage();
             this.btnTreatsAdd = new System.Windows.Forms.Button();
-            this.dgvTreatments = new UserInterface.Controls.NovaGrid();
             this.tipPatientsDetail = new System.Windows.Forms.ToolTip(this.components);
             this.errObservations = new System.Windows.Forms.ErrorProvider(this.components);
             this.errData = new System.Windows.Forms.ErrorProvider(this.components);
             this.errCancellations = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btnObsDelete = new System.Windows.Forms.Button();
+            this.btnTreatsDelete = new System.Windows.Forms.Button();
+            this.dgvCancellations = new UserInterface.Controls.NovaGrid();
+            this.dgvObservations = new UserInterface.Controls.NovaGrid();
+            this.dgvTreatments = new UserInterface.Controls.NovaGrid();
             this.panButtons.SuspendLayout();
             this.panDetails.SuspendLayout();
             this.tabDetails.SuspendLayout();
@@ -124,14 +126,14 @@
             this.grbGender.SuspendLayout();
             this.tbpAddress.SuspendLayout();
             this.tbpCancellations.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCancellations)).BeginInit();
             this.tbpObservations.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvObservations)).BeginInit();
             this.tbpTreatments.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTreatments)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errObservations)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errCancellations)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCancellations)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvObservations)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTreatments)).BeginInit();
             this.SuspendLayout();
             // 
             // panButtons
@@ -214,9 +216,9 @@
             // 
             // tabDetails
             // 
-            this.tabDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabDetails.Controls.Add(this.tbpData);
             this.tabDetails.Controls.Add(this.tbpAddress);
             this.tabDetails.Controls.Add(this.tbpCancellations);
@@ -845,14 +847,144 @@
             this.lblCancDate.TabIndex = 1;
             this.lblCancDate.Text = "Fecha";
             // 
+            // tbpObservations
+            // 
+            this.tbpObservations.Controls.Add(this.btnObsCancel);
+            this.tbpObservations.Controls.Add(this.btnObsSave);
+            this.tbpObservations.Controls.Add(this.txtObsDescription);
+            this.tbpObservations.Controls.Add(this.lblObsDescription);
+            this.tbpObservations.Controls.Add(this.btnObsDelete);
+            this.tbpObservations.Controls.Add(this.btnObsAdd);
+            this.tbpObservations.Controls.Add(this.dgvObservations);
+            this.tbpObservations.Location = new System.Drawing.Point(4, 22);
+            this.tbpObservations.Name = "tbpObservations";
+            this.tbpObservations.Size = new System.Drawing.Size(1001, 369);
+            this.tbpObservations.TabIndex = 3;
+            this.tbpObservations.Text = "Observaciones";
+            this.tbpObservations.UseVisualStyleBackColor = true;
+            // 
+            // btnObsCancel
+            // 
+            this.btnObsCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnObsCancel.Location = new System.Drawing.Point(835, 323);
+            this.btnObsCancel.Name = "btnObsCancel";
+            this.btnObsCancel.Size = new System.Drawing.Size(76, 26);
+            this.btnObsCancel.TabIndex = 5;
+            this.btnObsCancel.Text = "Cancelar";
+            this.tipPatientsDetail.SetToolTip(this.btnObsCancel, "Cancelar añadir Observación");
+            this.btnObsCancel.UseVisualStyleBackColor = true;
+            this.btnObsCancel.Visible = false;
+            this.btnObsCancel.Click += new System.EventHandler(this.btnObsCancel_Click);
+            // 
+            // btnObsSave
+            // 
+            this.btnObsSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnObsSave.Location = new System.Drawing.Point(917, 323);
+            this.btnObsSave.Name = "btnObsSave";
+            this.btnObsSave.Size = new System.Drawing.Size(76, 26);
+            this.btnObsSave.TabIndex = 4;
+            this.btnObsSave.Text = "Guardar";
+            this.tipPatientsDetail.SetToolTip(this.btnObsSave, "Guardar Observación del Paciente");
+            this.btnObsSave.UseVisualStyleBackColor = true;
+            this.btnObsSave.Click += new System.EventHandler(this.btnObsSave_Click);
+            // 
+            // txtObsDescription
+            // 
+            this.txtObsDescription.Location = new System.Drawing.Point(87, 327);
+            this.txtObsDescription.MaxLength = 200;
+            this.txtObsDescription.Name = "txtObsDescription";
+            this.txtObsDescription.Size = new System.Drawing.Size(721, 21);
+            this.txtObsDescription.TabIndex = 3;
+            // 
+            // lblObsDescription
+            // 
+            this.lblObsDescription.AutoSize = true;
+            this.lblObsDescription.Location = new System.Drawing.Point(8, 330);
+            this.lblObsDescription.Name = "lblObsDescription";
+            this.lblObsDescription.Size = new System.Drawing.Size(73, 13);
+            this.lblObsDescription.TabIndex = 7;
+            this.lblObsDescription.Text = "Descripción";
+            // 
+            // btnObsAdd
+            // 
+            this.btnObsAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnObsAdd.Location = new System.Drawing.Point(917, 13);
+            this.btnObsAdd.Name = "btnObsAdd";
+            this.btnObsAdd.Size = new System.Drawing.Size(76, 26);
+            this.btnObsAdd.TabIndex = 1;
+            this.btnObsAdd.Text = "Nueva...";
+            this.tipPatientsDetail.SetToolTip(this.btnObsAdd, "Añadir Observación al Paciente");
+            this.btnObsAdd.UseVisualStyleBackColor = true;
+            this.btnObsAdd.Click += new System.EventHandler(this.btnObsAdd_Click);
+            // 
+            // tbpTreatments
+            // 
+            this.tbpTreatments.Controls.Add(this.btnTreatsDelete);
+            this.tbpTreatments.Controls.Add(this.btnTreatsAdd);
+            this.tbpTreatments.Controls.Add(this.dgvTreatments);
+            this.tbpTreatments.Location = new System.Drawing.Point(4, 22);
+            this.tbpTreatments.Name = "tbpTreatments";
+            this.tbpTreatments.Size = new System.Drawing.Size(1001, 369);
+            this.tbpTreatments.TabIndex = 4;
+            this.tbpTreatments.Text = "Tratamientos";
+            this.tbpTreatments.UseVisualStyleBackColor = true;
+            // 
+            // btnTreatsAdd
+            // 
+            this.btnTreatsAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTreatsAdd.Location = new System.Drawing.Point(917, 13);
+            this.btnTreatsAdd.Name = "btnTreatsAdd";
+            this.btnTreatsAdd.Size = new System.Drawing.Size(76, 26);
+            this.btnTreatsAdd.TabIndex = 0;
+            this.btnTreatsAdd.Text = "Nuevo...";
+            this.tipPatientsDetail.SetToolTip(this.btnTreatsAdd, "Añadir Tratamiento al Paciente");
+            this.btnTreatsAdd.UseVisualStyleBackColor = true;
+            this.btnTreatsAdd.Click += new System.EventHandler(this.btnTreatsAdd_Click);
+            // 
+            // errObservations
+            // 
+            this.errObservations.ContainerControl = this;
+            // 
+            // errData
+            // 
+            this.errData.ContainerControl = this;
+            // 
+            // errCancellations
+            // 
+            this.errCancellations.ContainerControl = this;
+            // 
+            // btnObsDelete
+            // 
+            this.btnObsDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnObsDelete.Location = new System.Drawing.Point(917, 45);
+            this.btnObsDelete.Name = "btnObsDelete";
+            this.btnObsDelete.Size = new System.Drawing.Size(76, 26);
+            this.btnObsDelete.TabIndex = 2;
+            this.btnObsDelete.Text = "Eliminar";
+            this.tipPatientsDetail.SetToolTip(this.btnObsDelete, "Eliminar Observación seleccionada");
+            this.btnObsDelete.UseVisualStyleBackColor = true;
+            this.btnObsDelete.Click += new System.EventHandler(this.btnObsDelete_Click);
+            // 
+            // btnTreatsDelete
+            // 
+            this.btnTreatsDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTreatsDelete.Location = new System.Drawing.Point(917, 45);
+            this.btnTreatsDelete.Name = "btnTreatsDelete";
+            this.btnTreatsDelete.Size = new System.Drawing.Size(76, 26);
+            this.btnTreatsDelete.TabIndex = 0;
+            this.btnTreatsDelete.Text = "Eliminar";
+            this.tipPatientsDetail.SetToolTip(this.btnTreatsDelete, "Eliminar Tratamiento seleccionado");
+            this.btnTreatsDelete.UseVisualStyleBackColor = true;
+            this.btnTreatsDelete.Click += new System.EventHandler(this.btnTreatsDelete_Click);
+            // 
             // dgvCancellations
             // 
             this.dgvCancellations.AllowUserToAddRows = false;
             this.dgvCancellations.AllowUserToDeleteRows = false;
             this.dgvCancellations.AllowUserToResizeRows = false;
-            this.dgvCancellations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvCancellations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvCancellations.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -882,83 +1014,14 @@
             this.dgvCancellations.TabIndex = 0;
             this.dgvCancellations.SelectionChanged += new System.EventHandler(this.dgvCancellations_SelectionChanged);
             // 
-            // tbpObservations
-            // 
-            this.tbpObservations.Controls.Add(this.btnObsCancel);
-            this.tbpObservations.Controls.Add(this.btnObsSave);
-            this.tbpObservations.Controls.Add(this.txtObsDescription);
-            this.tbpObservations.Controls.Add(this.lblObsDescription);
-            this.tbpObservations.Controls.Add(this.btnObsAdd);
-            this.tbpObservations.Controls.Add(this.dgvObservations);
-            this.tbpObservations.Location = new System.Drawing.Point(4, 22);
-            this.tbpObservations.Name = "tbpObservations";
-            this.tbpObservations.Size = new System.Drawing.Size(1001, 369);
-            this.tbpObservations.TabIndex = 3;
-            this.tbpObservations.Text = "Observaciones";
-            this.tbpObservations.UseVisualStyleBackColor = true;
-            // 
-            // btnObsCancel
-            // 
-            this.btnObsCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnObsCancel.Location = new System.Drawing.Point(835, 323);
-            this.btnObsCancel.Name = "btnObsCancel";
-            this.btnObsCancel.Size = new System.Drawing.Size(76, 26);
-            this.btnObsCancel.TabIndex = 3;
-            this.btnObsCancel.Text = "Cancelar";
-            this.tipPatientsDetail.SetToolTip(this.btnObsCancel, "Cancelar añadir Observación");
-            this.btnObsCancel.UseVisualStyleBackColor = true;
-            this.btnObsCancel.Visible = false;
-            this.btnObsCancel.Click += new System.EventHandler(this.btnObsCancel_Click);
-            // 
-            // btnObsSave
-            // 
-            this.btnObsSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnObsSave.Location = new System.Drawing.Point(917, 323);
-            this.btnObsSave.Name = "btnObsSave";
-            this.btnObsSave.Size = new System.Drawing.Size(76, 26);
-            this.btnObsSave.TabIndex = 2;
-            this.btnObsSave.Text = "Guardar";
-            this.tipPatientsDetail.SetToolTip(this.btnObsSave, "Guardar Observación del Paciente");
-            this.btnObsSave.UseVisualStyleBackColor = true;
-            this.btnObsSave.Click += new System.EventHandler(this.btnObsSave_Click);
-            // 
-            // txtObsDescription
-            // 
-            this.txtObsDescription.Location = new System.Drawing.Point(87, 327);
-            this.txtObsDescription.MaxLength = 200;
-            this.txtObsDescription.Name = "txtObsDescription";
-            this.txtObsDescription.Size = new System.Drawing.Size(721, 21);
-            this.txtObsDescription.TabIndex = 1;
-            // 
-            // lblObsDescription
-            // 
-            this.lblObsDescription.AutoSize = true;
-            this.lblObsDescription.Location = new System.Drawing.Point(8, 330);
-            this.lblObsDescription.Name = "lblObsDescription";
-            this.lblObsDescription.Size = new System.Drawing.Size(73, 13);
-            this.lblObsDescription.TabIndex = 7;
-            this.lblObsDescription.Text = "Descripción";
-            // 
-            // btnObsAdd
-            // 
-            this.btnObsAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnObsAdd.Location = new System.Drawing.Point(917, 13);
-            this.btnObsAdd.Name = "btnObsAdd";
-            this.btnObsAdd.Size = new System.Drawing.Size(76, 26);
-            this.btnObsAdd.TabIndex = 0;
-            this.btnObsAdd.Text = "Nueva...";
-            this.tipPatientsDetail.SetToolTip(this.btnObsAdd, "Añadir Observación al Paciente");
-            this.btnObsAdd.UseVisualStyleBackColor = true;
-            this.btnObsAdd.Click += new System.EventHandler(this.btnObsAdd_Click);
-            // 
             // dgvObservations
             // 
             this.dgvObservations.AllowUserToAddRows = false;
             this.dgvObservations.AllowUserToDeleteRows = false;
             this.dgvObservations.AllowUserToResizeRows = false;
-            this.dgvObservations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvObservations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvObservations.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
@@ -985,31 +1048,8 @@
             this.dgvObservations.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dgvObservations.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvObservations.Size = new System.Drawing.Size(903, 293);
-            this.dgvObservations.TabIndex = 1;
+            this.dgvObservations.TabIndex = 0;
             this.dgvObservations.SelectionChanged += new System.EventHandler(this.dgvObservations_SelectionChanged);
-            // 
-            // tbpTreatments
-            // 
-            this.tbpTreatments.Controls.Add(this.btnTreatsAdd);
-            this.tbpTreatments.Controls.Add(this.dgvTreatments);
-            this.tbpTreatments.Location = new System.Drawing.Point(4, 22);
-            this.tbpTreatments.Name = "tbpTreatments";
-            this.tbpTreatments.Size = new System.Drawing.Size(1001, 369);
-            this.tbpTreatments.TabIndex = 4;
-            this.tbpTreatments.Text = "Tratamientos";
-            this.tbpTreatments.UseVisualStyleBackColor = true;
-            // 
-            // btnTreatsAdd
-            // 
-            this.btnTreatsAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTreatsAdd.Location = new System.Drawing.Point(917, 13);
-            this.btnTreatsAdd.Name = "btnTreatsAdd";
-            this.btnTreatsAdd.Size = new System.Drawing.Size(76, 26);
-            this.btnTreatsAdd.TabIndex = 0;
-            this.btnTreatsAdd.Text = "Nuevo...";
-            this.tipPatientsDetail.SetToolTip(this.btnTreatsAdd, "Añadir Tratamiento al Paciente");
-            this.btnTreatsAdd.UseVisualStyleBackColor = true;
-            this.btnTreatsAdd.Click += new System.EventHandler(this.btnTreatsAdd_Click);
             // 
             // dgvTreatments
             // 
@@ -1046,18 +1086,6 @@
             this.dgvTreatments.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvTreatments_CellMouseDoubleClick);
             this.dgvTreatments.SelectionChanged += new System.EventHandler(this.dgvTreatments_SelectionChanged);
             // 
-            // errObservations
-            // 
-            this.errObservations.ContainerControl = this;
-            // 
-            // errData
-            // 
-            this.errData.ContainerControl = this;
-            // 
-            // errCancellations
-            // 
-            this.errCancellations.ContainerControl = this;
-            // 
             // frmPatientsDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
@@ -1087,15 +1115,15 @@
             this.tbpAddress.PerformLayout();
             this.tbpCancellations.ResumeLayout(false);
             this.tbpCancellations.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCancellations)).EndInit();
             this.tbpObservations.ResumeLayout(false);
             this.tbpObservations.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvObservations)).EndInit();
             this.tbpTreatments.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTreatments)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errObservations)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errData)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errCancellations)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCancellations)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvObservations)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTreatments)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1184,6 +1212,8 @@
         private System.Windows.Forms.Button btnTreatsAdd;
         private System.Windows.Forms.CheckBox chkBlackList;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnObsDelete;
+        private System.Windows.Forms.Button btnTreatsDelete;
 
     }
 }

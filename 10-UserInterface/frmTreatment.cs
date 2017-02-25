@@ -60,11 +60,18 @@ namespace UserInterface
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            bool isOK = checkFields();
-
-            if (isOK)
+            if (this.hasChanged)
             {
-                saveTreatment();
+                bool isOK = checkFields();
+
+                if (isOK)
+                {
+                    saveTreatment();
+                }
+            }
+            else
+            {
+                this.DialogResult = DialogResult.Cancel;
             }
         }
 
@@ -183,8 +190,6 @@ namespace UserInterface
         {
             patientTreatment.Status = (TreatmentStatus)cboStatuses.SelectedItem;
             patientTreatment.Physiotherapist = (Physiotherapist)cboPhysiotherapists.SelectedItem;
-            
-            
 
             if (radLocNew.Checked)
             {

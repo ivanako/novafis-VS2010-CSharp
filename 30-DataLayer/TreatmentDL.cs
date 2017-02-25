@@ -66,5 +66,21 @@ namespace DataLayer
 
             return isOK;
         }
+
+        public static bool deleteTreatment(long idTreatment)
+        {
+            bool isOK = true;
+
+            List<MySqlParameter> lstParams = new List<MySqlParameter>()
+            {
+                new MySqlParameter() {ParameterName = "iIDTratamiento", MySqlDbType = MySqlDbType.Int64, Value = idTreatment, Direction = ParameterDirection.Input}
+            };
+
+            int treatCount = 0;
+
+            isOK = MyStoredProcs.callStoredProc("spTratamientos_Eliminar", lstParams, ref treatCount);
+
+            return isOK;
+        }
     }
 }

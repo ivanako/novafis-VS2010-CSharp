@@ -68,5 +68,35 @@ namespace BusinessLayer
 
             return chackOK;
         }
+
+        public static List<Appointment> searchDefaulters(DateTime debtDate)
+        {
+            List<Appointment> lstAppointments = new List<Appointment>();
+
+            DataTable dtAppointments = AppointmentDL.searchDefaulters(debtDate);
+
+            foreach (DataRow drAppointment in dtAppointments.Rows)
+            {
+                Patient pat = PatientBL.findOnePatient(Convert.ToInt32(drAppointment["PAC_ID"]));
+
+                Appointment app = new Appointment()
+                {
+                    Identifier = Convert.ToInt32(drAppointment["CIT_ID"]),
+                    Date = Convert.ToDateTime(drAppointment["CIT_Fecha"]),
+                    Time = drAppointment["CIT_Hora"].ToString(),
+                    //Observation = drAppointment["CIT_Observacion"].ToString(),
+                    //Paid = Convert.ToDouble(drAppointment["CIT_Cobrado"]),
+                    Debt = Convert.ToDouble(drAppointment["CIT_Deuda"]),
+                    //IsCancelled = Convert.ToBoolean(drAppointment["CIT_Anulada"]),
+                    //CancellationWhy = drAppointment["CIT_MotivoAnulacion"].ToString(),
+                    //Physiotherapist = phy
+                    Patient = pat
+                };
+
+                lstAppointments.Add(app);
+            }
+
+            return lstAppointments;
+        }
     }
 }

@@ -64,6 +64,10 @@ namespace UserInterface
         {
             checkFormOpen(new frmAdvancedSearch());
         }
+        private void mnuAccesories_Debts_Click(object sender, EventArgs e)
+        {
+            checkFormOpen(new frmDebts());
+        }
 
 
 
@@ -156,6 +160,8 @@ namespace UserInterface
 
             return exitApp;
         }
+
+        
 
         
 

@@ -73,7 +73,6 @@ namespace DataLayer
             return delOK;
         }
 
-
         public static bool checkDebt(int idPatient, DateTime appDate, ref double patDebt, ref DateTime patDebtDate, ref string patObs)
         {
             bool checkOK = true;
@@ -103,6 +102,16 @@ namespace DataLayer
             }
 
             return checkOK;
+        }
+
+        public static DataTable searchDefaulters(DateTime debtDate)
+        {
+            List<MySqlParameter> lstParams = new List<MySqlParameter>()
+            {
+                new MySqlParameter() {ParameterName = "fFecha", MySqlDbType = MySqlDbType.Date, Value = debtDate, Direction = ParameterDirection.Input}
+            };
+
+            return MyStoredProcs.callStoredProc("spDeudas_Llenar", lstParams);
         }
     }
 }

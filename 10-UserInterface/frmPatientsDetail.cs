@@ -350,14 +350,26 @@ namespace UserInterface
             {
                 foreach (DataGridViewRow obs in dgvObservations.SelectedRows)
                 {
-                    selObservation.Identifier = Convert.ToInt32(obs.Cells["Identifier"].Value);
-                    selObservation.Description = obs.Cells["Description"].Value.ToString();
+                    this.selObservation.Identifier = Convert.ToInt32(obs.Cells["Identifier"].Value);
+                    this.selObservation.Description = obs.Cells["Description"].Value.ToString();
                 }
             }
 
             private void btnObsAdd_Click(object sender, EventArgs e)
             {
                 prepareObservationCreation();
+            }
+            
+            private void btnObsDelete_Click(object sender, EventArgs e)
+            {
+                if (MessageBox.Show("¿Eliminar la Observación seleccionada?", "Eliminar Observaciones", MessageBoxButtons.YesNo, 
+                                    MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                {
+                    List<Observation> lstObservations = ObservationBL.deleteObservation(this.selObservation.Identifier, 
+                                                                                        this.patientDetails.Identifier);
+
+                    populateObservationsGrid(lstObservations);
+                }
             }
 
             private void btnObsSave_Click(object sender, EventArgs e)
@@ -410,6 +422,13 @@ namespace UserInterface
                 dgvObservations.DataSource = sblObservations;
 
                 dgvObservations.Columns["Identifier"].Visible = false;
+
+                btnObsDelete.Enabled = (lstObservations.Count > 0);
+
+                if (lstObservations.Count == 0)
+                {
+                    prepareObservationCreation();
+                }
             }
 
             private void bindObservationControls()
@@ -427,6 +446,7 @@ namespace UserInterface
 
                 resetObservation();
 
+                btnObsDelete.Enabled = false;
                 btnObsCancel.Visible = true;
             }
 
@@ -465,7 +485,7 @@ namespace UserInterface
                         saveOK = ObservationBL.addObservation(obs, patientDetails.Identifier);
                         break;
                     case Maintenance.Edit:
-                        obs.Identifier = selObservation.Identifier;
+                        obs.Identifier = this.selObservation.Identifier;
                         saveOK = ObservationBL.modifyObservation(obs);
                         break;
                 }
@@ -497,10 +517,10 @@ namespace UserInterface
             {
                 foreach (DataGridViewRow treat in dgvTreatments.SelectedRows)
                 {
-                    selTreatment.Identifier = Convert.ToInt32(treat.Cells["Identifier"].Value);
-                    selTreatment.Date = Convert.ToDateTime(treat.Cells["Date"].Value);
-                    selTreatment.Description = treat.Cells["Description"].Value.ToString();
-                    selTreatment.Sessions = Convert.ToInt16(treat.Cells["Sessions"].Value);
+                    this.selTreatment.Identifier = Convert.ToInt32(treat.Cells["Identifier"].Value);
+                    this.selTreatment.Date = Convert.ToDateTime(treat.Cells["Date"].Value);
+                    this.selTreatment.Description = treat.Cells["Description"].Value.ToString();
+                    this.selTreatment.Sessions = Convert.ToInt16(treat.Cells["Sessions"].Value);
                 }
             }
 
@@ -519,6 +539,17 @@ namespace UserInterface
                 launchTreatmentDetails();
             }
 
+            private void btnTreatsDelete_Click(object sender, EventArgs e)
+            {
+                if (MessageBox.Show("¿Eliminar el Tratamiento seleccionado?", "Eliminar Tratamientos", MessageBoxButtons.YesNo,
+                                    MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                {
+                    List<Treatment> lstTreatments = TreatmentBL.deleteTreatment(this.selTreatment.Identifier,
+                                                                                        this.patientDetails.Identifier);
+
+                    populateTreatmentGrid(lstTreatments);
+                }
+            }
 
             private void initTreatments()
             {
@@ -549,6 +580,22 @@ namespace UserInterface
                 dgvTreatments.Columns["Debt"].Width = 70;
                 dgvTreatments.Columns["Sessions"].Width = 70;
                 dgvTreatments.Columns["PhysiotherapistName"].Width = 70;
+
+                dgvTreatments.Columns["Paid"].DefaultCellStyle.Format = "c2";
+                dgvTreatments.Columns["Debt"].DefaultCellStyle.Format = "c2";
+
+                if (lstTreatments.Count > 0)
+                {
+                    int treatCount = lstTreatments.Count;
+
+                    // Scroll to the last row
+                    dgvTreatments.FirstDisplayedScrollingRowIndex = treatCount - 1;
+
+                    // Select the last row
+                    dgvTreatments.Rows[treatCount - 1].Selected = true;
+                }
+
+                btnTreatsDelete.Enabled = (lstTreatments.Count > 0);
             }
 
 
@@ -602,6 +649,8 @@ namespace UserInterface
 
                     initTreatments();
                 }
+
+                frmPatientTreatment.Dispose();
             }
         #endregion
 
@@ -619,7 +668,6 @@ namespace UserInterface
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            
             if (this.hasChanged)
             {
                 if (MessageBox.Show("Se han efectuado cambios en el Paciente, ¿quieres guardarlos?", "Ficha Paciente", MessageBoxButtons.YesNo,
@@ -864,6 +912,10 @@ namespace UserInterface
                 }
             }
         }
+
+        
+
+        
 
         
 

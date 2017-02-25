@@ -39,8 +39,9 @@
             this.mnuAccesories = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAccesories_Locs_Les = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAccesories_Sources_Notes = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuWindows = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAccesories_AdvancedSearch = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuWindows = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAccesories_Debts = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -108,7 +109,8 @@
             this.mnuAccesories.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuAccesories_Locs_Les,
             this.mnuAccesories_Sources_Notes,
-            this.mnuAccesories_AdvancedSearch});
+            this.mnuAccesories_AdvancedSearch,
+            this.mnuAccesories_Debts});
             this.mnuAccesories.Name = "mnuAccesories";
             this.mnuAccesories.Size = new System.Drawing.Size(76, 20);
             this.mnuAccesories.Text = "Accesorios";
@@ -127,18 +129,25 @@
             this.mnuAccesories_Sources_Notes.Text = "Fuentes y Notas...";
             this.mnuAccesories_Sources_Notes.Click += new System.EventHandler(this.mnuAccesories_Sources_Notes_Click);
             // 
-            // mnuWindows
-            // 
-            this.mnuWindows.Name = "mnuWindows";
-            this.mnuWindows.Size = new System.Drawing.Size(66, 20);
-            this.mnuWindows.Text = "Ventanas";
-            // 
             // mnuAccesories_AdvancedSearch
             // 
             this.mnuAccesories_AdvancedSearch.Name = "mnuAccesories_AdvancedSearch";
             this.mnuAccesories_AdvancedSearch.Size = new System.Drawing.Size(216, 22);
             this.mnuAccesories_AdvancedSearch.Text = "Búsqueda avanzada...";
             this.mnuAccesories_AdvancedSearch.Click += new System.EventHandler(this.mnuAccesories_AdvancedSearch_Click);
+            // 
+            // mnuWindows
+            // 
+            this.mnuWindows.Name = "mnuWindows";
+            this.mnuWindows.Size = new System.Drawing.Size(66, 20);
+            this.mnuWindows.Text = "Ventanas";
+            // 
+            // mnuAccesories_Debts
+            // 
+            this.mnuAccesories_Debts.Name = "mnuAccesories_Debts";
+            this.mnuAccesories_Debts.Size = new System.Drawing.Size(216, 22);
+            this.mnuAccesories_Debts.Text = "Deudas pendientes...";
+            this.mnuAccesories_Debts.Click += new System.EventHandler(this.mnuAccesories_Debts_Click);
             // 
             // mdiContainer
             // 
@@ -176,5 +185,6 @@
         private System.Windows.Forms.ToolStripMenuItem mnuMain_Exit;
         private System.Windows.Forms.ToolStripMenuItem mnuWindows;
         private System.Windows.Forms.ToolStripMenuItem mnuAccesories_AdvancedSearch;
+        private System.Windows.Forms.ToolStripMenuItem mnuAccesories_Debts;
     }
 }
