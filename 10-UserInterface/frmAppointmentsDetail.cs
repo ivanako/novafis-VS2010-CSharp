@@ -29,6 +29,8 @@ namespace UserInterface
 
         private void frmAppointmentsDetail_Load(object sender, EventArgs e)
         {
+            loadFormsOfPayment();
+
             populatePhysios();
 
             bindAppControls();
@@ -177,7 +179,39 @@ namespace UserInterface
             txtAppPatient.DataBindings.Add("Tag", bs, "Patient", true, DataSourceUpdateMode.OnPropertyChanged);
 
             txtAppPatient.ReadOnly = (this.appDetails.Patient != null);
-            btnAppDelPatient.Enabled = (this.appDetails.Patient != null); ;
+            btnAppDelPatient.Enabled = (this.appDetails.Patient != null);
+
+            if (this.appDetails.FormOfPayment != null)
+            {
+                foreach (Control appControl in this.Controls)
+                {
+                    //if (appControl.GetType() == typeof(GroupBox) && appControl.Name.ToLower().Contains("accounting"))
+                    //{
+                    //    foreach (Control accControl in appControl.Controls)
+                    //    {
+                    //        if (accControl.GetType() == typeof(GroupBox))
+                    //        {
+                    foreach (Control fpyControl in grbAppFormPayment.Controls)
+                    {
+                        if (fpyControl.GetType() == typeof(RadioButton))
+                        {
+                            string fpyControlName = ((RadioButton)fpyControl).Name;
+
+                            if (fpyControlName.Contains(this.appDetails.FormOfPayment.Code))
+                            {
+                                ((RadioButton)fpyControl).Checked = true;
+                            }
+                        }
+                    }
+
+                                break;
+                            //}
+                    //    }
+
+                    //    break;
+                    //}
+                }
+            }
 
             preparePatientTextBox();
 
@@ -256,6 +290,33 @@ namespace UserInterface
 
             errAppDetail.SetError(txtAppPatient, string.Empty);
             errAppDetail.SetError(cboAppPhysiotherapists, string.Empty);
+            errAppDetail.SetError(grbAppFormPayment, string.Empty);
+
+            if (nudAppPaid.Value > 0)
+            {
+                bool isPaymentChecked = false;
+
+                foreach (Control fpyControl in grbAppFormPayment.Controls)
+                {
+                    if (fpyControl.GetType() == typeof(RadioButton))
+                    {
+                        RadioButton radFpyControl = (RadioButton)fpyControl;
+                        errAppDetail.SetError(radFpyControl, string.Empty);
+
+                        if (radFpyControl.Checked)
+                        {
+                            isPaymentChecked = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!isPaymentChecked)
+                {
+                    errAppDetail.SetError(grbAppFormPayment, "Proporcionar Forma de Pago");
+                    isOK = false;
+                }
+            }
 
             if (string.IsNullOrWhiteSpace(txtAppPatient.Text))
             {
@@ -383,9 +444,77 @@ namespace UserInterface
 
 
 
-        
+        private void paintGroupBoxBorder(GroupBox grb, Graphics grbGraphics)
+        {
+            Brush textBrush = new SolidBrush(Color.Black);
+            Brush borderBrush = new SolidBrush(SystemColors.Control);
+            Pen borderPen = new Pen(borderBrush);
+            SizeF strSize = grbGraphics.MeasureString(grb.Text, grb.Font);
+            Rectangle rect = new Rectangle(grb.ClientRectangle.X,
+                                           grb.ClientRectangle.Y + (int)(strSize.Height / 2),
+                                           grb.ClientRectangle.Width - 1,
+                                           grb.ClientRectangle.Height - (int)(strSize.Height / 2) - 1);
 
-        
+            // Clear text and border
+            grbGraphics.Clear(this.BackColor);
+
+            // Draw text
+            grbGraphics.DrawString(grb.Text, grb.Font, textBrush, grb.Padding.Left, 0);
+
+            // Drawing Border
+            //Left
+            grbGraphics.DrawLine(borderPen, rect.Location, new Point(rect.X, rect.Y + rect.Height));
+            //Right
+            grbGraphics.DrawLine(borderPen, new Point(rect.X + rect.Width, rect.Y), new Point(rect.X + rect.Width, rect.Y + rect.Height));
+            //Bottom
+            grbGraphics.DrawLine(borderPen, new Point(rect.X, rect.Y + rect.Height), new Point(rect.X + rect.Width, rect.Y + rect.Height));
+            //Top1
+            grbGraphics.DrawLine(borderPen, new Point(rect.X, rect.Y), new Point(rect.X + grb.Padding.Left, rect.Y));
+            //Top2
+            grbGraphics.DrawLine(borderPen, new Point(rect.X + grb.Padding.Left + (int)(strSize.Width), rect.Y), new Point(rect.X + rect.Width, rect.Y));
+        }
+
+        private void grbAppFormPayment_Paint(object sender, PaintEventArgs e)
+        {
+            paintGroupBoxBorder((GroupBox)sender, e.Graphics);
+        }
+
+
+        private void loadFormsOfPayment()
+        {
+            int radLocX = 10;
+
+            List<FormOfPayment> lstPayments = FormOfPaymentBL.findAllFormsOfPayment();
+
+            foreach (FormOfPayment fpy in lstPayments)
+            {
+                RadioButton radFpy = new RadioButton()
+                {
+                    Name = string.Format("radFormPayment{0}", fpy.Code),
+                    Text = fpy.Name,
+                    //ForeColor = ColorTranslator.FromHtml(fpy.Colour),
+                    Tag = fpy,
+                    AutoSize = true,
+                    Location = new Point(radLocX, 20)
+                };
+
+                radFpy.CheckedChanged += new EventHandler(this.radFormPayment_CheckedChanged);
+
+                grbAppFormPayment.Controls.Add(radFpy);
+
+                radLocX += radFpy.Width + 10;
+            }
+        }
+
+        private void radFormPayment_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radFormPayment = (RadioButton)sender;
+
+            if (radFormPayment.Checked)
+            {
+                this.appDetails.FormOfPayment = (FormOfPayment)radFormPayment.Tag;
+            }
+        }
         
     }
 }

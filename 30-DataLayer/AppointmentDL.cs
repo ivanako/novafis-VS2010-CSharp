@@ -52,6 +52,18 @@ namespace DataLayer
                 new MySqlParameter() {ParameterName = "iIDFisio", MySqlDbType = MySqlDbType.Int32, Value = app.Physiotherapist.Identifier, Direction = ParameterDirection.Input}
             };
 
+            MySqlParameter sqlSave = null;
+
+            if (app.FormOfPayment == null)
+            {
+                sqlSave = new MySqlParameter() { ParameterName = "idFormaPago", MySqlDbType = MySqlDbType.String, Size = 3, Value = DBNull.Value, Direction = ParameterDirection.Input };
+            }
+            else
+            {
+                sqlSave = new MySqlParameter() { ParameterName = "idFormaPago", MySqlDbType = MySqlDbType.String, Size = 3, Value = app.FormOfPayment.Code, Direction = ParameterDirection.Input };
+            }
+            lstParams.Add(sqlSave);
+
             saveOK = MyStoredProcs.callStoredProc2("spCitas_Guardar", lstParams);
 
             return saveOK;

@@ -55,6 +55,8 @@
             this.btnAppNewPatient = new System.Windows.Forms.Button();
             this.btnAppDelPatient = new System.Windows.Forms.Button();
             this.errAppDetail = new System.Windows.Forms.ErrorProvider(this.components);
+            this.grbAppFormPayment = new System.Windows.Forms.GroupBox();
+            this.lblAppFormPayment = new System.Windows.Forms.Label();
             this.grbAppAccounting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudAppDebt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAppPaid)).BeginInit();
@@ -119,15 +121,17 @@
             // 
             // grbAppAccounting
             // 
+            this.grbAppAccounting.Controls.Add(this.grbAppFormPayment);
             this.grbAppAccounting.Controls.Add(this.nudAppDebt);
             this.grbAppAccounting.Controls.Add(this.nudAppPaid);
             this.grbAppAccounting.Controls.Add(this.lblAppDebtCurrency);
             this.grbAppAccounting.Controls.Add(this.lblAppPaidCurrency);
             this.grbAppAccounting.Controls.Add(this.lblAppDebt);
+            this.grbAppAccounting.Controls.Add(this.lblAppFormPayment);
             this.grbAppAccounting.Controls.Add(this.lblAppPaid);
             this.grbAppAccounting.Location = new System.Drawing.Point(25, 110);
             this.grbAppAccounting.Name = "grbAppAccounting";
-            this.grbAppAccounting.Size = new System.Drawing.Size(216, 102);
+            this.grbAppAccounting.Size = new System.Drawing.Size(435, 123);
             this.grbAppAccounting.TabIndex = 2;
             this.grbAppAccounting.TabStop = false;
             this.grbAppAccounting.Text = "Contabilidad";
@@ -135,7 +139,7 @@
             // nudAppDebt
             // 
             this.nudAppDebt.DecimalPlaces = 2;
-            this.nudAppDebt.Location = new System.Drawing.Point(81, 65);
+            this.nudAppDebt.Location = new System.Drawing.Point(305, 34);
             this.nudAppDebt.Name = "nudAppDebt";
             this.nudAppDebt.Size = new System.Drawing.Size(85, 21);
             this.nudAppDebt.TabIndex = 2;
@@ -153,7 +157,7 @@
             // lblAppDebtCurrency
             // 
             this.lblAppDebtCurrency.AutoSize = true;
-            this.lblAppDebtCurrency.Location = new System.Drawing.Point(172, 67);
+            this.lblAppDebtCurrency.Location = new System.Drawing.Point(396, 36);
             this.lblAppDebtCurrency.Name = "lblAppDebtCurrency";
             this.lblAppDebtCurrency.Size = new System.Drawing.Size(14, 13);
             this.lblAppDebtCurrency.TabIndex = 1;
@@ -171,7 +175,7 @@
             // lblAppDebt
             // 
             this.lblAppDebt.AutoSize = true;
-            this.lblAppDebt.Location = new System.Drawing.Point(19, 67);
+            this.lblAppDebt.Location = new System.Drawing.Point(243, 36);
             this.lblAppDebt.Name = "lblAppDebt";
             this.lblAppDebt.Size = new System.Drawing.Size(44, 13);
             this.lblAppDebt.TabIndex = 1;
@@ -189,7 +193,7 @@
             // chkAppCancelled
             // 
             this.chkAppCancelled.AutoSize = true;
-            this.chkAppCancelled.Location = new System.Drawing.Point(279, 110);
+            this.chkAppCancelled.Location = new System.Drawing.Point(25, 246);
             this.chkAppCancelled.Name = "chkAppCancelled";
             this.chkAppCancelled.Size = new System.Drawing.Size(87, 17);
             this.chkAppCancelled.TabIndex = 3;
@@ -199,7 +203,7 @@
             // 
             // txtAppCancellationReason
             // 
-            this.txtAppCancellationReason.Location = new System.Drawing.Point(279, 141);
+            this.txtAppCancellationReason.Location = new System.Drawing.Point(25, 269);
             this.txtAppCancellationReason.MaxLength = 200;
             this.txtAppCancellationReason.Multiline = true;
             this.txtAppCancellationReason.Name = "txtAppCancellationReason";
@@ -211,7 +215,7 @@
             // 
             this.cboAppPhysiotherapists.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboAppPhysiotherapists.FormattingEnabled = true;
-            this.cboAppPhysiotherapists.Location = new System.Drawing.Point(316, 229);
+            this.cboAppPhysiotherapists.Location = new System.Drawing.Point(317, 269);
             this.cboAppPhysiotherapists.Name = "cboAppPhysiotherapists";
             this.cboAppPhysiotherapists.Size = new System.Drawing.Size(144, 21);
             this.cboAppPhysiotherapists.TabIndex = 5;
@@ -219,7 +223,7 @@
             // lblAppPhysio
             // 
             this.lblAppPhysio.AutoSize = true;
-            this.lblAppPhysio.Location = new System.Drawing.Point(223, 232);
+            this.lblAppPhysio.Location = new System.Drawing.Point(224, 272);
             this.lblAppPhysio.Name = "lblAppPhysio";
             this.lblAppPhysio.Size = new System.Drawing.Size(87, 13);
             this.lblAppPhysio.TabIndex = 6;
@@ -228,7 +232,7 @@
             // lblAppObservation
             // 
             this.lblAppObservation.AutoSize = true;
-            this.lblAppObservation.Location = new System.Drawing.Point(22, 232);
+            this.lblAppObservation.Location = new System.Drawing.Point(22, 370);
             this.lblAppObservation.Name = "lblAppObservation";
             this.lblAppObservation.Size = new System.Drawing.Size(114, 13);
             this.lblAppObservation.TabIndex = 6;
@@ -236,7 +240,7 @@
             // 
             // txtAppObservation
             // 
-            this.txtAppObservation.Location = new System.Drawing.Point(25, 256);
+            this.txtAppObservation.Location = new System.Drawing.Point(25, 394);
             this.txtAppObservation.MaxLength = 200;
             this.txtAppObservation.Multiline = true;
             this.txtAppObservation.Name = "txtAppObservation";
@@ -246,7 +250,7 @@
             // 
             // btnAppCancel
             // 
-            this.btnAppCancel.Location = new System.Drawing.Point(375, 327);
+            this.btnAppCancel.Location = new System.Drawing.Point(375, 465);
             this.btnAppCancel.Name = "btnAppCancel";
             this.btnAppCancel.Size = new System.Drawing.Size(86, 33);
             this.btnAppCancel.TabIndex = 8;
@@ -257,7 +261,7 @@
             // 
             // btnAppSave
             // 
-            this.btnAppSave.Location = new System.Drawing.Point(283, 327);
+            this.btnAppSave.Location = new System.Drawing.Point(283, 465);
             this.btnAppSave.Name = "btnAppSave";
             this.btnAppSave.Size = new System.Drawing.Size(86, 33);
             this.btnAppSave.TabIndex = 8;
@@ -270,7 +274,7 @@
             // 
             this.btnAppPatient.Enabled = false;
             this.btnAppPatient.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnAppPatient.Location = new System.Drawing.Point(25, 327);
+            this.btnAppPatient.Location = new System.Drawing.Point(25, 465);
             this.btnAppPatient.Name = "btnAppPatient";
             this.btnAppPatient.Size = new System.Drawing.Size(86, 33);
             this.btnAppPatient.TabIndex = 8;
@@ -282,7 +286,7 @@
             // btnAppNewPatient
             // 
             this.btnAppNewPatient.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnAppNewPatient.Location = new System.Drawing.Point(117, 327);
+            this.btnAppNewPatient.Location = new System.Drawing.Point(117, 465);
             this.btnAppNewPatient.Name = "btnAppNewPatient";
             this.btnAppNewPatient.Size = new System.Drawing.Size(86, 33);
             this.btnAppNewPatient.TabIndex = 8;
@@ -306,11 +310,29 @@
             // 
             this.errAppDetail.ContainerControl = this;
             // 
+            // grbAppFormPayment
+            // 
+            this.grbAppFormPayment.Location = new System.Drawing.Point(130, 65);
+            this.grbAppFormPayment.Name = "grbAppFormPayment";
+            this.grbAppFormPayment.Size = new System.Drawing.Size(178, 52);
+            this.grbAppFormPayment.TabIndex = 3;
+            this.grbAppFormPayment.TabStop = false;
+            this.grbAppFormPayment.Paint += new System.Windows.Forms.PaintEventHandler(this.grbAppFormPayment_Paint);
+            // 
+            // lblAppFormPayment
+            // 
+            this.lblAppFormPayment.AutoSize = true;
+            this.lblAppFormPayment.Location = new System.Drawing.Point(19, 87);
+            this.lblAppFormPayment.Name = "lblAppFormPayment";
+            this.lblAppFormPayment.Size = new System.Drawing.Size(93, 13);
+            this.lblAppFormPayment.TabIndex = 1;
+            this.lblAppFormPayment.Text = "Forma de pago";
+            // 
             // frmAppointmentsDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(489, 381);
+            this.ClientSize = new System.Drawing.Size(489, 518);
             this.ControlBox = false;
             this.Controls.Add(this.btnAppDelPatient);
             this.Controls.Add(this.btnAppNewPatient);
@@ -377,5 +399,7 @@
         private System.Windows.Forms.Button btnAppDelPatient;
         private System.Windows.Forms.ErrorProvider errAppDetail;
         private System.Windows.Forms.Button btnAppNewPatient;
+        private System.Windows.Forms.GroupBox grbAppFormPayment;
+        private System.Windows.Forms.Label lblAppFormPayment;
     }
 }

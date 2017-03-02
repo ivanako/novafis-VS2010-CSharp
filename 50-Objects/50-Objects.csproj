@@ -46,6 +46,7 @@
     <Compile Include="Cancellation.cs" />
     <Compile Include="ColourExtension.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="FormOfPayment.cs" />
     <Compile Include="General.cs" />
     <Compile Include="GlobalVars.cs" />
     <Compile Include="Invoice.cs" />

@@ -50,7 +50,11 @@ namespace UserInterface
 
         private void calAppointment_DateChanged(object sender, DateRangeEventArgs e)
         {
+            this.Cursor = Cursors.WaitCursor;
+
             manageDate();
+
+            this.Cursor = Cursors.Default;
         }
 
         private void manageDate()
@@ -81,6 +85,8 @@ namespace UserInterface
 
         private void radPhysio_CheckedChanged(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.WaitCursor;
+
             RadioButton radPhysio = (RadioButton)sender;
 
             radPhysio.Font = new Font(radPhysio.Font, FontStyle.Regular);
@@ -92,12 +98,9 @@ namespace UserInterface
                 this.PhysioSel = (Physiotherapist)radPhysio.Tag;
 
                 manageDate();
-
-                //if (this.dateAppointments != null)
-                //{
-                //    populateAppointmentsGrid();
-                //}
             }
+
+            this.Cursor = Cursors.Default;
         }
 
         private void dgvAppointments_SelectionChanged(object sender, EventArgs e)
@@ -293,8 +296,6 @@ namespace UserInterface
 
         private void populateAppointmentsGrid()
         {
-            this.Cursor = Cursors.WaitCursor;
-
             lblNoTimetable.SendToBack();
 
             List<Appointment> lstAppointments = new List<Appointment>();
@@ -335,6 +336,7 @@ namespace UserInterface
                 dgvAppointments.Columns["Patient"].Visible = false;
                 dgvAppointments.Columns["Physiotherapist"].Visible = false;
                 dgvAppointments.Columns["CancellationWhy"].Visible = false;
+                dgvAppointments.Columns["FormOfPayment"].Visible = false;
 
 
                 //Color colPhyTuned = Color.FromArgb(200, ColorTranslator.FromHtml(this.PhysioSel.Colour));
@@ -367,8 +369,6 @@ namespace UserInterface
                 btnPatient.Enabled = false;
                 btnAppPanel.Enabled = false;
             }
-
-            this.Cursor = Cursors.Default;
         }
 
 
@@ -407,6 +407,12 @@ namespace UserInterface
             double appDebt = Convert.ToDouble(rowApp.Cells["Debt"].Value);
             Patient appPatient = (Patient)rowApp.Cells["Patient"].Value;
             Physiotherapist appPhysio = (Physiotherapist)rowApp.Cells["Physiotherapist"].Value;
+            FormOfPayment appFormPayment = null;
+
+            if (rowApp.Cells["FormOfPayment"].Value != null)
+            {
+                appFormPayment = (FormOfPayment)rowApp.Cells["FormOfPayment"].Value;
+            }
 
             this.selAppointment = new Appointment()
             {
@@ -418,7 +424,8 @@ namespace UserInterface
                 Paid = appPaid,
                 Debt = appDebt,
                 Patient = appPatient,
-                Physiotherapist = appPhysio
+                Physiotherapist = appPhysio,
+                FormOfPayment = appFormPayment
             };
 
             if (appPatient == null)

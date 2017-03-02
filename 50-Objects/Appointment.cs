@@ -150,7 +150,8 @@ namespace Objects
         public Patient Patient { get; set; }
         [DisplayName("Fisioterapeuta")]
         public Physiotherapist Physiotherapist { get; set; }
-
+        [DisplayName("Forma de pago")]
+        public FormOfPayment FormOfPayment { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

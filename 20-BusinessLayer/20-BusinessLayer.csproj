@@ -43,6 +43,7 @@
     <Compile Include="AddressBL.cs" />
     <Compile Include="AppointmentBL.cs" />
     <Compile Include="CancellationBL.cs" />
+    <Compile Include="FormOfPaymentBL.cs" />
     <Compile Include="InvoiceBL.cs" />
     <Compile Include="NoteBL.cs" />
     <Compile Include="TimetableBL.cs" />

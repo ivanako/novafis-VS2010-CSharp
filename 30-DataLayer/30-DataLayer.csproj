@@ -47,6 +47,7 @@
     <Compile Include="AddressDL.cs" />
     <Compile Include="AppointmentDL.cs" />
     <Compile Include="CancellationDL.cs" />
+    <Compile Include="FormOfPaymentDL.cs" />
     <Compile Include="InvoiceDL.cs" />
     <Compile Include="NoteDL.cs" />
     <Compile Include="TimetableDL.cs" />

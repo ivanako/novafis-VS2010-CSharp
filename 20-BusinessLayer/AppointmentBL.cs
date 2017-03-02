@@ -21,7 +21,14 @@ namespace BusinessLayer
                 Physiotherapist phy = PhysioBL.findOnePhysio(Convert.ToInt32(drAppointment["FIS_ID"]));
                 Patient pat = PatientBL.findOnePatient(Convert.ToInt32(drAppointment["PAC_ID"]));
                 pat.Treatments = TreatmentBL.findTreatmentsByPatient(pat.Identifier);
-                
+
+                FormOfPayment fpy = null;
+
+                if (drAppointment["FPG_Code"] != DBNull.Value)
+                {
+                    fpy = FormOfPaymentBL.findOneFormOfPayment(Convert.ToString(drAppointment["FPG_Code"]));
+                }
+
                 Appointment app = new Appointment()
                 {
                     Identifier = Convert.ToInt32(drAppointment["CIT_ID"]),
@@ -33,7 +40,8 @@ namespace BusinessLayer
                     IsCancelled = Convert.ToBoolean(drAppointment["CIT_Anulada"]),
                     CancellationWhy = drAppointment["CIT_MotivoAnulacion"].ToString(),
                     Physiotherapist = phy,
-                    Patient = pat
+                    Patient = pat,
+                    FormOfPayment = fpy
                 };
 
                 lstAppointments.Add(app);
