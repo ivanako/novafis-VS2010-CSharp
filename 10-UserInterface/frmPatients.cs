@@ -36,7 +36,11 @@ namespace UserInterface
 
         private void frmPatients_Load(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.WaitCursor;
+
             initLoad();
+
+            this.Cursor = Cursors.Default;
         }
 
         private void grbFilter_Paint(object sender, PaintEventArgs e)
@@ -230,8 +234,6 @@ namespace UserInterface
 
         private void initLoad()
         {
-            Cursor.Current = Cursors.WaitCursor;
-
             //patientOperation = Maintenance.Edit;
 
             this.selPatient = new Patient();
@@ -247,8 +249,6 @@ namespace UserInterface
 
             navigateGrid(Navigation.First);
             grbNavigator.Enabled = (this.pageCount > 1);
-
-            Cursor.Current = Cursors.Default;
         }
 
         private void populatePatientGrid()
@@ -282,7 +282,7 @@ namespace UserInterface
             dgvPatients.Columns["SourceDesc"].DisplayIndex = 7;
             dgvPatients.Columns["PhysiotherapistName"].DisplayIndex = 8;
 
-            if (this.patientIndex > 0)
+            if (this.patientIndex > 0 && dgvPatients.Rows.Count > 0)
             {
                 dgvPatients.Rows[this.patientIndex].Selected = true;
             }
@@ -417,7 +417,7 @@ namespace UserInterface
                         this.selPatient.Treatments = patTreatments;
                     }
 
-                    frmPatientDetail.Text = this.selPatient.FullName;
+                    frmPatientDetail.Text = String.Format("Paciente: {0}", this.selPatient.FullName);
 
                     break;
             }

@@ -39,13 +39,15 @@ namespace UserInterface
 
             manageDate();
 
-            preparePatientTextBox();
+            //preparePatientTextBox();
 
-            splAppointments.Panel2Collapsed = true;
+            loadPatients();
+
+            //splAppointments.Panel2Collapsed = true;
         }
         private void frmAppointments_Activated(object sender, EventArgs e)
         {
-            preparePatientTextBox();
+            //preparePatientTextBox();
         }
 
         private void calAppointment_DateChanged(object sender, DateRangeEventArgs e)
@@ -337,6 +339,7 @@ namespace UserInterface
                 dgvAppointments.Columns["Physiotherapist"].Visible = false;
                 dgvAppointments.Columns["CancellationWhy"].Visible = false;
                 dgvAppointments.Columns["FormOfPayment"].Visible = false;
+                dgvAppointments.Columns["RegistryDate"].Visible = false;
 
 
                 //Color colPhyTuned = Color.FromArgb(200, ColorTranslator.FromHtml(this.PhysioSel.Colour));
@@ -376,7 +379,6 @@ namespace UserInterface
         {
             frmAppointmentsDetail frmAppDetail = new frmAppointmentsDetail();
 
-
             frmAppDetail.appDetails = this.selAppointment;
             frmAppDetail.appOperation = this.appOperation;
             //frmPatientDetail.Text = string.Format(frmPatientDetail.Text, selPatient.FullName);
@@ -388,7 +390,7 @@ namespace UserInterface
 
                 populateAppointmentsGrid();
 
-                MessageBox.Show("Cita guardada correctamente", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageBox.Show("Cita guardada correctamente", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 frmAppDetail.Dispose();
             }
@@ -414,6 +416,13 @@ namespace UserInterface
                 appFormPayment = (FormOfPayment)rowApp.Cells["FormOfPayment"].Value;
             }
 
+            Nullable<DateTime> appRegistryDate = null;
+
+            if (rowApp.Cells["RegistryDate"].Value != null)
+            {
+                appRegistryDate = Convert.ToDateTime(rowApp.Cells["RegistryDate"].Value);
+            }
+
             this.selAppointment = new Appointment()
             {
                 Date = appDate,
@@ -425,7 +434,8 @@ namespace UserInterface
                 Debt = appDebt,
                 Patient = appPatient,
                 Physiotherapist = appPhysio,
-                FormOfPayment = appFormPayment
+                FormOfPayment = appFormPayment,
+                RegistryDate = appRegistryDate
             };
 
             if (appPatient == null)
@@ -486,6 +496,19 @@ namespace UserInterface
 
         #region APPOINTMENT PANEL
 
+            private List<Patient> appPatients;
+            //private Patient appPatient;
+
+            private void lstTimes_SelectedIndexChanged(object sender, EventArgs e)
+            {
+                checkAppFields();
+            }
+            private void dgvPatients_SelectionChanged(object sender, EventArgs e)
+            {
+                checkAppFields();
+                //btnAppointment.Enabled = (dgvPatients.SelectedRows.Count == 1);
+            }
+
             private void txtPatName_KeyDown(object sender, KeyEventArgs e)
             {
                 if (e.KeyData == Keys.Enter && GetKeyState(Keys.Enter) < 0)
@@ -509,11 +532,78 @@ namespace UserInterface
                 resetPatient();
             }
 
+            private void txtPatient_TextChanged(object sender, EventArgs e)
+            {
+                this.Cursor = Cursors.WaitCursor;
+
+                filterPatients();
+
+                this.Cursor = Cursors.Default;
+            }
+
             private void btnAppointment_Click(object sender, EventArgs e)
             {
+                DataGridViewRow rowPat = dgvPatients.SelectedRows[0];
+                int patIdentifier = Convert.ToInt32(rowPat.Cells["Identifier"].Value);
+
+
+                Patient appPatient = PatientBL.findOnePatient(patIdentifier);
+
+                List<Observation> lstObs = ObservationBL.findObservationsByPatient(patIdentifier);
+                appPatient.Observations = lstObs;
+
+                //Patient appPatient = new Patient()
+                //{
+                //    Identifier = patIdentifier
+                //};
+
+
                 Appointment app = (Appointment)lstTimes.SelectedValue;
-                app.Patient = (Patient)txtPatName.Tag;
+                //app.Patient = (Patient)txtPatName.Tag;
+                app.Patient = appPatient;
                 app.Physiotherapist = this.PhysioSel;
+                if (appPatient.Observations.Count > 0)
+                {
+                    app.Observation = appPatient.Observations.First<Observation>().Description;
+                }
+
+                double patDebt = 0;
+                DateTime patDebtDate = DateTime.Today.AddDays(-1);
+                string patObs = string.Empty;
+
+                bool checkOK = AppointmentBL.checkDebt(app.Patient.Identifier, app.Date, ref patDebt, ref patDebtDate, ref patObs);
+
+                if (checkOK)
+                {
+                    StringBuilder sbDebtMsg = new StringBuilder();
+
+                    string msgHeader = string.Format("El paciente {0} ", app.Patient.FullName) + "\n";
+
+                    if (patDebt > 0)
+                    {
+                        sbDebtMsg.Append(msgHeader);
+                        sbDebtMsg.AppendFormat("tiene una deuda pendiente de {0} euros del día {1}", patDebt, patDebtDate.ToShortDateString());
+                    }
+                    if (!string.IsNullOrWhiteSpace(patObs))
+                    {
+                        if (patDebt == 0)
+                        {
+                            sbDebtMsg.Append(msgHeader);
+                        }
+                        else
+                        {
+                            sbDebtMsg.AppendLine();
+                        }
+
+                        sbDebtMsg.AppendLine("presenta las siguientes observaciones permanentes:");
+                        sbDebtMsg.Append(patObs);
+                    }
+
+                    if (sbDebtMsg.Length > 0)
+                    {
+                        MessageBox.Show(sbDebtMsg.ToString());
+                    }
+                }
 
                 bool saveOK = AppointmentBL.saveAppointment(app);
 
@@ -528,7 +618,7 @@ namespace UserInterface
                     resetPatient();
 
                     //splAppointments.Panel2Collapsed = true;
-                    toggleAppPanel();
+                    //toggleAppPanel();
                 }
             }
 
@@ -614,9 +704,107 @@ namespace UserInterface
                     tipAppointments.SetToolTip(btnAppPanel, "Ocultar panel de Citas");
                 }
             }
+
+
+            private enum FilterOrigins
+            {
+                Load, Filter
+            }
+
+            private void loadPatients()
+            {
+                //patientOperation = Maintenance.Edit;
+
+                //this.selPatient = new Patient();
+
+                //GlobalVars.Patients = PatientBL.findAllPatients();
+
+                this.appPatients = GlobalVars.Patients.Where(p => p.Deleted == false).OrderBy(p => p.FullName).ToList<Patient>();
+
+                //this.pageCount = calculatePageCount();
+                //lblPageCount.Text = this.pageCount.ToString();
+
+                populatePatientGrid(FilterOrigins.Load);
+
+                //navigateGrid(Navigation.First);
+                //grbNavigator.Enabled = (this.pageCount > 1);
+            }
+
+            private void populatePatientGrid(FilterOrigins origin)
+            {
+                List<Patient> lstPatLimit = this.appPatients;
+
+                if (origin == FilterOrigins.Load || string.IsNullOrWhiteSpace(txtPatient.Text))
+                {
+                    lstPatLimit = this.appPatients
+                        .Take<Patient>(100)
+                        .ToList<Patient>();
+                }
+
+                foreach (Patient pat in lstPatLimit)
+                {
+                    List<Observation> lstObs = ObservationBL.findObservationsByPatient(pat.Identifier);
+                    pat.Observations = lstObs;
+                }
+
+                SortableBindingList<Patient> sblPatients = new SortableBindingList<Patient>(lstPatLimit);
+
+                dgvPatients.DataSource = sblPatients;
+
+                dgvPatients.Columns["Identifier"].Visible = false;
+                dgvPatients.Columns["Name"].Visible = false;
+                dgvPatients.Columns["Surname1"].Visible = false;
+                dgvPatients.Columns["Surname2"].Visible = false;
+                dgvPatients.Columns["Identification"].Visible = false;
+                dgvPatients.Columns["EntryDate"].Visible = false;
+                dgvPatients.Columns["HowHeardAboutUs"].Visible = false;
+                dgvPatients.Columns["Gender"].Visible = false;
+                dgvPatients.Columns["DateOfBirth"].Visible = false;
+                //dgvPatients.Columns["BlackList"].Visible = false;
+                dgvPatients.Columns["Deleted"].Visible = false;
+                dgvPatients.Columns["Source"].Visible = false;
+                dgvPatients.Columns["Physiotherapist"].Visible = false;
+                dgvPatients.Columns["Address"].Visible = false;
+                dgvPatients.Columns["SourceDesc"].Visible = false;
+
+                //DataGridViewCellStyle style = new DataGridViewCellStyle();
+                //style.Format = "N0";
+                //dgvPatients.Columns["Identifier"].DefaultCellStyle = style;
+
+                dgvPatients.Columns["FullName"].DisplayIndex = 1;
+                dgvPatients.Columns["PhysiotherapistName"].DisplayIndex = 7;
+                dgvPatients.Columns["PermanentObs"].DisplayIndex = 8;
+                dgvPatients.Columns["BlackList"].DisplayIndex = 9;
+            }
+
+            private void filterPatients()
+            {
+                string filterPatient = txtPatient.Text.Trim();
+
+                var lst = GlobalVars.Patients.Where(
+                    p => p.FullName.StartsWith(filterPatient, StringComparison.CurrentCultureIgnoreCase) &&
+                    p.Deleted == false);
+
+                this.appPatients = lst.OrderBy(p => p.FullName).ToList();
+                
+                populatePatientGrid(FilterOrigins.Filter);
+            }
+
+            private void checkAppFields()
+            {
+                bool okFields = false;
+
+                okFields = (lstTimes.SelectedItems.Count > 0);
+
+                if (okFields)
+                {
+                    okFields = (dgvPatients.SelectedRows.Count == 1);
+                }
+
+                btnAppointment.Enabled = okFields;
+            }
         #endregion
 
             
-
     }
 }

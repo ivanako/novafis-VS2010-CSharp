@@ -39,6 +39,8 @@ namespace UserInterface
             {
                 checkDebt();
                 txtAppPatient.TabStop = false;
+                //nudAppPaid.Focus();
+                this.ActiveControl = nudAppPaid;
                 btnAppPatient.Enabled = true;
             }
         }
@@ -126,8 +128,8 @@ namespace UserInterface
             DateTime patDebtDate = DateTime.Today.AddDays(-1);
             string patObs = string.Empty;
 
-            //Patient pat = this.appDetails.Patient == null ? (Patient)txtAppPatient.Tag : this.appDetails.Patient;
-            Patient pat = (Patient)txtAppPatient.Tag;
+            Patient pat = this.appDetails.Patient == null ? (Patient)txtAppPatient.Tag : this.appDetails.Patient;
+            //Patient pat = (Patient)txtAppPatient.Tag;
 
             bool checkOK = AppointmentBL.checkDebt(pat.Identifier, this.appDetails.Date, ref patDebt, ref patDebtDate, ref patObs);
 
@@ -177,6 +179,7 @@ namespace UserInterface
             txtAppCancellationReason.DataBindings.Add("Text", bs, "CancellationWhy", true, DataSourceUpdateMode.OnPropertyChanged);
             txtAppPatient.DataBindings.Add("Text", bs, "Patient.FullName", true, DataSourceUpdateMode.OnPropertyChanged);
             txtAppPatient.DataBindings.Add("Tag", bs, "Patient", true, DataSourceUpdateMode.OnPropertyChanged);
+            //lblRegistryDate.DataBindings.Add("Text", bs, "RegistryDate", true, DataSourceUpdateMode.OnPropertyChanged);
 
             txtAppPatient.ReadOnly = (this.appDetails.Patient != null);
             btnAppDelPatient.Enabled = (this.appDetails.Patient != null);
@@ -204,8 +207,8 @@ namespace UserInterface
                         }
                     }
 
-                                break;
-                            //}
+                    break;
+                    //}
                     //    }
 
                     //    break;
@@ -225,6 +228,8 @@ namespace UserInterface
             {
                 cboAppPhysiotherapists.SelectedValue = this.appDetails.Physiotherapist.Identifier;
             }
+
+            lblRegistryDate.Text = this.appDetails.RegistryDate.ToString();
         }
 
         private void preparePatientTextBox()
@@ -257,7 +262,8 @@ namespace UserInterface
             if (hasPatient)
             {
                 Patient pat = GlobalVars.Patients.Where(p => p.FullName.Equals(txtAppPatient.Text)).First<Patient>();
-                txtAppPatient.Tag = pat;
+                //txtAppPatient.Tag = pat;
+                this.appDetails.Patient = pat;
 
                 if (cboAppPhysiotherapists.SelectedItem == null)
                 {
@@ -357,7 +363,7 @@ namespace UserInterface
 
                 if (lstAppPhysioTable.Count == 0)
                 {
-                    MessageBox.Show(String.Format("El fisio {0} no tiene asignadado un horario para el día {1}", this.appDetails.Physiotherapist.Alias, this.appDetails.Date.ToShortDateString()),
+                    MessageBox.Show(String.Format("El fisio {0} no tiene asignado un horario para el día {1}", this.appDetails.Physiotherapist.Alias, this.appDetails.Date.ToShortDateString()),
                                     "Fisio sin horario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     isAllowed = false;
                 }
@@ -394,6 +400,8 @@ namespace UserInterface
 
             if (isAllowed)
             {
+                //this.appDetails.Patient = (Patient)txtAppPatient.Tag;
+
                 bool saveOK = AppointmentBL.saveAppointment(this.appDetails);
 
                 if (saveOK)

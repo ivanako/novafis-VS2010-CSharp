@@ -60,6 +60,8 @@
     <Compile Include="Physiotherapist.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Province.cs" />
+    <Compile Include="ReportFormPaymentPat.cs" />
+    <Compile Include="ReportPhysioPat.cs" />
     <Compile Include="SortableBindingList.cs" />
     <Compile Include="Source.cs" />
     <Compile Include="Timetable.cs" />

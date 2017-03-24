@@ -11,6 +11,7 @@ namespace Objects
         private long _id;
         private DateTime _appDate;
         private string _appTime;
+        //private Nullable<DateTime> _appRegDate;
 
         [DisplayName("Identificador")]
         public long Identifier
@@ -152,6 +153,12 @@ namespace Objects
         public Physiotherapist Physiotherapist { get; set; }
         [DisplayName("Forma de pago")]
         public FormOfPayment FormOfPayment { get; set; }
+
+        [DisplayName("Fecha Registro")]
+        public Nullable<DateTime> RegistryDate { get; set; }
+        //{
+        //    get { return _appRegDate; }
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
 

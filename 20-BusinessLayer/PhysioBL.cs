@@ -55,6 +55,7 @@ namespace BusinessLayer
                 physio.Surname1 = dtPhysio.Rows[0]["FIS_Apellido1"].ToString();
                 physio.Surname2 = dtPhysio.Rows[0]["FIS_Apellido2"].ToString();
                 physio.Alias = dtPhysio.Rows[0]["FIS_Alias"].ToString();
+                physio.Colour = dtPhysio.Rows[0]["FIS_Color"].ToString();
             }
 
             return physio;

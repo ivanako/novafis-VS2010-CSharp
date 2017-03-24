@@ -216,6 +216,24 @@ namespace Objects
             set { _treatments = value; }
         }
 
+        [DisplayName("Observación permanente")]
+        public string PermanentObs
+        {
+            get 
+            {
+                string permObs = string.Empty;
+
+                if (this.Observations != null)
+                {
+                    if (this.Observations.Count > 0)
+                    {
+                        permObs = this.Observations.First<Observation>().Description;
+                    }
+                }
+
+                return permObs; 
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

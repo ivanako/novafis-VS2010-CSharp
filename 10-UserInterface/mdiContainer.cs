@@ -70,6 +70,10 @@ namespace UserInterface
         }
 
 
+        private void mnuAccesories_Daily_Click(object sender, EventArgs e)
+        {
+            checkFormOpen(new frmDaily());
+        }
 
         /// <summary>
         /// Check if an MDI child is already open
@@ -160,11 +164,6 @@ namespace UserInterface
 
             return exitApp;
         }
-
-        
-
-        
-
 
     }
 }

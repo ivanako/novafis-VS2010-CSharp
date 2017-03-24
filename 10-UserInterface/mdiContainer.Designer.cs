@@ -40,16 +40,20 @@
             this.mnuAccesories_Locs_Les = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAccesories_Sources_Notes = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAccesories_AdvancedSearch = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuWindows = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAccesories_Debts = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuReports = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAccesories_Daily = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuWindows = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
+            this.menuStrip1.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuMain,
             this.mnuAccesories,
+            this.mnuReports,
             this.mnuWindows});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.MdiWindowListItem = this.mnuWindows;
@@ -68,39 +72,39 @@
             this.mnuMain_Sep1,
             this.mnuMain_Exit});
             this.mnuMain.Name = "mnuMain";
-            this.mnuMain.Size = new System.Drawing.Size(65, 20);
+            this.mnuMain.Size = new System.Drawing.Size(67, 20);
             this.mnuMain.Text = "Principal";
             // 
             // mnuMain_Patients
             // 
             this.mnuMain_Patients.Name = "mnuMain_Patients";
-            this.mnuMain_Patients.Size = new System.Drawing.Size(162, 22);
+            this.mnuMain_Patients.Size = new System.Drawing.Size(172, 22);
             this.mnuMain_Patients.Text = "Pacientes...";
             this.mnuMain_Patients.Click += new System.EventHandler(this.mnuMain_Patients_Click);
             // 
             // mnuMain_Physios
             // 
             this.mnuMain_Physios.Name = "mnuMain_Physios";
-            this.mnuMain_Physios.Size = new System.Drawing.Size(162, 22);
+            this.mnuMain_Physios.Size = new System.Drawing.Size(172, 22);
             this.mnuMain_Physios.Text = "Fisioterapeutas...";
             this.mnuMain_Physios.Click += new System.EventHandler(this.mnuMain_Physios_Click);
             // 
             // mnuMain_Appointments
             // 
             this.mnuMain_Appointments.Name = "mnuMain_Appointments";
-            this.mnuMain_Appointments.Size = new System.Drawing.Size(162, 22);
+            this.mnuMain_Appointments.Size = new System.Drawing.Size(172, 22);
             this.mnuMain_Appointments.Text = "Citas...";
             this.mnuMain_Appointments.Click += new System.EventHandler(this.mnuMain_Appointments_Click);
             // 
             // mnuMain_Sep1
             // 
             this.mnuMain_Sep1.Name = "mnuMain_Sep1";
-            this.mnuMain_Sep1.Size = new System.Drawing.Size(159, 6);
+            this.mnuMain_Sep1.Size = new System.Drawing.Size(169, 6);
             // 
             // mnuMain_Exit
             // 
             this.mnuMain_Exit.Name = "mnuMain_Exit";
-            this.mnuMain_Exit.Size = new System.Drawing.Size(162, 22);
+            this.mnuMain_Exit.Size = new System.Drawing.Size(172, 22);
             this.mnuMain_Exit.Text = "Salir";
             this.mnuMain_Exit.Click += new System.EventHandler(this.mnuMain_Exit_Click);
             // 
@@ -112,42 +116,57 @@
             this.mnuAccesories_AdvancedSearch,
             this.mnuAccesories_Debts});
             this.mnuAccesories.Name = "mnuAccesories";
-            this.mnuAccesories.Size = new System.Drawing.Size(76, 20);
+            this.mnuAccesories.Size = new System.Drawing.Size(80, 20);
             this.mnuAccesories.Text = "Accesorios";
             // 
             // mnuAccesories_Locs_Les
             // 
             this.mnuAccesories_Locs_Les.Name = "mnuAccesories_Locs_Les";
-            this.mnuAccesories_Locs_Les.Size = new System.Drawing.Size(216, 22);
+            this.mnuAccesories_Locs_Les.Size = new System.Drawing.Size(231, 22);
             this.mnuAccesories_Locs_Les.Text = "Localizaciones y Lesiones...";
             this.mnuAccesories_Locs_Les.Click += new System.EventHandler(this.mnuAccesories_Locs_Les_Click);
             // 
             // mnuAccesories_Sources_Notes
             // 
             this.mnuAccesories_Sources_Notes.Name = "mnuAccesories_Sources_Notes";
-            this.mnuAccesories_Sources_Notes.Size = new System.Drawing.Size(216, 22);
+            this.mnuAccesories_Sources_Notes.Size = new System.Drawing.Size(231, 22);
             this.mnuAccesories_Sources_Notes.Text = "Fuentes y Notas...";
             this.mnuAccesories_Sources_Notes.Click += new System.EventHandler(this.mnuAccesories_Sources_Notes_Click);
             // 
             // mnuAccesories_AdvancedSearch
             // 
             this.mnuAccesories_AdvancedSearch.Name = "mnuAccesories_AdvancedSearch";
-            this.mnuAccesories_AdvancedSearch.Size = new System.Drawing.Size(216, 22);
+            this.mnuAccesories_AdvancedSearch.Size = new System.Drawing.Size(231, 22);
             this.mnuAccesories_AdvancedSearch.Text = "Búsqueda avanzada...";
             this.mnuAccesories_AdvancedSearch.Click += new System.EventHandler(this.mnuAccesories_AdvancedSearch_Click);
-            // 
-            // mnuWindows
-            // 
-            this.mnuWindows.Name = "mnuWindows";
-            this.mnuWindows.Size = new System.Drawing.Size(66, 20);
-            this.mnuWindows.Text = "Ventanas";
             // 
             // mnuAccesories_Debts
             // 
             this.mnuAccesories_Debts.Name = "mnuAccesories_Debts";
-            this.mnuAccesories_Debts.Size = new System.Drawing.Size(216, 22);
+            this.mnuAccesories_Debts.Size = new System.Drawing.Size(231, 22);
             this.mnuAccesories_Debts.Text = "Deudas pendientes...";
             this.mnuAccesories_Debts.Click += new System.EventHandler(this.mnuAccesories_Debts_Click);
+            // 
+            // mnuReports
+            // 
+            this.mnuReports.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuAccesories_Daily});
+            this.mnuReports.Name = "mnuReports";
+            this.mnuReports.Size = new System.Drawing.Size(71, 20);
+            this.mnuReports.Text = "Informes";
+            // 
+            // mnuAccesories_Daily
+            // 
+            this.mnuAccesories_Daily.Name = "mnuAccesories_Daily";
+            this.mnuAccesories_Daily.Size = new System.Drawing.Size(174, 22);
+            this.mnuAccesories_Daily.Text = "Actividad diaria...";
+            this.mnuAccesories_Daily.Click += new System.EventHandler(this.mnuAccesories_Daily_Click);
+            // 
+            // mnuWindows
+            // 
+            this.mnuWindows.Name = "mnuWindows";
+            this.mnuWindows.Size = new System.Drawing.Size(71, 20);
+            this.mnuWindows.Text = "Ventanas";
             // 
             // mdiContainer
             // 
@@ -186,5 +205,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuWindows;
         private System.Windows.Forms.ToolStripMenuItem mnuAccesories_AdvancedSearch;
         private System.Windows.Forms.ToolStripMenuItem mnuAccesories_Debts;
+        private System.Windows.Forms.ToolStripMenuItem mnuReports;
+        private System.Windows.Forms.ToolStripMenuItem mnuAccesories_Daily;
     }
 }

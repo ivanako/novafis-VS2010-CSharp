@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tipAppointments = new System.Windows.Forms.ToolTip(this.components);
             this.btnPatient = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -45,6 +47,11 @@
             this.grbPhysiotherapists = new System.Windows.Forms.GroupBox();
             this.calAppointment = new System.Windows.Forms.MonthCalendar();
             this.lblDate = new System.Windows.Forms.Label();
+            this.lblPatient = new System.Windows.Forms.Label();
+            this.txtPatient = new System.Windows.Forms.TextBox();
+            this.dgvPatients = new UserInterface.Controls.NovaGrid();
+            this.lblAvailableTimes = new System.Windows.Forms.Label();
+            this.lstTimes = new System.Windows.Forms.ListBox();
             this.grbPatient = new System.Windows.Forms.GroupBox();
             this.chkPatBlackList = new System.Windows.Forms.CheckBox();
             this.btnPatDelete = new System.Windows.Forms.Button();
@@ -54,13 +61,12 @@
             this.lblPatPhysio = new System.Windows.Forms.Label();
             this.lblPatName = new System.Windows.Forms.Label();
             this.txtPatName = new System.Windows.Forms.TextBox();
-            this.lblAvailableTimes = new System.Windows.Forms.Label();
-            this.lstTimes = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.splAppointments)).BeginInit();
             this.splAppointments.Panel1.SuspendLayout();
             this.splAppointments.Panel2.SuspendLayout();
             this.splAppointments.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAppointments)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPatients)).BeginInit();
             this.grbPatient.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -92,15 +98,16 @@
             // 
             // btnAppPanel
             // 
-            this.btnAppPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAppPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAppPanel.Enabled = false;
-            this.btnAppPanel.Location = new System.Drawing.Point(1071, 261);
+            this.btnAppPanel.Location = new System.Drawing.Point(1071, 402);
             this.btnAppPanel.Name = "btnAppPanel";
             this.btnAppPanel.Size = new System.Drawing.Size(86, 41);
             this.btnAppPanel.TabIndex = 14;
             this.btnAppPanel.Text = "Mostrar panel";
             this.tipAppointments.SetToolTip(this.btnAppPanel, "Mostrar panel de Citas");
             this.btnAppPanel.UseVisualStyleBackColor = true;
+            this.btnAppPanel.Visible = false;
             this.btnAppPanel.Click += new System.EventHandler(this.btnAppPanel_Click);
             // 
             // btnClose
@@ -117,12 +124,12 @@
             // 
             // btnAppointment
             // 
-            this.btnAppointment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAppointment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAppointment.Enabled = false;
-            this.btnAppointment.Location = new System.Drawing.Point(751, 127);
+            this.btnAppointment.Location = new System.Drawing.Point(1071, 127);
             this.btnAppointment.Name = "btnAppointment";
             this.btnAppointment.Size = new System.Drawing.Size(86, 33);
-            this.btnAppointment.TabIndex = 19;
+            this.btnAppointment.TabIndex = 23;
             this.btnAppointment.Text = "Citar";
             this.tipAppointments.SetToolTip(this.btnAppointment, "Eliminar Cita");
             this.btnAppointment.UseVisualStyleBackColor = true;
@@ -154,9 +161,12 @@
             // splAppointments.Panel2
             // 
             this.splAppointments.Panel2.Controls.Add(this.btnAppointment);
-            this.splAppointments.Panel2.Controls.Add(this.grbPatient);
+            this.splAppointments.Panel2.Controls.Add(this.lblPatient);
+            this.splAppointments.Panel2.Controls.Add(this.txtPatient);
+            this.splAppointments.Panel2.Controls.Add(this.dgvPatients);
             this.splAppointments.Panel2.Controls.Add(this.lblAvailableTimes);
             this.splAppointments.Panel2.Controls.Add(this.lstTimes);
+            this.splAppointments.Panel2.Controls.Add(this.grbPatient);
             this.splAppointments.Panel2MinSize = 170;
             this.splAppointments.Size = new System.Drawing.Size(1173, 678);
             this.splAppointments.SplitterDistance = 500;
@@ -184,8 +194,8 @@
             // 
             // lblNoTimetable
             // 
-            this.lblNoTimetable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblNoTimetable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNoTimetable.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNoTimetable.ForeColor = System.Drawing.Color.Red;
             this.lblNoTimetable.Location = new System.Drawing.Point(12, 183);
@@ -200,9 +210,9 @@
             this.dgvAppointments.AllowUserToAddRows = false;
             this.dgvAppointments.AllowUserToDeleteRows = false;
             this.dgvAppointments.AllowUserToResizeRows = false;
-            this.dgvAppointments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvAppointments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvAppointments.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -254,8 +264,8 @@
             // 
             // lblDate
             // 
-            this.lblDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDate.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDate.Location = new System.Drawing.Point(10, 9);
             this.lblDate.Name = "lblDate";
@@ -263,6 +273,82 @@
             this.lblDate.TabIndex = 12;
             this.lblDate.Text = "label1";
             this.lblDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblPatient
+            // 
+            this.lblPatient.AutoSize = true;
+            this.lblPatient.Location = new System.Drawing.Point(222, 19);
+            this.lblPatient.Name = "lblPatient";
+            this.lblPatient.Size = new System.Drawing.Size(55, 13);
+            this.lblPatient.TabIndex = 22;
+            this.lblPatient.Text = "Paciente";
+            // 
+            // txtPatient
+            // 
+            this.txtPatient.Location = new System.Drawing.Point(283, 16);
+            this.txtPatient.Name = "txtPatient";
+            this.txtPatient.Size = new System.Drawing.Size(462, 21);
+            this.txtPatient.TabIndex = 21;
+            this.txtPatient.TextChanged += new System.EventHandler(this.txtPatient_TextChanged);
+            // 
+            // dgvPatients
+            // 
+            this.dgvPatients.AllowUserToAddRows = false;
+            this.dgvPatients.AllowUserToDeleteRows = false;
+            this.dgvPatients.AllowUserToResizeRows = false;
+            this.dgvPatients.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvPatients.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvPatients.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvPatients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvPatients.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dgvPatients.Location = new System.Drawing.Point(225, 43);
+            this.dgvPatients.MultiSelect = false;
+            this.dgvPatients.Name = "dgvPatients";
+            this.dgvPatients.ReadOnly = true;
+            this.dgvPatients.RowHeadersVisible = false;
+            this.dgvPatients.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
+            this.dgvPatients.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvPatients.Size = new System.Drawing.Size(840, 117);
+            this.dgvPatients.TabIndex = 20;
+            this.dgvPatients.SelectionChanged += new System.EventHandler(this.dgvPatients_SelectionChanged);
+            // 
+            // lblAvailableTimes
+            // 
+            this.lblAvailableTimes.AutoSize = true;
+            this.lblAvailableTimes.Location = new System.Drawing.Point(7, 16);
+            this.lblAvailableTimes.Name = "lblAvailableTimes";
+            this.lblAvailableTimes.Size = new System.Drawing.Size(107, 13);
+            this.lblAvailableTimes.TabIndex = 4;
+            this.lblAvailableTimes.Text = "Horas disponibles";
+            // 
+            // lstTimes
+            // 
+            this.lstTimes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lstTimes.ColumnWidth = 50;
+            this.lstTimes.FormattingEnabled = true;
+            this.lstTimes.Location = new System.Drawing.Point(10, 39);
+            this.lstTimes.MultiColumn = true;
+            this.lstTimes.Name = "lstTimes";
+            this.lstTimes.Size = new System.Drawing.Size(192, 121);
+            this.lstTimes.TabIndex = 3;
+            this.lstTimes.SelectedIndexChanged += new System.EventHandler(this.lstTimes_SelectedIndexChanged);
             // 
             // grbPatient
             // 
@@ -274,12 +360,13 @@
             this.grbPatient.Controls.Add(this.lblPatPhysio);
             this.grbPatient.Controls.Add(this.lblPatName);
             this.grbPatient.Controls.Add(this.txtPatName);
-            this.grbPatient.Location = new System.Drawing.Point(214, 16);
+            this.grbPatient.Location = new System.Drawing.Point(487, 19);
             this.grbPatient.Name = "grbPatient";
             this.grbPatient.Size = new System.Drawing.Size(500, 144);
             this.grbPatient.TabIndex = 12;
             this.grbPatient.TabStop = false;
             this.grbPatient.Text = "Paciente";
+            this.grbPatient.Visible = false;
             // 
             // chkPatBlackList
             // 
@@ -355,27 +442,6 @@
             this.txtPatName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPatName_KeyDown);
             this.txtPatName.Leave += new System.EventHandler(this.txtPatName_Leave);
             // 
-            // lblAvailableTimes
-            // 
-            this.lblAvailableTimes.AutoSize = true;
-            this.lblAvailableTimes.Location = new System.Drawing.Point(7, 16);
-            this.lblAvailableTimes.Name = "lblAvailableTimes";
-            this.lblAvailableTimes.Size = new System.Drawing.Size(107, 13);
-            this.lblAvailableTimes.TabIndex = 4;
-            this.lblAvailableTimes.Text = "Horas disponibles";
-            // 
-            // lstTimes
-            // 
-            this.lstTimes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
-            this.lstTimes.ColumnWidth = 50;
-            this.lstTimes.FormattingEnabled = true;
-            this.lstTimes.Location = new System.Drawing.Point(10, 39);
-            this.lstTimes.MultiColumn = true;
-            this.lstTimes.Name = "lstTimes";
-            this.lstTimes.Size = new System.Drawing.Size(192, 121);
-            this.lstTimes.TabIndex = 3;
-            // 
             // frmAppointments
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
@@ -398,6 +464,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splAppointments)).EndInit();
             this.splAppointments.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAppointments)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPatients)).EndInit();
             this.grbPatient.ResumeLayout(false);
             this.grbPatient.PerformLayout();
             this.ResumeLayout(false);
@@ -428,8 +495,11 @@
         private System.Windows.Forms.TextBox txtPatObservation;
         private System.Windows.Forms.Label lblPatObservation;
         private System.Windows.Forms.Button btnClose;
-        private System.Windows.Forms.Button btnAppointment;
         private System.Windows.Forms.ListBox lstNotes;
         private System.Windows.Forms.Label lblNotes;
+        private Controls.NovaGrid dgvPatients;
+        private System.Windows.Forms.TextBox txtPatient;
+        private System.Windows.Forms.Label lblPatient;
+        private System.Windows.Forms.Button btnAppointment;
     }
 }

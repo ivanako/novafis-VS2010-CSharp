@@ -46,6 +46,7 @@
     <Compile Include="FormOfPaymentBL.cs" />
     <Compile Include="InvoiceBL.cs" />
     <Compile Include="NoteBL.cs" />
+    <Compile Include="ReportsBL.cs" />
     <Compile Include="TimetableBL.cs" />
     <Compile Include="TreatmentBL.cs" />
     <Compile Include="TreatmentStatusBL.cs" />

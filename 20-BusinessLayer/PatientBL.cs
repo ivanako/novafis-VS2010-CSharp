@@ -99,15 +99,15 @@ namespace BusinessLayer
 
             if (!string.IsNullOrWhiteSpace(patient.Name))
             {
-                savedPatient.Name = General.removeAccents(patient.Name.Trim()).ToUpper();
+                savedPatient.Name = General.removeAccents2(patient.Name.Trim()).ToUpper();
             }
             if (!string.IsNullOrWhiteSpace(patient.Surname1))
             {
-                savedPatient.Surname1 = General.removeAccents(patient.Surname1.Trim()).ToUpper();
+                savedPatient.Surname1 = General.removeAccents2(patient.Surname1.Trim()).ToUpper();
             }
             if (!string.IsNullOrWhiteSpace(patient.Surname2))
             {
-                savedPatient.Surname2 = General.removeAccents(patient.Surname2.Trim()).ToUpper();
+                savedPatient.Surname2 = General.removeAccents2(patient.Surname2.Trim()).ToUpper();
             }
 
             bool isOK = false;

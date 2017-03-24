@@ -50,6 +50,7 @@
     <Compile Include="FormOfPaymentDL.cs" />
     <Compile Include="InvoiceDL.cs" />
     <Compile Include="NoteDL.cs" />
+    <Compile Include="ReportsDL.cs" />
     <Compile Include="TimetableDL.cs" />
     <Compile Include="TreatmentDL.cs" />
     <Compile Include="TreatmentStatusDL.cs" />

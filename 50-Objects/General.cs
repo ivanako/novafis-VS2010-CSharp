@@ -18,6 +18,57 @@ namespace Objects
         }
 
 
+        public static string removeAccents2(string srcString)
+        {
+            StringBuilder sbFormatString = new StringBuilder();
+
+            char[] arrSrc = srcString.ToCharArray();
+
+            foreach (char src in arrSrc)
+            {
+                int ascii = src;
+
+                switch (ascii)
+                {
+                    case 193: // Á
+                    case 196: // Ä
+                    case 225: // á
+                    case 228: // ä
+                        sbFormatString.Append((char)65); // A
+                        break;
+                    case 201: // É
+                    case 203: // Ë
+                    case 233: // é
+                    case 235: // ë
+                        sbFormatString.Append((char)69); // E
+                        break;
+                    case 205: // Í
+                    case 207: // Ï
+                    case 237: // í
+                    case 239: // ï
+                        sbFormatString.Append((char)73); // I
+                        break;
+                    case 211: // Ó
+                    case 214: // Ö
+                    case 243: // ó
+                    case 246: // ö
+                        sbFormatString.Append((char)79); // O
+                        break;
+                    case 218: // Ú
+                    case 220: // Ü
+                    case 250: // ú
+                    case 252: // ü
+                        sbFormatString.Append((char)85); // U
+                        break;
+                    default:
+                        sbFormatString.Append(src);
+                        break;
+                }
+            }
+
+            return sbFormatString.ToString();
+        }
+
 
     //    Dim sCadenaFormateada As New System.Text.StringBuilder
     //    Dim arrCadena As Char() = sCadena.ToCharArray

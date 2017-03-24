@@ -39,10 +39,20 @@ namespace BusinessLayer
                     Debt = Convert.ToDouble(drAppointment["CIT_Deuda"]),
                     IsCancelled = Convert.ToBoolean(drAppointment["CIT_Anulada"]),
                     CancellationWhy = drAppointment["CIT_MotivoAnulacion"].ToString(),
+                    //RegistryDate = Convert.ToDateTime(drAppointment["CIT_FechaRegistro"]),
                     Physiotherapist = phy,
                     Patient = pat,
                     FormOfPayment = fpy
                 };
+
+                if (drAppointment["CIT_FechaRegistro"] == DBNull.Value)
+                {
+                    app.RegistryDate = Constants.NULL_DATE;
+                }
+                else
+                {
+                    app.RegistryDate = Convert.ToDateTime(drAppointment["CIT_FechaRegistro"]);
+                }
 
                 lstAppointments.Add(app);
             }
