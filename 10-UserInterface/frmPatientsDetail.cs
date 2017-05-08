@@ -223,9 +223,11 @@ namespace UserInterface
                 {
                     dgvCancellations.Enabled = true;
                     btnCancCancel.Visible = false;
-                    dgvCancellations.CurrentRow.Selected = false;
-                    dgvCancellations.CurrentRow.Selected = true;
-
+                    if (dgvCancellations.CurrentRow != null)
+                    {
+                        dgvCancellations.CurrentRow.Selected = false;
+                        dgvCancellations.CurrentRow.Selected = true;
+                    }
                     cancellationOperation = Maintenance.Edit;
                 }
             }
@@ -388,9 +390,11 @@ namespace UserInterface
                 {
                     dgvObservations.Enabled = true;
                     btnObsCancel.Visible = false;
-                    dgvObservations.CurrentRow.Selected = false;
-                    dgvObservations.CurrentRow.Selected = true;
-
+                    if (dgvObservations.CurrentRow != null)
+                    {
+                        dgvObservations.CurrentRow.Selected = false;
+                        dgvObservations.CurrentRow.Selected = true;
+                    }
                     observationOperation = Maintenance.Edit;
                 }
             }

@@ -184,14 +184,9 @@ namespace UserInterface
                 selPatient.Treatments = patTreatments;
             }
 
-            frmPatientDetail.Text = selPatient.FullName;
-
-
-
-
             frmPatientDetail.patientDetails = selPatient;
             frmPatientDetail.patientOperation = Maintenance.Edit;
-
+            frmPatientDetail.Text = String.Format("Paciente: {0}", selPatient.FullName);
 
             if (frmPatientDetail.ShowDialog() == DialogResult.OK)
             {
@@ -208,10 +203,6 @@ namespace UserInterface
                 frmPatientDetail.Dispose();
             }
         }
-
-        
-
-        
 
     }
 }

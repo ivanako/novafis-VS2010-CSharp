@@ -95,6 +95,7 @@ namespace UserInterface
             frmPatientsDetail frmPatientDetail = new frmPatientsDetail();
             frmPatientDetail.patientDetails = this.appDetails.Patient;
             frmPatientDetail.patientOperation = Maintenance.Edit;
+            frmPatientDetail.Text = String.Format("Paciente: {0}", this.appDetails.Patient.FullName);
 
             if (frmPatientDetail.ShowDialog() == DialogResult.OK)
             {
@@ -168,7 +169,7 @@ namespace UserInterface
 
         private void bindAppControls()
         {
-            BindingSource bs = new BindingSource(appDetails, null);
+            BindingSource bs = new BindingSource(this.appDetails, null);
 
             txtAppDate.DataBindings.Add("Text", bs, "Date", true, DataSourceUpdateMode.OnPropertyChanged);
             txtAppTime.DataBindings.Add("Text", bs, "Time", true, DataSourceUpdateMode.OnPropertyChanged);
@@ -262,8 +263,8 @@ namespace UserInterface
             if (hasPatient)
             {
                 Patient pat = GlobalVars.Patients.Where(p => p.FullName.Equals(txtAppPatient.Text)).First<Patient>();
-                //txtAppPatient.Tag = pat;
-                this.appDetails.Patient = pat;
+                txtAppPatient.Tag = pat;
+                //this.appDetails.Patient = pat;
 
                 if (cboAppPhysiotherapists.SelectedItem == null)
                 {
@@ -347,6 +348,7 @@ namespace UserInterface
             Physiotherapist physioSource = this.appDetails.Physiotherapist;
 
             this.appDetails.Physiotherapist = (Physiotherapist)cboAppPhysiotherapists.SelectedItem;
+            //this.appDetails.Patient = (Patient)txtAppPatient.Tag;
 
             bool samePhysios = false;
 
